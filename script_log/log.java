@@ -64,7 +64,7 @@ public class log{
         int userInput;
         boolean finish = false;
         
-        System.out.println("\nUsuarios disponibles:\n1 - Iker\n2 - Raul\n3 - Julia\n4 - Victor");
+        System.out.println("\nUsuarios disponibles:\n1 - Daniel Gallo\n2 - Raul\n3 - Dani Rodriguez\n4 - Victor");
         while(finish != true){
 
             System.out.print("Usuario: ");
@@ -73,7 +73,7 @@ public class log{
 
             switch(userInput){
                 case 1:
-                    user = "Iker";
+                    user = "Daniel Gallo";
                     finish = true;
                     break;
                 case 2:
@@ -81,7 +81,7 @@ public class log{
                     finish = true;
                     break;
                 case 3:
-                    user = "Julia";
+                    user = "Dani Rodriguez";
                     finish = true;
                     break;
                 case 4:
