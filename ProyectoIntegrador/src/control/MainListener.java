@@ -8,6 +8,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JMenuItem;
 
 import db.PolideportivoPersistencia;
+import view.EmpleadoWindow;
 import view.MainWindow;
 import view.PanelInicioSesion;
 import utilities.OutputMessages;
@@ -17,6 +18,7 @@ public class MainListener implements ActionListener {
 	private MainWindow mainWindow;
 	private PanelInicioSesion panelInicioSesion;
 	private PolideportivoPersistencia polideportivoPersistencia;
+	private EmpleadoWindow empleWindow;
 	
 	private int counter;
 	
@@ -25,11 +27,12 @@ public class MainListener implements ActionListener {
 	private static final String NO_EXISTS = "No existe el usuario insertado, vuelva a intentar";
 	private static final String TOO_MANY_FAILURES = "Por seguridad de la aplicacion se cerrará, ha realizado 3 intentos";
 	
-	public MainListener(MainWindow mainWindow, PanelInicioSesion panelInicioSesion, PolideportivoPersistencia polideportivoPersistencia) {
+	public MainListener(MainWindow mainWindow, PanelInicioSesion panelInicioSesion, PolideportivoPersistencia polideportivoPersistencia, EmpleadoWindow empleWindow) {
 		counter = 0;
 		this.mainWindow = mainWindow;
 		this.panelInicioSesion = panelInicioSesion;
 		this.polideportivoPersistencia = polideportivoPersistencia;
+		this.empleWindow = empleWindow;
 	}
 	
 	@Override
@@ -56,6 +59,8 @@ public class MainListener implements ActionListener {
 					
 					if(existe) {
 						new OutputMessages(1, "Existe");
+						mainWindow.dispose();
+						empleWindow.setVisible(true);
 					}else {
 						new OutputMessages(0, NO_EXISTS);
 						counter++;

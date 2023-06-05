@@ -60,12 +60,15 @@ public class PConsulta extends JPanel {
 		JLabel lblTitle = new JLabel("Consulta de reservas");
 		lblTitle.setBounds(10, 10, 221, 29);
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		add(lblTitle);
 		
 		JScrollPane scrpTabla = new JScrollPane();
 		scrpTabla.setBounds(10, 105, 647, 300);
+		add(scrpTabla);
 		
 		JLabel lblFecha = new JLabel("Fecha");
 		lblFecha.setBounds(10, 45, 45, 20);
+		add(lblFecha);
 		
 		cmbFecha = new JComboBox();
 		cmbFecha.setBounds(65, 45, 70, 21);
@@ -92,9 +95,9 @@ public class PConsulta extends JPanel {
 		table = new JTable();
 		scrpTabla.setViewportView(table);
 		setLayout(null);
-		add(lblTitle);
-		add(scrpTabla);
-		add(lblFecha);
+		
+		
+		
 		add(cmbFecha);
 		add(lblDeporte);
 		add(cmbDeporte);

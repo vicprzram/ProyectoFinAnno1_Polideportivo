@@ -18,8 +18,8 @@ public class app {
 				
 				PolideportivoPersistencia polideportivoPersistencia = new PolideportivoPersistencia();
 				
-				MainListener mainListener = new MainListener(mainWindow, panelInicioSesion, polideportivoPersistencia);
-				EmpleadoListener empleadoListener = new EmpleadoListener(empleadoWindow, panelConsulta);
+				MainListener mainListener = new MainListener(mainWindow, panelInicioSesion, polideportivoPersistencia, empleadoWindow);
+				EmpleadoListener empleadoListener = new EmpleadoListener(empleadoWindow, panelConsulta); 
 				
 				empleadoWindow.setListener(empleadoListener);
 				panelRegistroUsuario.addListener(empleadoListener);
