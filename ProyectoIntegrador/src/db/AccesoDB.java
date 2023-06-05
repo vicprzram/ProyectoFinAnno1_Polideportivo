@@ -14,7 +14,7 @@ public class AccesoDB {
 	
 	public AccesoDB() {
 		
-		Properties prop = null;
+		Properties prop = new Properties();
 		InputStream is = null;
 		
 		try {
