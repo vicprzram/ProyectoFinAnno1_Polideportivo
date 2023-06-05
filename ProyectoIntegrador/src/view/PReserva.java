@@ -12,7 +12,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import control.ReservaListener;
 import db.PolideportivoPersistencia;
-import model.Deporte;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;

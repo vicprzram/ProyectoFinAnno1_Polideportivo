@@ -12,6 +12,22 @@ public class Persona {
 		this.pass = pass;
 		this.direccion = direccion;
 	}
+
+	public String getDni() {
+		return dni;
+	}
+
+	public String getApenom() {
+		return apenom;
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
 	
 	
 }

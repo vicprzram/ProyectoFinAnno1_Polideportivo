@@ -10,10 +10,10 @@ public class Clase {
 	private Empleado profesor;
 	private ArrayList<Cliente> listaAlumnos;
 	private Instalacion instalacion;
-	private Deporte deporte;
+	private String deporte;
 
 
-	public Clase(int id, Date fecha, int duracion, Empleado profesor, Instalacion instalacion, Deporte deporte) {
+	public Clase(int id, Date fecha, int duracion, Empleado profesor, Instalacion instalacion, String deporte) {
 		this.id = id;
 		this.fecha = fecha;
 		this.duracion = duracion;
