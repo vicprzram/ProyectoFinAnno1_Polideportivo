@@ -1,7 +1,8 @@
 package main;
 
-import view.MainWindow;
-import control.MainListener;
+import view.*;
+import control.*;
+import db.PolideportivoPersistencia;
 
 public class app {
 	public static void main(String[] args) {
@@ -10,11 +11,23 @@ public class app {
 			@Override
 			public void run() {
 				MainWindow mainWindow = new MainWindow();
+				PanelInicioSesion panelInicioSesion = new PanelInicioSesion();
+				PanelRegistroUsuario panelRegistroUsuario = new PanelRegistroUsuario();
+				PConsulta panelConsulta = new PConsulta();
+				EmpleadoWindow empleadoWindow = new EmpleadoWindow();
 				
-				MainListener mainListener = new MainListener(mainWindow);
+				PolideportivoPersistencia polideportivoPersistencia = new PolideportivoPersistencia();
 				
+				MainListener mainListener = new MainListener(mainWindow, panelInicioSesion, polideportivoPersistencia);
+				EmpleadoListener empleadoListener = new EmpleadoListener(empleadoWindow, panelConsulta);
+				
+				empleadoWindow.setListener(empleadoListener);
+				panelRegistroUsuario.addListener(empleadoListener);
+				
+				panelInicioSesion.addListener(mainListener);
 				mainWindow.addListener(mainListener);
 				mainWindow.setVisible(true);
+				mainWindow.cargarPanel(panelInicioSesion);
 			}
 			
 		});

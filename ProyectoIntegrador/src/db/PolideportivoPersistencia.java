@@ -2,8 +2,10 @@ package db;
 
 import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import utilities.OutputMessages;
 
 import model.Cliente;
 import model.Instalacion;
@@ -12,9 +14,18 @@ import model.Reserva;
 public class PolideportivoPersistencia {
 	private static final String NOM_COL_CI_DIA = "DIA";
 	private AccesoDB acceso;
+
 	private static final String NOM_TB_DEPORTE = "DEPORTE";
 	private static final String NOM_COL_DEP_NOMBRE = "NOMBRE";
 	private static final String NOM_TB_CI = "CLIENTE_INSTALACION";
+
+	private static final String ERROR_CONEXIONES = "Ha habido un error en el manejo de la base de datos, compruebe conexiones";
+	private static final String ERROR = "Ha habido un error en el manejo de la base de datos, consulte al administrador";
+	
+	private String NOM_TB_EMPLEADO = "EMPLEADO";
+	private String NOM_COL_EMP_DNI = "DNI";
+	private String NOM_COL_EMP_PASS = "PASS";
+
 	
 	public PolideportivoPersistencia() {
 		acceso = new AccesoDB();
@@ -40,21 +51,10 @@ public class PolideportivoPersistencia {
 			}
 			
 		} catch (Exception e) {
+			new OutputMessages(0, ERROR);
 			e.printStackTrace();
 		}finally {
-			try {
-				if(rslt != null) {
-					rslt.close();
-				}
-				if(stat != null) {
-					stat.close();
-				}
-				if(con != null) {
-					con.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			cerrarConexiones(con, stat, rslt);
 		}
 		
 		return listaDeportes;
@@ -80,21 +80,10 @@ public class PolideportivoPersistencia {
 			}
 			
 		} catch (Exception e) {
+			new OutputMessages(0, ERROR);
 			e.printStackTrace();
 		}finally {
-			try {
-				if(rslt != null) {
-					rslt.close();
-				}
-				if(stat != null) {
-					stat.close();
-				}
-				if(con != null) {
-					con.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			cerrarConexiones(con, stat, rslt);
 		}
 		
 		return listaFechas;
@@ -135,24 +124,61 @@ public class PolideportivoPersistencia {
 			}
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			new OutputMessages(0, ERROR);
 			e.printStackTrace();
 		}finally {
-			try {
-				if(rslt != null) {
-					rslt.close();
-				}
-				if(stat != null) {
-					stat.close();
-				}
-				if(con != null) {
-					con.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			cerrarConexiones(con, stat, rslt);
 		}
 		
 		return listaRegistros;
+	}
+	public boolean empleadoExists(String dni, String pass) {
+		
+		dni = dni.toLowerCase();
+		pass = pass.toLowerCase();
+		
+		String query = "SELECT " + NOM_COL_EMP_DNI + ", " + NOM_COL_EMP_PASS + " FROM " + NOM_TB_EMPLEADO;
+		boolean retornar = false;
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		ResultSet rslt = null;
+		
+		try {
+			
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			rslt = stat.executeQuery();
+			
+			while(rslt.next()) {
+				if(rslt.getString(NOM_COL_EMP_DNI).toLowerCase().equals(dni) && rslt.getString(NOM_COL_EMP_PASS).toLowerCase().equals(pass)) {
+					retornar = true;
+				}
+			}
+		} catch (Exception e) {
+			new OutputMessages(0, ERROR);
+			e.printStackTrace();
+		}finally {
+			cerrarConexiones(con, stat, rslt);
+		}
+		
+		return retornar;
+	}
+	
+	private void cerrarConexiones(Connection con, Statement stat, ResultSet rslt) {
+		try {
+			if(rslt != null) {
+				rslt.close();
+			}
+			if(stat != null) {
+				stat.close();
+			}
+			if(con != null) {
+				con.close();
+			}
+		} catch (Exception e) {
+			new OutputMessages(0, ERROR_CONEXIONES);
+			e.printStackTrace();
+		}
 	}
 }

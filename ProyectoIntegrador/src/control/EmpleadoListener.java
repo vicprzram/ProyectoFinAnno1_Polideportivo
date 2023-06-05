@@ -24,7 +24,7 @@ public class EmpleadoListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() instanceof JMenuItem) {
-			if(e.getActionCommand().equals(ventana.CONSULTA_DE_DISPONIBILIDAD)) {
+			if(e.getActionCommand().equals(ventana.ITEM_CONSULTA)) {
 				ventana.cargarPanel(pConsulta);
 				pConsulta.cargarDeportes(poliPersistencia.getDeportes());
 				pConsulta.cargarFechas(poliPersistencia.getFechas());

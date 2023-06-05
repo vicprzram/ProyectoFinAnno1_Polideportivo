@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
@@ -62,5 +63,9 @@ public class MainWindow extends JFrame {
 		this.mntmInicio.addActionListener(l);
 		this.mntmRanking.addActionListener(l);
 		this.mntmSalir.addActionListener(l);
+	}
+	
+	public void cargarPanel(JPanel panel) {
+		srcPane.setViewportView(panel);
 	}
 }
