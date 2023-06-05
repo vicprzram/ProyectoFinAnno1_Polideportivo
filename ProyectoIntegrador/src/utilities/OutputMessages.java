@@ -20,7 +20,10 @@ public class OutputMessages {
 			case 0:
 				JOptionPane.showMessageDialog(null, text, "ERROR", JOptionPane.OK_OPTION);
 				break;
-
+				
+			//Informacion
+			case 1:
+				JOptionPane.showMessageDialog(null, text, "INFO", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	

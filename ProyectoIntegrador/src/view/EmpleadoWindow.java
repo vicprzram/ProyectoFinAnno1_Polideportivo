@@ -7,14 +7,28 @@ import java.awt.Toolkit;
 
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
+
+import control.EmpleadoListener;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 public class EmpleadoWindow extends JFrame{
+	
+	private JMenuBar menuBar;
+	private JMenuItem mntmConsulta, mntmReserva, mntmRegistro, mntmCerrar;
+	
+	public static final String ITEM_CONSULTA = "Consulta de disponibilidad";
+	public static final String ITEM_RESERVA = "Hacer una reserva";
+	public static final String ITEM_REGISTRO = "Registro usuario";
+	public static final String ITEM_SESION = "Cerrar sesion";
+	
 	private JScrollPane scrpContenedor;
+	
 	static final int ANCHO = 700;
 	static final int ALTO = 500;
+	
 	public EmpleadoWindow() {
 		super("Cliente");
 		init();
@@ -26,19 +40,19 @@ public class EmpleadoWindow extends JFrame{
 		scrpContenedor = new JScrollPane();
 		getContentPane().add(scrpContenedor, BorderLayout.CENTER);
 		
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenuItem mntmConsulta = new JMenuItem("Consulta de disponibilidad");
+		mntmConsulta = new JMenuItem(ITEM_CONSULTA);
 		menuBar.add(mntmConsulta);
 		
-		JMenuItem mntmReserva = new JMenuItem("Hacer una reserva");
+		mntmReserva = new JMenuItem(ITEM_RESERVA);
 		menuBar.add(mntmReserva);
 		
-		JMenuItem mntmRegistro = new JMenuItem("Registrar usuario");
+		mntmRegistro = new JMenuItem(ITEM_REGISTRO);
 		menuBar.add(mntmRegistro);
 		
-		JMenuItem mntmCerrar = new JMenuItem("Cerrar sesión");
+		mntmCerrar = new JMenuItem(ITEM_SESION);
 		menuBar.add(mntmCerrar);
 		
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -54,6 +68,13 @@ public class EmpleadoWindow extends JFrame{
 	
 	public void cargarPanel(JPanel panel) {
 		scrpContenedor.setViewportView(panel);
+	}
+	
+	public void addListener(EmpleadoListener l) {
+		this.mntmCerrar.addActionListener(l);
+		this.mntmConsulta.addActionListener(l);
+		this.mntmReserva.addActionListener(l);
+		this.mntmRegistro.addActionListener(l);
 	}
 
 }
