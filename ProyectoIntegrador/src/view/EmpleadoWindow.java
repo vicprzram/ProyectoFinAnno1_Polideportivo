@@ -75,4 +75,6 @@ public class EmpleadoWindow extends JFrame{
 		this.mntmRegistro.addActionListener(l);
 	}
 
+	
+	
 }

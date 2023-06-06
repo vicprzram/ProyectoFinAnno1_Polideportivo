@@ -12,6 +12,9 @@ import javax.swing.JButton;
 import javax.swing.JPasswordField;
 
 public class PanelInicioSesion extends JPanel {
+	private static final int ANCHO = 800;
+	private static final int ALTO = 600;
+
 	private JTextField tfDni;
 	
 	private JCheckBox chkMostrarContrasena;
@@ -22,6 +25,8 @@ public class PanelInicioSesion extends JPanel {
 	public static final String CHECK_CONTRASENA = "Mostrar contraseña";
 	
 	private JPasswordField passwordField;
+
+	private JButton btnNewButton;
 	
 	public PanelInicioSesion() {
 		init();
@@ -66,13 +71,18 @@ public class PanelInicioSesion extends JPanel {
 		add(chkMostrarContrasena);
 		add(btnIniciarSesion);
 		
-		setSize(800, 600);
+		setSize(ANCHO, ALTO);
+		//Botón para iniciar sin meter credenciales
+		btnNewButton = new JButton("PRUEBA");
+		btnNewButton.setBounds(10, 10, 85, 21);
+		add(btnNewButton);
 		
 	}
 	
 	public void addListener(MainListener l) {
 		this.btnIniciarSesion.addActionListener(l);
 		this.chkMostrarContrasena.addActionListener(l);
+		btnNewButton.addActionListener(l); //BOTÓN PARA INICIAR SI TENER QUE METER CREDENCIALES
 	}
 	
 	public boolean getCheckValue() {

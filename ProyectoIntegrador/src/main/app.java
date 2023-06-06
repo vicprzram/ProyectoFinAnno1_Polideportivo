@@ -12,16 +12,19 @@ public class app {
 			public void run() {
 				MainWindow mainWindow = new MainWindow();
 				PanelInicioSesion panelInicioSesion = new PanelInicioSesion();
+				
+				EmpleadoWindow empleadoWindow = new EmpleadoWindow();
 				PanelRegistroUsuario panelRegistroUsuario = new PanelRegistroUsuario();
 				PConsulta panelConsulta = new PConsulta();
-				EmpleadoWindow empleadoWindow = new EmpleadoWindow();
+				
 				
 				PolideportivoPersistencia polideportivoPersistencia = new PolideportivoPersistencia();
 				
 				MainListener mainListener = new MainListener(mainWindow, panelInicioSesion, polideportivoPersistencia, empleadoWindow);
-				EmpleadoListener empleadoListener = new EmpleadoListener(empleadoWindow, panelConsulta); 
+				EmpleadoListener empleadoListener = new EmpleadoListener(mainWindow,empleadoWindow, panelConsulta); 
 				
 				empleadoWindow.setListener(empleadoListener);
+				panelConsulta.setListener(empleadoListener);
 				panelRegistroUsuario.addListener(empleadoListener);
 				
 				panelInicioSesion.addListener(mainListener);

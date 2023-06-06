@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -12,6 +14,9 @@ import javax.swing.SwingConstants;
 import control.MainListener;
 
 public class MainWindow extends JFrame {
+		
+	private static final int ANCHO = 800;
+	private static final int ALTO = 600;
 	
 	private JMenuBar menuBar;
 	private JMenuItem mntmInicio, mntmRanking, mntmHorario, mntmSalir;
@@ -55,7 +60,14 @@ public class MainWindow extends JFrame {
 		
 		getContentPane().add(srcPane, BorderLayout.CENTER);
 		
-		setSize(800, 600);
+		centrarVentana();
+	}
+
+	private void centrarVentana() {
+		setSize(ANCHO, ALTO);
+		Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension ventana = new Dimension(ANCHO, ALTO);
+		setLocation((pantalla.width-ventana.width)/2,(pantalla.height-ventana.height)/2);
 	}
 	
 	public void addListener(MainListener l) {
