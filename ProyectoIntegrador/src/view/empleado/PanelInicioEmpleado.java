@@ -30,37 +30,37 @@ public class PanelInicioEmpleado extends JPanel {
 		lblTitle = new JLabel("Bienvenido ");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTitle.setBounds(10, 25, 680, 19);
+		lblTitle.setBounds(10, 25, 780, 19);
 		
 		lblDni = new JLabel("DNI: ");
 		lblDni.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDni.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblDni.setBounds(10, 71, 680, 14);
+		lblDni.setBounds(10, 71, 780, 14);
 		
 		lblDireccion = new JLabel("Dirección: ");
 		lblDireccion.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDireccion.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblDireccion.setBounds(20, 106, 670, 14);
+		lblDireccion.setBounds(20, 106, 770, 14);
 		
 		lblPuesto = new JLabel("Puesto: ");
 		lblPuesto.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPuesto.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblPuesto.setBounds(10, 141, 680, 14);
+		lblPuesto.setBounds(10, 141, 780, 14);
 		
 		JLabel lblContrasena = new JLabel("Contraseña:");
 		lblContrasena.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblContrasena.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblContrasena.setBounds(20, 176, 325, 14);
+		lblContrasena.setBounds(20, 176, 370, 14);
 		
 		lblContrasenaDatos = new JLabel("ESTE DATO SE MODIFICA EN UN METODO");
 		lblContrasenaDatos.setHorizontalAlignment(SwingConstants.LEFT);
 		lblContrasenaDatos.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblContrasenaDatos.setBounds(355, 174, 335, 19);
+		lblContrasenaDatos.setBounds(400, 174, 390, 19);
 		
 		
 		chkContrasena = new JCheckBox(CHECK_CONTRASENA);
 		chkContrasena.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		chkContrasena.setBounds(285, 210, 153, 23);
+		chkContrasena.setBounds(338, 210, 153, 23);
 		
 		add(lblTitle);
 		add(lblDni);

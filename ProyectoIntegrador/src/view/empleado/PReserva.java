@@ -2,21 +2,18 @@ package view.empleado;
 
 import javax.swing.JPanel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.util.ArrayList;
 
-import javax.swing.LayoutStyle.ComponentPlacement;
-
-import control.ReservaListener;
 import db.PolideportivoPersistencia;
 
 import javax.swing.JTextField;
+
+import control.EmpleadoListener;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 
 public class PReserva extends JPanel {
 	private JTextField txtDNI;
@@ -24,102 +21,162 @@ public class PReserva extends JPanel {
 	private JButton btnBuscar;
 	private JComboBox cmbDeporte;
 	private DefaultComboBoxModel<String> dcbmDeporte;
-	private PolideportivoPersistencia poliPers;
+	private JTextField txtApeNom;
+	private JTextField txtDireccion;
+	private JLabel lblTelefono;
+	private JTextField txtTelef;
+	private JLabel lblCorreo;
+	private JTextField txtCorreo;
+	private JLabel lblReserva;
+	private JComboBox cmbFecha;
+	private JComboBox cmbHora;
+	private static final String[] HORAS = {
+			"9:00",
+			"10:00",
+			"11:00",
+			"12:00",
+			"13:00",
+			"14:00",
+			"15:00",
+			"16:00",
+			"17:00",
+			"18:00",
+			"19:00",
+			"20:00"}; 
+	private DefaultComboBoxModel<String> dcbmHora;
 	public PReserva() {
-		poliPers = new PolideportivoPersistencia();
 		init();
-		
+		cargarFechas();
+		cargarHoras();
 	}
+	
 	private void init() {
 		JLabel lblTitulo = new JLabel("Reserva de pistas");
+		lblTitulo.setBounds(10, 6, 225, 29);
 		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		JLabel lblDNI = new JLabel("DNI\r\n");
+		JLabel lblDNI = new JLabel("DNI");
+		lblDNI.setBounds(103, 45, 45, 20);
 		lblDNI.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		txtDNI = new JTextField();
+		txtDNI.setBounds(214, 45, 386, 20);
 		txtDNI.setColumns(10);
 		
 		btnBuscar = new JButton("Buscar");
+		btnBuscar.setBounds(633, 45, 81, 20);
 		
-		JLabel lblCliente = new JLabel("Cliente:");
+		JLabel lblCliente = new JLabel("Datos del cliente:");
+		lblCliente.setBounds(20, 76, 129, 17);
 		lblCliente.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		lblApeNom = new JLabel("");
+		lblApeNom.setBounds(82, 73, 67, 20);
 		lblApeNom.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JLabel lblDeporte = new JLabel("Deporte");
+		lblDeporte.setBounds(54, 253, 50, 20);
 		lblDeporte.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		cmbDeporte = new JComboBox();
+		cmbDeporte.setBounds(114, 253, 120, 21);
+		cmbDeporte.setEnabled(false);
 		
 		dcbmDeporte = new DefaultComboBoxModel<>();
+		setLayout(null);
+		add(lblDNI);
+		add(txtDNI);
+		add(lblTitulo);
+		add(btnBuscar);
+		add(lblDeporte);
+		add(cmbDeporte);
+		add(lblCliente);
+		add(lblApeNom);
 		
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.CENTER)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lblDNI, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-									.addGap(10)
-									.addComponent(txtDNI, GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
-								.addComponent(lblTitulo, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
-							.addGap(10)
-							.addComponent(btnBuscar)
-							.addGap(142))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lblDeporte)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(cmbDeporte, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(10)
-									.addComponent(lblCliente)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblApeNom, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)))
-							.addGap(301))))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(6)
-							.addComponent(lblTitulo)
-							.addGap(12)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblDNI, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtDNI, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(47)
-							.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblCliente, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblApeNom, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-					.addGap(11)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblDeporte, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cmbDeporte, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(175, Short.MAX_VALUE))
-		);
-		setLayout(groupLayout);
-		cargarDeportes(poliPers.getDeportes());
-		disableComponents();
+		JLabel lblNombre = new JLabel("Nombre y apellidos");
+		lblNombre.setBounds(54, 103, 150, 20);
+		add(lblNombre);
+		
+		txtApeNom = new JTextField();
+		txtApeNom.setEditable(false);
+		txtApeNom.setBounds(214, 103, 386, 20);
+		add(txtApeNom);
+		txtApeNom.setColumns(10);
+		
+		JLabel lblDireccion = new JLabel("Dirección");
+		lblDireccion.setBounds(54, 133, 150, 20);
+		add(lblDireccion);
+		
+		txtDireccion = new JTextField();
+		txtDireccion.setEditable(false);
+		txtDireccion.setColumns(10);
+		txtDireccion.setBounds(214, 133, 386, 20);
+		add(txtDireccion);
+		
+		lblTelefono = new JLabel("Teléfono");
+		lblTelefono.setBounds(54, 163, 150, 20);
+		add(lblTelefono);
+		
+		txtTelef = new JTextField();
+		txtTelef.setEditable(false);
+		txtTelef.setColumns(10);
+		txtTelef.setBounds(214, 163, 386, 20);
+		add(txtTelef);
+		
+		lblCorreo = new JLabel("Correo");
+		lblCorreo.setBounds(54, 193, 150, 20);
+		add(lblCorreo);
+		
+		txtCorreo = new JTextField();
+		txtCorreo.setEditable(false);
+		txtCorreo.setColumns(10);
+		txtCorreo.setBounds(214, 193, 386, 20);
+		add(txtCorreo);
+		
+		lblReserva = new JLabel("Datos de la reserva:");
+		lblReserva.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblReserva.setBounds(20, 223, 200, 20);
+		add(lblReserva);
+		
+		JLabel lblFecha = new JLabel("Fecha");
+		lblFecha.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblFecha.setBounds(244, 253, 50, 20);
+		add(lblFecha);
+		
+		cmbFecha = new JComboBox();
+		cmbFecha.setEnabled(false);
+		cmbFecha.setBounds(304, 253, 120, 21);
+		add(cmbFecha);
+		
+		JLabel lblHora = new JLabel("Hora");
+		lblHora.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblHora.setBounds(434, 253, 50, 20);
+		add(lblHora);
+		
+		cmbHora = new JComboBox();
+		cmbHora.setEnabled(false);
+		cmbHora.setBounds(494, 253, 120, 21);
+		add(cmbHora);
 	}
 	
-	public void disableComponents() {
-		cmbDeporte.setEnabled(false);
-	}
 	
 	public void cargarDeportes(ArrayList<String> lista) {
 		dcbmDeporte.addAll(lista);
 		cmbDeporte.setModel(dcbmDeporte);
 		cmbDeporte.setSelectedIndex(0);
+	}
+	
+	private void cargarFechas() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void cargarHoras() {
+		dcbmHora = new DefaultComboBoxModel<>(HORAS);
+		cmbHora.setModel(dcbmHora);
+	}
+	public void setListener(EmpleadoListener empleadoListener) {
+		// TODO Auto-generated method stub
+		
 	}
 }

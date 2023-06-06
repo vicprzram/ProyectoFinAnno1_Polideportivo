@@ -1,8 +1,8 @@
 package main;
 
-import view.*;
 import view.empleado.EmpleadoWindow;
 import view.empleado.PConsulta;
+import view.empleado.PReserva;
 import view.empleado.PanelInicioEmpleado;
 import view.empleado.PanelRegistroUsuario;
 import view.principal.MainWindow;
@@ -16,31 +16,29 @@ public class app {
 
 			@Override
 			public void run() {
-				
 				PolideportivoPersistencia polideportivoPersistencia = new PolideportivoPersistencia();
 				
-				
-				
-				// Pantalla empleado
+				MainWindow mainWindow = new MainWindow();
+				PanelInicioSesion panelInicioSesion = new PanelInicioSesion();
+				EmpleadoWindow empleadoWindow = new EmpleadoWindow();
 				PanelRegistroUsuario panelRegistroUsuario = new PanelRegistroUsuario();
 				PConsulta panelConsulta = new PConsulta();
-				EmpleadoWindow empleadoWindow = new EmpleadoWindow();
+				PReserva panelReserva = new PReserva();
 				PanelInicioEmpleado panelIncioEmpleado = new PanelInicioEmpleado();
 				
-				EmpleadoListener empleadoListener = new EmpleadoListener(empleadoWindow, panelConsulta, polideportivoPersistencia, panelIncioEmpleado); 
+				MainListener mainListener = new MainListener(mainWindow, panelInicioSesion, polideportivoPersistencia, empleadoWindow, panelIncioEmpleado);
+				EmpleadoListener empleadoListener = new EmpleadoListener(mainWindow, empleadoWindow, panelConsulta, polideportivoPersistencia, panelIncioEmpleado, panelReserva); 
+
 				
 				empleadoWindow.setListener(empleadoListener);
+				panelConsulta.setListener(empleadoListener);
+				panelReserva.setListener(empleadoListener);
 				panelRegistroUsuario.addListener(empleadoListener);
 				panelIncioEmpleado.addListener(empleadoListener);
 				
 				
 				
 				//Pantalla inicio sesion
-				MainWindow mainWindow = new MainWindow();
-				PanelInicioSesion panelInicioSesion = new PanelInicioSesion();
-				
-				MainListener mainListener = new MainListener(mainWindow, panelInicioSesion, polideportivoPersistencia, empleadoWindow, panelIncioEmpleado);
-				
 				panelInicioSesion.addListener(mainListener);
 				mainWindow.addListener(mainListener);
 				mainWindow.setVisible(true);

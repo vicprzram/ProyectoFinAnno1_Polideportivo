@@ -60,7 +60,12 @@ public class MainListener implements ActionListener {
 				}
 			}
 		}else if(e.getSource() instanceof JButton) {
+			if(e.getActionCommand().equals("PRUEBA")) {
+				mainWindow.dispose();
+				empleWindow.setVisible(true);
+			}
 			if(e.getActionCommand().equals(PanelInicioSesion.BUTTON_INICIAR_SESION)) {
+
 				Empleado values = panelInicioSesion.getValues();
 				
 				if(!values.getDni().isEmpty() && !values.getPass().isEmpty()) {
@@ -77,7 +82,7 @@ public class MainListener implements ActionListener {
 					}else {
 						new OutputMessages(0, NO_EXISTS);
 						counter++;
-						
+						//TODO: estaría guay mostrarle al usuario cuantos intentos le quedan
 						if(counter == 3) {
 							new OutputMessages(1, TOO_MANY_FAILURES);
 							System.exit(0);

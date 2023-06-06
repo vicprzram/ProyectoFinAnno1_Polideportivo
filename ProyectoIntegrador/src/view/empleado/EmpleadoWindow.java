@@ -27,8 +27,8 @@ public class EmpleadoWindow extends JFrame{
 	
 	private JScrollPane scrpContenedor;
 	
-	public static final int ANCHO = 700;
-	public static final int ALTO = 500;
+	public static final int ANCHO = 800;
+	public static final int ALTO = 600;
 
 	public EmpleadoWindow() {
 		super("Cliente");

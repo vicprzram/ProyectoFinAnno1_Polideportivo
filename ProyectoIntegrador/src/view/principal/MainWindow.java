@@ -24,8 +24,8 @@ public class MainWindow extends JFrame {
 	public static final String ITEM_SALIR = "Salir";
 	public static final String ITEM_INICIO = "Inicio";
 	
-	private static final int ANCHO = 700;
-	private static final int ALTO = 500;
+	private static final int ANCHO = 800;
+	private static final int ALTO = 600;
 	
 	public MainWindow() {
 		init();

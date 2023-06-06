@@ -2,38 +2,66 @@ package control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
 import javax.swing.JMenuItem;
 
 import db.PolideportivoPersistencia;
+
 import view.empleado.EmpleadoWindow;
 import view.empleado.PConsulta;
 import view.empleado.PanelInicioEmpleado;
 
+import model.Reserva;
+import utilities.OutputMessages;
+
+import view.principal.MainWindow;
+import view.empleado.PReserva;
+
+
 public class EmpleadoListener implements ActionListener {
 	
-	private EmpleadoWindow ventana;
+	private MainWindow mainWindow;
+	
+	private EmpleadoWindow empleWindow;
 	private PConsulta pConsulta;
+	private PReserva pReserva;
+	
 	private PolideportivoPersistencia poliPersistencia;
 	private PanelInicioEmpleado panelInicioEmpleado;
 	
-	public EmpleadoListener(EmpleadoWindow ventana, PConsulta pConsulta, PolideportivoPersistencia poliPersistencia,PanelInicioEmpleado panelInicioEmpleado) {
-		this.ventana = ventana;
+
+	public EmpleadoListener(MainWindow mainWindow, EmpleadoWindow empleWindow, PConsulta pConsulta, PolideportivoPersistencia poliPersistencia,PanelInicioEmpleado panelInicioEmpleado, PReserva pReserva) {
+		
+		this.mainWindow = mainWindow;
+		this.empleWindow = empleWindow;
 		this.pConsulta = pConsulta;
 		this.poliPersistencia = poliPersistencia;
 		this.panelInicioEmpleado = panelInicioEmpleado;
+		this.pReserva = pReserva;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() instanceof JMenuItem) {
 			if(e.getActionCommand().equals(EmpleadoWindow.ITEM_CONSULTA)) {
-				ventana.cargarPanel(pConsulta);
+				empleWindow.cargarPanel(pConsulta);
 				pConsulta.cargarDeportes(poliPersistencia.getDeportes());
 				pConsulta.cargarFechas(poliPersistencia.getFechas());
+
 			}else if(e.getActionCommand().equals(EmpleadoWindow.ITEM_INICIO)) {
-				ventana.cargarPanel(panelInicioEmpleado);
+				empleWindow.cargarPanel(panelInicioEmpleado);
+				
+			}else if(e.getActionCommand().equals(EmpleadoWindow.ITEM_SESION)) {
+				if(OutputMessages.confirm("Se va a cerrar la sesión, ¿quiere continuar?") == 0) {
+					empleWindow.dispose();
+					mainWindow.setVisible(true);	
+				}
+				
+			}else if(e.getActionCommand().equals(EmpleadoWindow.ITEM_RESERVA)) {
+				empleWindow.cargarPanel(pReserva);
+				pReserva.cargarDeportes(poliPersistencia.getDeportes());
 			}
 		}else if(e.getSource() instanceof JCheckBox) {
 			if(e.getActionCommand().equals(PanelInicioEmpleado.CHECK_CONTRASENA)) {
@@ -43,12 +71,14 @@ public class EmpleadoListener implements ActionListener {
 					panelInicioEmpleado.ofuscarContrasena(true);
 				}
 			}
-		}
-		
-		
-		
-		if(e.getSource() == pConsulta.getBtnConsultar()) {
-			pConsulta.recargarTabla(poliPersistencia.getRegistros(pConsulta.getFecha(), null, null, null));
+		}else if(e.getSource() == pConsulta.getBtnConsultar()) {
+			ArrayList<Reserva> registros = poliPersistencia.getRegistros(pConsulta.getFecha(), pConsulta.getHora(), pConsulta.getDeporte(), pConsulta.getUso());
+			if(registros.isEmpty()) {
+				new OutputMessages(1, "No se han encontrado registros");
+				pConsulta.visibilidadTabla(false);
+			}else {
+				pConsulta.recargarTabla(registros);
+			}
 		}
 	}
 

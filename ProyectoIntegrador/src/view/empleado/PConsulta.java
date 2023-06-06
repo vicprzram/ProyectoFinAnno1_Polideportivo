@@ -48,7 +48,8 @@ public class PConsulta extends JPanel {
 	private JComboBox cmbDeporte;
 	private DefaultComboBoxModel<String> dcbmDeporte;
 	private JComboBox cmbFecha;
-	private DefaultComboBoxModel<String> dcbmFecha;	
+	private DefaultComboBoxModel<String> dcbmFecha;
+	private JScrollPane scrpTabla;	
 	
 	public PConsulta() {
 		
@@ -58,12 +59,12 @@ public class PConsulta extends JPanel {
 
 	private void init() {
 		JLabel lblTitle = new JLabel("Consulta de reservas");
-		lblTitle.setBounds(10, 10, 221, 29);
+		lblTitle.setBounds(10, 10, 271, 29);
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		add(lblTitle);
 		
-		JScrollPane scrpTabla = new JScrollPane();
-		scrpTabla.setBounds(10, 105, 647, 300);
+		scrpTabla = new JScrollPane();
+		scrpTabla.setBounds(40, 105, 700, 400);
 		add(scrpTabla);
 		
 		JLabel lblFecha = new JLabel("Fecha");
@@ -72,22 +73,27 @@ public class PConsulta extends JPanel {
 		
 		cmbFecha = new JComboBox();
 		cmbFecha.setBounds(65, 45, 70, 21);
+		add(cmbFecha);
 		
 		dcbmFecha = new DefaultComboBoxModel<>();
 		
 		JLabel lblDeporte = new JLabel("Deporte");
 		lblDeporte.setBounds(265, 45, 50, 20);
+		add(lblDeporte);
 		
 		cmbDeporte = new JComboBox();
 		cmbDeporte.setBounds(325, 45, 120, 21);
+		add(cmbDeporte);
 		
 		dcbmDeporte = new DefaultComboBoxModel<>();
 		
 		JLabel lblHora = new JLabel("Hora");
 		lblHora.setBounds(145, 45, 30, 20);
+		add(lblHora);
 		
 		cmbHora = new JComboBox();
 		cmbHora.setBounds(185, 45, 70, 21);
+		add(cmbHora);
 		
 		dcbmHora = new DefaultComboBoxModel<>(HORAS);
 		cmbHora.setModel(dcbmHora);
@@ -95,15 +101,7 @@ public class PConsulta extends JPanel {
 		table = new JTable();
 		scrpTabla.setViewportView(table);
 		setLayout(null);
-		
-		
-		
-		add(cmbFecha);
-		add(lblDeporte);
-		add(cmbDeporte);
-		add(lblHora);
-		add(cmbHora);
-		
+				
 		JLabel lblUso = new JLabel("Uso");
 		lblUso.setBounds(455, 45, 28, 20);
 		add(lblUso);
@@ -123,6 +121,7 @@ public class PConsulta extends JPanel {
 	}
 	
 	private void configTabla() {
+		visibilidadTabla(false);
 		dtm = new DefaultTableModel() {
 			public boolean isCellEditable(int row, int column) {
 				return false;
@@ -140,6 +139,7 @@ public class PConsulta extends JPanel {
 		for (Reserva reserva : listaReservas) {
 			dtm.addRow(reserva.getRowConsulta());
 		}
+		visibilidadTabla(true);
 	}
 	
 	public JButton getBtnConsultar() {
@@ -147,12 +147,14 @@ public class PConsulta extends JPanel {
 	}
 	
 	public void cargarDeportes(ArrayList<String> lista) {
+		dcbmDeporte.removeAllElements();
 		dcbmDeporte.addAll(lista);
 		cmbDeporte.setModel(dcbmDeporte);
 		cmbDeporte.setSelectedIndex(0);
 	}
 	
 	public void cargarFechas(ArrayList<String> listaFechas) {
+		dcbmFecha.removeAllElements();
 		dcbmFecha.addAll(listaFechas);
 		cmbFecha.setModel(dcbmFecha);
 		cmbFecha.setSelectedIndex(0);
@@ -168,5 +170,17 @@ public class PConsulta extends JPanel {
 	
 	public String getHora() {
 		return dcbmHora.getSelectedItem().toString();
+	}
+	
+	public String getDeporte() {
+		return dcbmDeporte.getSelectedItem().toString();
+	}
+	
+	public String getUso() {
+		return dcbmUso.getSelectedItem().toString();
+	}
+
+	public void visibilidadTabla(boolean b) {
+		scrpTabla.setVisible(b);
 	}
 }

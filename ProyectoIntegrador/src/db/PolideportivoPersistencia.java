@@ -131,6 +131,7 @@ public class PolideportivoPersistencia {
 	}
 	
 	public ArrayList<Reserva> getRegistros(String filtroDia, String filtroHora, String filtroDeporte, String filtroUso){
+		
 		ArrayList<Reserva> listaRegistros = new ArrayList<>();
 		
 		String query = "SELECT D.NOMBRE AS \"DEPORTE\", "
@@ -145,6 +146,18 @@ public class PolideportivoPersistencia {
 				+ "AND C.DNI = CI.DNI_CLIENTE "
 				+ "AND CI.ID_INSTALACION = I.ID";
 		
+		if(!filtroDia.equals("TODAS")) {
+			query += " AND CI.DIA = '" + filtroDia + "'";
+		}
+		
+		if(!filtroHora.equals("TODAS")) {
+			query += " AND CI.HORA = '" + filtroHora + "'";
+		}
+		
+		if(!filtroDeporte.equals("TODOS")) {
+			query += " AND D.NOMBRE = '" + filtroDeporte + "'";
+		}
+				
 		Connection con = null;
 		Statement stat = null;
 		ResultSet rslt = null;
@@ -160,8 +173,20 @@ public class PolideportivoPersistencia {
 			
 			while(rslt.next()) {
 				clienteActual = new Cliente(null, rslt.getString("NOMBRE"), null, 0);
-				listaRegistros.add(new Reserva(clienteActual, new Instalacion(rslt.getInt("ID_INSTALACION"), rslt.getString("DEPORTE"),rslt.getString("TIPO"), null, null), 0, rslt.getString("DIA"), rslt.getString("HORA"), 0, false));
-				
+				listaRegistros.add(
+						new Reserva(clienteActual, 
+								new Instalacion(
+										rslt.getInt("ID_INSTALACION"), 
+										rslt.getString("DEPORTE"),
+										rslt.getString("TIPO"), 
+										null, 
+										null
+								), 
+								0, 
+								rslt.getString("DIA"), 
+								rslt.getString("HORA"), 
+								0, 
+								false));
 			}
 			
 		} catch (Exception e) {
@@ -173,7 +198,9 @@ public class PolideportivoPersistencia {
 		
 		return listaRegistros;
 	}
+
 	
+	//TODO: Este método mejor si le pasamos los datos con un objeto Empleado
 	public boolean empleadoExists(String dni, String pass) {
 		
 		dni = dni.toLowerCase();
