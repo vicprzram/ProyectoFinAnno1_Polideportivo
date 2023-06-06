@@ -9,6 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
 import control.EmpleadoListener;
+import model.Empleado;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -16,16 +17,18 @@ import javax.swing.JPanel;
 
 public class EmpleadoWindow extends JFrame{
 	private JMenuBar menuBar;
-	private JMenuItem mntmConsulta, mntmReserva, mntmRegistro, mntmCerrar;
+	private JMenuItem mntmConsulta, mntmReserva, mntmRegistro, mntmCerrar, mntmInicio;
 	
-	public static final String ITEM_CONSULTA = "Consulta de disponibilidad";
+	public static final String ITEM_CONSULTA = "Consulta disponibilidad";
 	public static final String ITEM_RESERVA = "Hacer una reserva";
 	public static final String ITEM_REGISTRO = "Registro usuario";
 	public static final String ITEM_SESION = "Cerrar sesion";
+	public static final String ITEM_INICIO = "Inicio";
+	
 	private JScrollPane scrpContenedor;
 	
-	static final int ANCHO = 700;
-	static final int ALTO = 500;
+	public static final int ANCHO = 700;
+	public static final int ALTO = 500;
 
 	public EmpleadoWindow() {
 		super("Cliente");
@@ -40,6 +43,9 @@ public class EmpleadoWindow extends JFrame{
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
+		
+		mntmInicio = new JMenuItem(ITEM_INICIO);
+		menuBar.add(mntmInicio);
 		mntmConsulta = new JMenuItem(ITEM_CONSULTA);
 		menuBar.add(mntmConsulta);
 		
@@ -67,8 +73,8 @@ public class EmpleadoWindow extends JFrame{
 		scrpContenedor.setViewportView(panel);
 	}
 	
-
 	public void setListener(EmpleadoListener l) {
+		this.mntmInicio.addActionListener(l);
 		this.mntmCerrar.addActionListener(l);
 		this.mntmConsulta.addActionListener(l);
 		this.mntmReserva.addActionListener(l);

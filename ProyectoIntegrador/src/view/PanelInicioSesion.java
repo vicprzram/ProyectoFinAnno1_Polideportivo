@@ -6,6 +6,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 
 import control.MainListener;
+import model.Empleado;
 
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
@@ -88,7 +89,8 @@ public class PanelInicioSesion extends JPanel {
 		}
 	}
 	
-	public String[] getValues() {
-		return new String[] {this.tfDni.getText(), this.passwordField.getText()};
+	//Se configura para que solo devuelva dni y contraseña
+	public Empleado getValues() {
+		return new Empleado(this.tfDni.getText(), null, this.passwordField.getText(), null, null);
 	}
 }

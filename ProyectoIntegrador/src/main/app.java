@@ -10,19 +10,30 @@ public class app {
 
 			@Override
 			public void run() {
-				MainWindow mainWindow = new MainWindow();
-				PanelInicioSesion panelInicioSesion = new PanelInicioSesion();
-				PanelRegistroUsuario panelRegistroUsuario = new PanelRegistroUsuario();
-				PConsulta panelConsulta = new PConsulta();
-				EmpleadoWindow empleadoWindow = new EmpleadoWindow();
 				
 				PolideportivoPersistencia polideportivoPersistencia = new PolideportivoPersistencia();
 				
-				MainListener mainListener = new MainListener(mainWindow, panelInicioSesion, polideportivoPersistencia, empleadoWindow);
-				EmpleadoListener empleadoListener = new EmpleadoListener(empleadoWindow, panelConsulta); 
+				
+				
+				// Pantalla empleado
+				PanelRegistroUsuario panelRegistroUsuario = new PanelRegistroUsuario();
+				PConsulta panelConsulta = new PConsulta();
+				EmpleadoWindow empleadoWindow = new EmpleadoWindow();
+				PanelInicioEmpleado panelIncioEmpleado = new PanelInicioEmpleado();
+				
+				EmpleadoListener empleadoListener = new EmpleadoListener(empleadoWindow, panelConsulta, polideportivoPersistencia, panelIncioEmpleado); 
 				
 				empleadoWindow.setListener(empleadoListener);
 				panelRegistroUsuario.addListener(empleadoListener);
+				panelIncioEmpleado.addListener(empleadoListener);
+				
+				
+				
+				//Pantalla inicio sesion
+				MainWindow mainWindow = new MainWindow();
+				PanelInicioSesion panelInicioSesion = new PanelInicioSesion();
+				
+				MainListener mainListener = new MainListener(mainWindow, panelInicioSesion, polideportivoPersistencia, empleadoWindow, panelIncioEmpleado);
 				
 				panelInicioSesion.addListener(mainListener);
 				mainWindow.addListener(mainListener);

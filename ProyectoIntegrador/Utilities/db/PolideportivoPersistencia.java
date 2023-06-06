@@ -8,27 +8,68 @@ import java.util.ArrayList;
 import utilities.OutputMessages;
 
 import model.Cliente;
+import model.Empleado;
 import model.Instalacion;
 import model.Reserva;
 
 public class PolideportivoPersistencia {
-	private static final String NOM_COL_CI_DIA = "DIA";
 	private AccesoDB acceso;
 
 	private static final String NOM_TB_DEPORTE = "DEPORTE";
 	private static final String NOM_COL_DEP_NOMBRE = "NOMBRE";
+	
 	private static final String NOM_TB_CI = "CLIENTE_INSTALACION";
-
+	private static final String NOM_COL_CI_DIA = "DIA";
+	
+	private static final String NOM_TB_EMPLEADO = "EMPLEADO";
+	private static final String NOM_COL_EMP_DNI = "DNI";
+	private static final String NOM_COL_EMP_PASS = "PASS";
+	private static final String NOM_COL_EMP_APENOM = "APENOM";
+	private static final String NOM_COL_EMP_DIRECCION = "DIRECCION";
+	private static final String NOM_COL_EMP_ROL = "ROL";
+	
 	private static final String ERROR_CONEXIONES = "Ha habido un error en el manejo de la base de datos, compruebe conexiones";
 	private static final String ERROR = "Ha habido un error en el manejo de la base de datos, consulte al administrador";
-	
-	private String NOM_TB_EMPLEADO = "EMPLEADO";
-	private String NOM_COL_EMP_DNI = "DNI";
-	private String NOM_COL_EMP_PASS = "PASS";
-
+	private static final String ERROR_NO_DATA = "Ha habido un error al buscar datos en la base de datos, consulte al administrador";
 	
 	public PolideportivoPersistencia() {
 		acceso = new AccesoDB();
+	}
+	
+	public Empleado getAllValues(String dni) {
+		String query = "SELECT * FROM " + NOM_TB_EMPLEADO + " WHERE " + NOM_COL_EMP_DNI + " = ?";
+		Empleado empleado = null;
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		ResultSet rslt = null;
+		
+		try {
+			
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			stat.setString(1, dni);
+			rslt = stat.executeQuery();
+			
+			if(rslt.next()) {
+				empleado = new Empleado(
+						rslt.getString(NOM_COL_EMP_DNI),
+						rslt.getString(NOM_COL_EMP_APENOM),
+						rslt.getString(NOM_COL_EMP_PASS),
+						rslt.getString(NOM_COL_EMP_DIRECCION),
+						rslt.getString(NOM_COL_EMP_ROL));
+			}else {
+				new OutputMessages(0, ERROR_NO_DATA);
+			}
+	
+		} catch (Exception e) {
+			new OutputMessages(0, ERROR);
+			e.printStackTrace();
+		}finally {
+			cerrarConexiones(con, stat, rslt);
+		}
+		
+		return empleado;
 	}
 	
 	public ArrayList<String> getDeportes(){
@@ -132,6 +173,7 @@ public class PolideportivoPersistencia {
 		
 		return listaRegistros;
 	}
+	
 	public boolean empleadoExists(String dni, String pass) {
 		
 		dni = dni.toLowerCase();
