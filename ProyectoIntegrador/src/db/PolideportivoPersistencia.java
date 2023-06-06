@@ -157,6 +157,8 @@ public class PolideportivoPersistencia {
 		
 		return listaRegistros;
 	}
+	
+	//TODO: Este método mejor si le pasamos los datos con un objeto Empleado
 	public boolean empleadoExists(String dni, String pass) {
 		
 		dni = dni.toLowerCase();

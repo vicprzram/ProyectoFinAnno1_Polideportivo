@@ -12,18 +12,23 @@ import utilities.OutputMessages;
 import view.EmpleadoWindow;
 import view.MainWindow;
 import view.PConsulta;
+import view.PReserva;
 
 public class EmpleadoListener implements ActionListener {
 	
 	private MainWindow mainWindow;
+	
 	private EmpleadoWindow empleWindow;
 	private PConsulta pConsulta;
+	private PReserva pReserva;
+	
 	private PolideportivoPersistencia poliPersistencia;
 	
-	public EmpleadoListener(MainWindow mainWindow, EmpleadoWindow empleWindow, PConsulta pConsulta) {
+	public EmpleadoListener(MainWindow mainWindow, EmpleadoWindow empleWindow, PConsulta pConsulta, PReserva pReserva) {
 		this.mainWindow = mainWindow;
 		this.empleWindow = empleWindow;
 		this.pConsulta = pConsulta;
+		this.pReserva = pReserva;
 		poliPersistencia = new PolideportivoPersistencia();
 	}
 
@@ -39,7 +44,9 @@ public class EmpleadoListener implements ActionListener {
 					empleWindow.dispose();
 					mainWindow.setVisible(true);	
 				}
-				
+			}else if(e.getActionCommand().equals(empleWindow.ITEM_RESERVA)) {
+				empleWindow.cargarPanel(pReserva);
+				pReserva.cargarDeportes(poliPersistencia.getDeportes());
 			}
 		}
 		if(e.getSource() == pConsulta.getBtnConsultar()) {

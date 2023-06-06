@@ -16,15 +16,16 @@ public class app {
 				EmpleadoWindow empleadoWindow = new EmpleadoWindow();
 				PanelRegistroUsuario panelRegistroUsuario = new PanelRegistroUsuario();
 				PConsulta panelConsulta = new PConsulta();
-				
+				PReserva panelReserva = new PReserva();
 				
 				PolideportivoPersistencia polideportivoPersistencia = new PolideportivoPersistencia();
 				
 				MainListener mainListener = new MainListener(mainWindow, panelInicioSesion, polideportivoPersistencia, empleadoWindow);
-				EmpleadoListener empleadoListener = new EmpleadoListener(mainWindow,empleadoWindow, panelConsulta); 
+				EmpleadoListener empleadoListener = new EmpleadoListener(mainWindow,empleadoWindow, panelConsulta, panelReserva); 
 				
 				empleadoWindow.setListener(empleadoListener);
 				panelConsulta.setListener(empleadoListener);
+				panelReserva.setListener(empleadoListener);
 				panelRegistroUsuario.addListener(empleadoListener);
 				
 				panelInicioSesion.addListener(mainListener);

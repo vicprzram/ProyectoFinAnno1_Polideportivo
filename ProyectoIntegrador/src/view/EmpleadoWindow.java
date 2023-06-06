@@ -24,8 +24,8 @@ public class EmpleadoWindow extends JFrame{
 	public static final String ITEM_SESION = "Cerrar sesion";
 	private JScrollPane scrpContenedor;
 	
-	static final int ANCHO = 700;
-	static final int ALTO = 500;
+	static final int ANCHO = 800;
+	static final int ALTO = 600;
 
 	public EmpleadoWindow() {
 		super("Cliente");

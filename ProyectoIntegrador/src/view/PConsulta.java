@@ -64,7 +64,7 @@ public class PConsulta extends JPanel {
 		add(lblTitle);
 		
 		scrpTabla = new JScrollPane();
-		scrpTabla.setBounds(10, 105, 647, 300);
+		scrpTabla.setBounds(40, 105, 700, 400);
 		add(scrpTabla);
 		
 		JLabel lblFecha = new JLabel("Fecha");

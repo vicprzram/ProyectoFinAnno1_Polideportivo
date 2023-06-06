@@ -56,6 +56,8 @@ public class MainListener implements ActionListener {
 				empleWindow.setVisible(true);
 			}
 			if(e.getActionCommand().equals(PanelInicioSesion.BUTTON_INICIAR_SESION)) {
+				//TODO: al cambiar a un objeto Empleado, controlar si nos ha devuelto null, es decir, no se han introducido datos
+				//Si se introducen, entrar en el otro camino y contar los intentos etc.
 				String[] values = panelInicioSesion.getValues();
 				
 				if(!values[0].isEmpty() && !values[1].isEmpty()) {
@@ -68,7 +70,7 @@ public class MainListener implements ActionListener {
 					}else {
 						new OutputMessages(0, NO_EXISTS);
 						counter++;
-						
+						//TODO: estaría guay mostrarle al usuario cuantos intentos le quedan
 						if(counter == 3) {
 							new OutputMessages(1, TOO_MANY_FAILURES);
 							System.exit(0);

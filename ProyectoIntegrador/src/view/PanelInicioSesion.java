@@ -97,7 +97,7 @@ public class PanelInicioSesion extends JPanel {
 			this.passwordField.setEchoChar('*');
 		}
 	}
-	
+	//TODO: mejor devolver un objeto empleado tras validar los datos (que no estén vacíos)
 	public String[] getValues() {
 		return new String[] {this.tfDni.getText(), this.passwordField.getText()};
 	}
