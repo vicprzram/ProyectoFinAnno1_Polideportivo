@@ -8,10 +8,10 @@ import javax.swing.JMenuItem;
 //----------------------------------
 import db.PolideportivoPersistencia;
 import model.Empleado;
-import view.EmpleadoWindow;
-import view.MainWindow;
-import view.PanelInicioEmpleado;
-import view.PanelInicioSesion;
+import view.empleado.EmpleadoWindow;
+import view.empleado.PanelInicioEmpleado;
+import view.principal.MainWindow;
+import view.principal.PanelInicioSesion;
 import utilities.OutputMessages;
 //----------------------------------
 

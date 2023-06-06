@@ -1,6 +1,12 @@
 package main;
 
 import view.*;
+import view.empleado.EmpleadoWindow;
+import view.empleado.PConsulta;
+import view.empleado.PanelInicioEmpleado;
+import view.empleado.PanelRegistroUsuario;
+import view.principal.MainWindow;
+import view.principal.PanelInicioSesion;
 import control.*;
 import db.PolideportivoPersistencia;
 

@@ -1,4 +1,4 @@
-package view;
+package view.empleado;
 
 import javax.swing.JPanel;
 import javax.swing.DefaultComboBoxModel;

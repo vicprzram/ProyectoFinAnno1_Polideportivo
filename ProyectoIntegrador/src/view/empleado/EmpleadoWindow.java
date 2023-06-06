@@ -1,4 +1,4 @@
-package view;
+package view.empleado;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;

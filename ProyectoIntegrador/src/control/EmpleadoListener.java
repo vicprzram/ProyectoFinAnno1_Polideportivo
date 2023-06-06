@@ -7,9 +7,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JMenuItem;
 
 import db.PolideportivoPersistencia;
-import view.EmpleadoWindow;
-import view.PConsulta;
-import view.PanelInicioEmpleado;
+import view.empleado.EmpleadoWindow;
+import view.empleado.PConsulta;
+import view.empleado.PanelInicioEmpleado;
 
 public class EmpleadoListener implements ActionListener {
 	
