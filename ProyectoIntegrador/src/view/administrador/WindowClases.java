@@ -21,6 +21,8 @@ import model.Instalacion;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class WindowClases extends JFrame {
 	
@@ -37,6 +39,7 @@ public class WindowClases extends JFrame {
 	private JButton btnGuardar;
 	private JButton btnCancelar;
 	private JLabel lblId;
+	private JButton btnBorrar;
 	
 	public WindowClases() {
 		init();
@@ -111,11 +114,15 @@ public class WindowClases extends JFrame {
 		cmbProfesor.setModel(dcbmProfesor);
 		
 		btnGuardar = new JButton("Guardar");
-		btnGuardar.setBounds(150, 165, 85, 21);
+		btnGuardar.setBounds(82, 165, 85, 21);
 		getContentPane().add(btnGuardar);
 		
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(347, 165, 85, 21);
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnCancelar.setBounds(416, 165, 85, 21);
 		getContentPane().add(btnCancelar);
 		
 		lblId = new JLabel("");
@@ -123,6 +130,10 @@ public class WindowClases extends JFrame {
 		lblId.setEnabled(false);
 		lblId.setBounds(10, 286, 45, 13);
 		getContentPane().add(lblId);
+		
+		btnBorrar = new JButton("Borrar");
+		btnBorrar.setBounds(249, 165, 85, 21);
+		getContentPane().add(btnBorrar);
 	}
 	
 	private void centrarVentana() {
@@ -140,11 +151,20 @@ public class WindowClases extends JFrame {
 		return btnCancelar;
 	}
 
+	public JButton getBtnBorrar() {
+		return btnBorrar;
+	}
+	
 	public void cargarDatos(Clase clase) {
 		txtDeporte.setText(clase.getDeporte());
 		txtDia.setText(clase.getFecha());
 		txtHora.setText(clase.getHora());
 		lblId.setText(Integer.toString(clase.getId()));
+		if(clase.getId() == 0) {
+			btnBorrar.setEnabled(true);
+		}else {
+			btnBorrar.setEnabled(false);
+		}
 	}
 
 	public void cargarInstalaciones(ArrayList<Instalacion> instalaciones) {
@@ -189,5 +209,6 @@ public class WindowClases extends JFrame {
 	public void setListener(ClaseListener l) {
 		btnCancelar.addActionListener(l);
 		btnGuardar.addActionListener(l);
+		btnBorrar.addActionListener(l);
 	}
 }

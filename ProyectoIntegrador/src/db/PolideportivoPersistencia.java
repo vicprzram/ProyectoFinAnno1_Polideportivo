@@ -52,7 +52,6 @@ public class PolideportivoPersistencia {
 	private static final String NOM_COL_INS_DEP_IDD = "ID_DEPORTE";
 	
 	private static final String NOM_TB_CLA = "CLASE";
-	private static final String NOM_COL_CLA_ID = "ID";
 	private static final String NOM_COL_CLA_DIA = "DIA";
 	private static final String NOM_COL_CLA_HORA = "HORA";
 	private static final String NOM_COL_CLA_DNIE = "DNI_EMPLE";
@@ -851,6 +850,31 @@ public class PolideportivoPersistencia {
 			res = stat.executeUpdate();
 		} catch (Exception e) {
 			res = -1;
+		}
+		return res;
+	}
+
+	public int delClase(Clase clase) {
+		int res = 0;
+		String query = "DELETE FROM " + NOM_TB_CLA + " WHERE " + NOM_COL_CLA_DIA + " = ?"
+				+ " AND " + NOM_COL_CLA_HORA + " = ?"
+				+ " AND " + NOM_COL_CLA_IDI + " = ?";
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		
+		try {
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			stat.setString(1, clase.getFecha());
+			stat.setString(2, clase.getHora());
+			stat.setInt(3, clase.getInstalacion().getId());
+			
+			res = stat.executeUpdate();
+			
+		} catch (Exception e) {
+			res = -1;
+			e.printStackTrace();
 		}
 		return res;
 	}

@@ -22,7 +22,6 @@ public class ClaseListener implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if(e.getSource() == wClase.getBtnCancelar()) {
 			if(OutputMessages.confirm("¿Quiere cancelar la operación?") == 0) {
 				wClase.dispose();
@@ -36,6 +35,14 @@ public class ClaseListener implements ActionListener {
 				}
 			}else {
 				int res = poliP.modClase(clase);
+				if(res != -1) {
+					finalizarOperacion();
+				}
+			}
+		}else if(e.getSource() == wClase.getBtnBorrar()) {
+			if(OutputMessages.confirm("¿Quiere borrar la clase?") == 0) {
+				Clase clase = wClase.getClase();
+				int res = poliP.delClase(clase);
 				if(res != -1) {
 					finalizarOperacion();
 				}
