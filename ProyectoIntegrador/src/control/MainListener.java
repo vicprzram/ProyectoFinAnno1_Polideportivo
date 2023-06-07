@@ -65,9 +65,9 @@ public class MainListener implements ActionListener {
 				Empleado values = panelInicioSesion.getValues();
 				
 				if(!values.getDni().isEmpty() && !values.getPass().isEmpty()) {
-					boolean existe = this.polideportivoPersistencia.empleadoExists(values);
+					String existe = this.polideportivoPersistencia.empleadoExists(values);
 					
-					if(existe) {
+					if(existe == "Administrativo") {
 						new OutputMessages(1, FOUND);
 						mainWindow.dispose();
 						empleWindow.setVisible(true);
@@ -75,6 +75,8 @@ public class MainListener implements ActionListener {
 						values = this.polideportivoPersistencia.getAllValuesEmpleado(values.getDni());
 						panelInicioEmpleado.cambiarTexto(values);
 						empleWindow.cargarPanel(panelInicioEmpleado);
+					}else if(existe == "Administrador") {
+						//void
 					}else {
 						new OutputMessages(0, NO_EXISTS);
 						counter++;
