@@ -65,7 +65,24 @@ public class MainListener implements ActionListener {
 				if(!values.getDni().isEmpty() && !values.getPass().isEmpty()) {
 					String existe = this.polideportivoPersistencia.empleadoExists(values);
 					
-					if(existe != null) {
+					System.out.println(existe);
+					
+					if(existe == null || existe.equals("Monitor")) {
+						new OutputMessages(0, NO_EXISTS);
+						counter++;
+						switch(counter) {
+							case 1:
+								new OutputMessages(1, "Login incorrecto, quedan 2 intento");
+								break;
+							case 2:
+								new OutputMessages(1, "Login incorrecto, quedan 1 intentos");
+								break;
+							case 3:
+								new OutputMessages(1, TOO_MANY_FAILURES);
+								System.exit(0);
+								break;
+						}
+					}else {
 						if(existe.equals("Administrativo")) {
 							new OutputMessages(1, FOUND);
 							mainWindow.dispose();
@@ -79,15 +96,7 @@ public class MainListener implements ActionListener {
 							this.adminW.setVisible(true);
 							mainWindow.dispose();
 						}
-					}else {
-						new OutputMessages(0, NO_EXISTS);
-						counter++;
-						//TODO: estaría guay mostrarle al usuario cuantos intentos le quedan
-						if(counter == 3) {
-							new OutputMessages(1, TOO_MANY_FAILURES);
-							System.exit(0);
-						}
-					}
+					} 
 				}else {
 					new OutputMessages(0, EMPTY_DATA);
 				}
