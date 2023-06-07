@@ -52,7 +52,6 @@ public class app {
 				panelClases.setListener(adminListener);
 				manejoEmpleadoPanel.addListener(adminListener);
 				wClase.setListener(claseListener);
-
 				vCEmpleados.addListener(adminListener);
 				
 				//Configuracion pantallas empleado
