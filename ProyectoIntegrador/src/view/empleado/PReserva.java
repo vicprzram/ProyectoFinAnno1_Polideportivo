@@ -377,7 +377,7 @@ public class PReserva extends JPanel {
 			Object[] data =  dtm.getDataVector().elementAt(tblReservas.getSelectedRow()).toArray();
 			String[] stDatosInstalacion = ((String) data[0]).split(" ");
 			
-			reserva = new Reserva(cliente, new Instalacion(Integer.parseInt(stDatosInstalacion[1]), deporte, stDatosInstalacion[0], null, null), 0, data[1].toString(), data[2].toString(), 0, true);
+			reserva = new Reserva(cliente, new Instalacion(Integer.parseInt(stDatosInstalacion[1]), deporte, stDatosInstalacion[0]), 0, data[1].toString(), data[2].toString(), 0, true);
 			
 		}
 		return reserva;

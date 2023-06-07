@@ -10,6 +10,9 @@ public class Empleado extends Persona{
 		this.pass = pass;
 		this.rol = rol;
 	}
+	public Empleado(String apenom) {
+		super(null, apenom, null);
+	}
 	
 	public String getRol() {
 		return this.rol;

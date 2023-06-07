@@ -50,10 +50,11 @@ public class PolideportivoPersistencia {
 	private static final String NOM_COL_INS_DEP_IDD = "ID_DEPORTE";
 	
 	private static final String NOM_TB_CLA = "CLASE";
+	private static final String NOM_COL_CLA_ID = "ID";
 	private static final String NOM_COL_CLA_DIA = "DIA";
 	private static final String NOM_COL_CLA_HORA = "HORA";
 	private static final String NOM_COL_CLA_DNIE = "DNI_EMPLE";
-	private static final String NOM_COL_CLA_IDD = "ID_DEPORTE";
+	private static final String NOM_COL_CLA_IDI = "ID_INSTALACION";
 	
 	private static final String ERROR_CONEXIONES = "Ha habido un error en el manejo de la base de datos, compruebe conexiones";
 	private static final String ERROR = "Ha habido un error en el manejo de la base de datos, consulte al administrador";
@@ -368,9 +369,7 @@ public class PolideportivoPersistencia {
 								new Instalacion(
 										rslt.getInt("ID_INSTALACION"), 
 										rslt.getString("DEPORTE"),
-										rslt.getString("TIPO"), 
-										null, 
-										null
+										rslt.getString("TIPO")
 								), 
 								0, 
 								rslt.getString("DIA"), 
@@ -500,9 +499,7 @@ public class PolideportivoPersistencia {
 				instaciones.add(new Instalacion(
 						rslt.getInt(NOM_COL_INS_ID),
 						deporte,
-						rslt.getString(NOM_COL_INS_TIPO),
-						null,
-						null
+						rslt.getString(NOM_COL_INS_TIPO)
 						));
 			}
 		} catch (Exception e) {
@@ -550,23 +547,49 @@ public class PolideportivoPersistencia {
 	public ArrayList<Clase> getListaClases(String deporte){
 		ArrayList<Clase> lista = new ArrayList<>();
 		
-		String query = "SELECT C." + NOM_COL_CLA_DIA + ", C."
-				+ NOM_COL_CLA_HORA + ", C."
-				+ NOM_COL_CLA_DNIE + " FROM " 
-				+ NOM_TB_CLA + " C,"
-				+ NOM_TB_DEPORTE + " D"
+		String query = "SELECT C."
+				+ NOM_COL_CLA_DIA + ", C."
+				+ NOM_COL_CLA_HORA + ", E."
+				+ NOM_COL_EMP_APENOM + ", I."
+				+ NOM_COL_INS_ID + ", I."
+				+ NOM_COL_INS_TIPO
+				+ " FROM " + NOM_TB_CLA + " C, "
+				+ NOM_TB_DEPORTE + " D, "
+				+ NOM_TB_EMPLEADO + " E, "
+				+ NOM_TB_INSTALACION + " I, "
+				+ NOM_TB_INS_DEP + " IDEP"
 				+ " WHERE D." + NOM_COL_DEP_NOMBRE + " = ?"
-				+ " AND D." + NOM_COL_DEP_ID + " = C." + NOM_COL_CLA_IDD;
+				+ " AND D." + NOM_COL_DEP_ID + " = IDEP." + NOM_COL_INS_DEP_IDD
+				+ " AND C." + NOM_COL_CLA_IDI + " = IDEP." + NOM_COL_INS_DEP_IDI
+				+ " AND E." + NOM_COL_EMP_DNI + " = C." + NOM_COL_CLA_DNIE;
 		
 		Connection con = null;
 		PreparedStatement stat = null;
+		ResultSet rslt = null;
 		
 		try {
 			con = acceso.getConexion();
 			stat = con.prepareStatement(query);
+			stat.setString(1, deporte);
+			rslt = stat.executeQuery();
+			
+			while(rslt.next()) {
+				lista.add(new Clase(
+						0, 
+						rslt.getString(NOM_COL_CLA_DIA), 
+						rslt.getString(NOM_COL_CLA_HORA), 
+						new Empleado(rslt.getString(NOM_COL_EMP_APENOM)), 
+						new Instalacion(
+								rslt.getInt(NOM_COL_INS_ID), 
+								deporte, 
+								rslt.getString(NOM_COL_INS_TIPO)), 
+						deporte));
+			}
+			
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
+		}finally {
+			cerrarConexiones(con, stat, rslt);
 		}
 		
 		return lista;
