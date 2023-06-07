@@ -46,7 +46,7 @@ public class ManejoEmpleadosPanel extends JPanel {
 	public static final String BUTTON_MODIFICAR = "Modificar empleado";
 	public static final String BUTTON_BUSCAR = "Buscar empleado";
 	
-	private JLabel lblCorreo;
+	private JLabel lblCorreo, lblConsultar;
 	private JTextField tfCorreoModificar;
 	private JLabel lblCorreo_1;
 	private JTextField tfCorreoAnnadir;
@@ -73,7 +73,7 @@ public class ManejoEmpleadosPanel extends JPanel {
 		cargarModificar();
 		cargarEliminar();
 		
-		JLabel lblConsultar = new JLabel("<html><u>Consultar empleados</u></html>");
+		lblConsultar = new JLabel("<html><u>Consultar empleados</u></html>");
 		lblConsultar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblConsultar.setForeground(new Color(0, 46, 255));
 		lblConsultar.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -86,6 +86,8 @@ public class ManejoEmpleadosPanel extends JPanel {
 		add(panelModificar);
 		add(panelEliminar);
 		add(lblConsultar);
+		
+		deshabilitarModificar(true);
 	}
 	
 	private void cargarEliminar() {
@@ -288,6 +290,7 @@ public class ManejoEmpleadosPanel extends JPanel {
 		
 		tfPassword = new JPasswordField();
 		tfPassword.setBounds(114, 383, 127, 20);
+		tfPassword.setEchoChar((char)0);
 		
 		lblCorreo = new JLabel("Correo");
 		lblCorreo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -334,6 +337,14 @@ public class ManejoEmpleadosPanel extends JPanel {
 		setLocation((pantalla.width-ventana.width)/2,(pantalla.height-ventana.height)/2);
 	}
 	
+	public void setTextModificar(Empleado values) {
+		this.tfNombreCompletoModificar.setText(values.getApenom());
+		this.tfDireccionModificar.setText(values.getDireccion());
+		this.tfCorreoModificar.setText(values.getCorreo());
+		this.tfTelefonoModificar.setText(values.getTelefono());
+		this.tfPassword.setText("" + values.getPass());
+	}
+	
 	public Empleado getValuesAnnadir() {
 		
 		String rol = COMBO_ROLES[this.comboBox.getSelectedIndex()];
@@ -350,5 +361,96 @@ public class ManejoEmpleadosPanel extends JPanel {
 	
 	public void addListener(AdministradorListener l) {
 		this.btnAadirEmpleado.addActionListener(l);
+		this.btnLimpiarAnnadir.addActionListener(l);
+		this.lblConsultar.addMouseListener(l);
+		this.btnEliminarEmpleado.addActionListener(l);
+		this.btnEliminarTodosLos.addActionListener(l);
+		this.btnModificarEmpleado.addActionListener(l);
+		this.btnBuscarEmpleado.addActionListener(l);
+		this.btnLimpiarModificar.addActionListener(l);
+	}
+	
+	public void clearAnnadir() {
+		this.tfDniAnnadir.setText("");
+		this.tfNombreCompletoAnnadir.setText("");
+		this.passwordField.setText("");
+		this.tfDireccionAnnadir.setText("");
+		this.comboBox.setSelectedIndex(0);
+		this.tfCorreoAnnadir.setText("");
+		this.tfTelefonoAnnadir.setText("");
+	}
+	
+	public void clearModificar() {
+		this.tfNombreCompletoModificar.setText("");
+		this.tfDireccionModificar.setText("");
+		this.tfCorreoModificar.setText("");
+		this.tfTelefonoModificar.setText("");
+		this.comboBoxModificar.setSelectedIndex(0);
+		this.tfPassword.setText("");
+		this.tfDniModificar.setText("");
+	}
+	
+	public String getDniModificar() {
+		return this.tfDniModificar.getText();
+	}
+
+	public JButton getLimpiarAnnadir() {
+		return this.btnLimpiarAnnadir;
+	}
+	
+	public JButton getLimpiarModificar() {
+		return this.btnLimpiarModificar;
+	}
+
+	public void deshabilitarModificar(boolean value) {
+		if(value) {
+			this.tfNombreCompletoModificar.setEnabled(false);
+			this.tfDireccionModificar.setEnabled(false);
+			this.tfCorreoModificar.setEnabled(false);
+			this.tfTelefonoModificar.setEnabled(false);
+			this.tfPassword.setEnabled(false);
+			this.btnModificarEmpleado.setEnabled(false);
+			this.comboBoxModificar.setEnabled(false);
+			this.btnLimpiarModificar.setEnabled(false);
+			this.btnBuscarEmpleado.setEnabled(true);
+			this.tfDniModificar.setEnabled(true);
+		}else {
+			this.tfNombreCompletoModificar.setEnabled(true);
+			this.tfDireccionModificar.setEnabled(true);
+			this.tfCorreoModificar.setEnabled(true);
+			this.tfTelefonoModificar.setEnabled(true);
+			this.tfPassword.setEnabled(true);
+			this.btnModificarEmpleado.setEnabled(true);
+			this.btnLimpiarModificar.setEnabled(true);
+			this.btnBuscarEmpleado.setEnabled(false);
+			this.tfDniModificar.setEnabled(false);
+			this.comboBoxModificar.setEnabled(true);
+		}
+	}
+	
+	public Empleado getValues(boolean type) {
+		
+		if(type) {
+			
+			return new Empleado(
+					this.tfDniAnnadir.getText(),
+					this.tfNombreCompletoAnnadir.getText(),
+					this.passwordField.getText(),
+					this.tfDireccionAnnadir.getText(),
+					COMBO_ROLES[this.comboBox.getSelectedIndex()],
+					this.tfCorreoAnnadir.getText(),
+					this.tfTelefonoAnnadir.getText());
+		}else {
+	
+			
+			return new Empleado(
+					this.tfDniModificar.getText(),
+					this.tfNombreCompletoModificar.getText(),
+					this.tfPassword.getText(),
+					this.tfDireccionModificar.getText(),
+					COMBO_ROLES[this.comboBoxModificar.getSelectedIndex()],
+					this.tfCorreoModificar.getText(),
+					this.tfTelefonoModificar.getText());
+		}
 	}
 }
