@@ -4,12 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 
 import db.PolideportivoPersistencia;
 import utilities.*;
+import model.Cliente;
 import model.Empleado;
 import view.administrador.AdministradorWindow;
 import view.administrador.ManejoEmpleadosPanel;
@@ -23,8 +25,10 @@ public class AdministradorListener implements ActionListener, MouseListener {
 	private PolideportivoPersistencia poliP;
 	private VentanaConsultaEmpleados vCE; 
 	
+	private static final String EMPTY_DNI = "El campo dni no puede dejarse vacio, intente de nuevo";
 	private static final String NO_INSERTION = "No se ha podido insertar, intente de nuevo";
 	private static final String INSERTION_SUCCESSFULL = "Se inserto correctamnete los datos";
+	private static final String BAD_INSERTION = "No insertaron los datos, intente de nuevo";
 	
 	public AdministradorListener(AdministradorWindow adminW, ManejoEmpleadosPanel manejoEmpleadoPanel, 
 			PolideportivoPersistencia poliP, VentanaConsultaEmpleados vCE) {
@@ -74,11 +78,70 @@ public class AdministradorListener implements ActionListener, MouseListener {
 						manejoEmpleadoPanel.clearAnnadir();
 					}
 				}
+			}else if(e.getActionCommand().equals(ManejoEmpleadosPanel.BUTTON_BUSCAR)) {
+				String dni = manejoEmpleadoPanel.getDniModificar();
+				Empleado values;
+				
+				if(dni.isEmpty()) {
+					new OutputMessages(1, EMPTY_DNI);
+
+				}else {
+					values = poliP.getAllValuesEmpleado(dni);
+					manejoEmpleadoPanel.deshabilitarModificar(false);
+					
+					manejoEmpleadoPanel.setTextModificar(values);
+				}
+			}else if(e.getActionCommand().equals(ManejoEmpleadosPanel.BUTTON_MODIFICAR)) {
+				Empleado values = manejoEmpleadoPanel.getValues(false);
+				
+				if(!Comprobaciones.direccion(values.getDireccion())) {
+					new OutputMessages(0, Comprobaciones.ERROR_DIRECCION);
+				}else if(!Comprobaciones.nombre(values.getApenom())){
+					new OutputMessages(0, Comprobaciones.ERROR_NOMBRE);
+				}else if(!Comprobaciones.correo(values.getCorreo())){
+					new OutputMessages(0, Comprobaciones.ERROR_CORREO);
+				}else if(!Comprobaciones.telefono(values.getTelefono())){
+					new OutputMessages(0, Comprobaciones.ERROR_TELEFONO);
+				}else if(values.getPass().isEmpty()) {
+					new OutputMessages(0, Comprobaciones.ERROR_PASS);	
+				}else{
+					boolean modified = poliP.modifyEmpleado(values);
+					
+					if(!modified) {
+						new OutputMessages(0, BAD_INSERTION);
+					}else {
+						new OutputMessages(1, INSERTION_SUCCESSFULL);
+						manejoEmpleadoPanel.clearAnnadir();
+						manejoEmpleadoPanel.clearModificar();
+						manejoEmpleadoPanel.deshabilitarModificar(true);
+					}
+				}
+			}
+			else if(e.getActionCommand().equals(VentanaConsultaEmpleados.BUTTON_RECARGAR)) {
+				vCE.removeData();
+				ArrayList<Empleado> values = poliP.getAllEmpleado();
+				
+				if(!values.isEmpty()) {
+					vCE.setVisible(true);
+					
+					for(Empleado i : values) {
+						vCE.insertData(i);
+					}
+					
+					vCE.deshabilitar(false);
+				}else {
+					vCE.deshabilitar(true);
+				}
+			}else if(e.getActionCommand().equals(VentanaConsultaEmpleados.BUTTON_SALIR)) {
+				vCE.dispose();
 			}
 			
 			
 			else if(e.getSource().equals(manejoEmpleadoPanel.getLimpiarAnnadir())) {
 				manejoEmpleadoPanel.clearAnnadir();
+			}else if(e.getSource().equals(manejoEmpleadoPanel.getLimpiarModificar())) {
+				manejoEmpleadoPanel.clearModificar();
+				manejoEmpleadoPanel.deshabilitarModificar(true);
 			}
 		}
 	}

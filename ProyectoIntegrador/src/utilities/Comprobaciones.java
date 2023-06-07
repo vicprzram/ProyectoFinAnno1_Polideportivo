@@ -12,6 +12,7 @@ public class Comprobaciones {
 	public static final String ERROR_TELEFONO = "TELEFONO erroneo, se requiere telefono valido";
 	public static final String ERROR_PASS = "CONTRASEÑA erronea, no se puede dejar en blanco";
 	public static final String ERROR_DNI_EXIST = "DNI existente, intente de nuevo";
+	public static final String ERROR_DNI_NO_EXIST = "DNI no existente, intente de nuevo";
 	
 	public static boolean dni(String dni) {
 		Pattern pattern = Pattern.compile("[0-9]{8}[A-Z a-z]");

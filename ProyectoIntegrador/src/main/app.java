@@ -45,6 +45,7 @@ public class app {
 				//Configuracion pantalla administrador
 				administradorWindow.setListener(adminListener);
 				manejoEmpleadoPanel.addListener(adminListener);
+				vCEmpleados.addListener(adminListener);
 				
 				
 				//Configuracion pantallas empleado

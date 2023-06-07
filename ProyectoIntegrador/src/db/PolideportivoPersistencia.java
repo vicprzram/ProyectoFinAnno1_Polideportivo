@@ -32,6 +32,8 @@ public class PolideportivoPersistencia {
 	private static final String NOM_COL_EMP_APENOM = "APENOM";
 	private static final String NOM_COL_EMP_DIRECCION = "DIRECCION";
 	private static final String NOM_COL_EMP_ROL = "ROL";
+	private static final String NOM_COL_EMP_CORREO = "CORREO";
+	private static final String NOM_COL_EMP_TELEFONO = "TELEFONO";
 	
 	private static final String NOM_TB_CLIENTE = "CLIENTE";
 	private static final String NOM_COL_CLI_DNI = "DNI";
@@ -61,6 +63,81 @@ public class PolideportivoPersistencia {
 	
 	public PolideportivoPersistencia() {
 		acceso = new AccesoDB();
+	}
+	
+	public boolean modifyEmpleado(Empleado values) {
+		String query = "UPDATE " + NOM_TB_EMPLEADO + " SET " + NOM_COL_EMP_APENOM + " = ?, " +
+				NOM_COL_EMP_DIRECCION + " =?, " + NOM_COL_EMP_PASS + " =?, " + NOM_COL_EMP_ROL + " =?, " +
+				NOM_COL_CLI_CORREO  + " =?, " + NOM_COL_EMP_TELEFONO + " =? WHERE " + NOM_COL_CLI_DNI + " =?";
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		int rslt = 0;
+		
+		try {
+			
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			stat.setString(1, values.getApenom());
+			stat.setString(2, values.getDireccion());
+			stat.setString(3, values.getPass());;
+			stat.setString(4, values.getRol());
+			stat.setString(5, values.getCorreo());
+			stat.setString(6, values.getTelefono());
+			stat.setString(7, values.getDni());
+			rslt = stat.executeUpdate();
+	
+		} catch (Exception e) {
+			new OutputMessages(0, ERROR);
+			e.printStackTrace();
+		}finally {
+			cerrarConexiones(con, stat, null);
+		}
+		
+		if(rslt == 0) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
+	public ArrayList<Empleado> getAllEmpleado(){
+		ArrayList<Empleado> arrayList = new ArrayList<Empleado>();
+		String query = "SELECT * FROM " + NOM_TB_EMPLEADO;
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		ResultSet rslt = null;
+		
+		try {
+			
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			rslt = stat.executeQuery();
+			
+			Empleado cliente;
+			
+			while(rslt.next()) {
+				cliente = new Empleado(
+						rslt.getString(NOM_COL_EMP_DNI),
+						rslt.getString(NOM_COL_EMP_APENOM),
+						rslt.getString(NOM_COL_EMP_PASS),
+						rslt.getString(NOM_COL_EMP_DIRECCION),
+						rslt.getString(NOM_COL_EMP_ROL),
+						rslt.getString(NOM_COL_EMP_CORREO),
+						rslt.getString(NOM_COL_EMP_TELEFONO));
+				
+				arrayList.add(cliente);
+			}
+	
+		} catch (Exception e) {
+			new OutputMessages(0, ERROR);
+			e.printStackTrace();
+		}finally {
+			cerrarConexiones(con, stat, rslt);
+		}
+		
+		return arrayList;
 	}
 	
 	public boolean deleteAllCliente() {
@@ -279,7 +356,9 @@ public class PolideportivoPersistencia {
 						rslt.getString(NOM_COL_EMP_APENOM),
 						rslt.getString(NOM_COL_EMP_PASS),
 						rslt.getString(NOM_COL_EMP_DIRECCION),
-						rslt.getString(NOM_COL_EMP_ROL));
+						rslt.getString(NOM_COL_EMP_ROL),
+						rslt.getString(NOM_COL_EMP_CORREO),
+						rslt.getString(NOM_COL_EMP_TELEFONO));
 			}else {
 				new OutputMessages(0, ERROR_NO_DATA);
 			}

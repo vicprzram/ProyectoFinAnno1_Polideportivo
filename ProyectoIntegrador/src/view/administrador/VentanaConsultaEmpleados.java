@@ -10,8 +10,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import control.AdministradorListener;
 import control.ManejoClientesListener;
 import model.Cliente;
+import model.Empleado;
 
 public class VentanaConsultaEmpleados extends JFrame {
 	
@@ -24,8 +26,8 @@ public class VentanaConsultaEmpleados extends JFrame {
 	public static final String BUTTON_RECARGAR = "Recargar";
 	public static final String BUTTON_SALIR = "Salir";
 	
-	private static final String[] COLUMNS_ARRAY = {"DNI", "Nombre", "Direccion", "NºCuenta", 
-			"Correo", "Telefono"};
+	private static final String[] COLUMNS_ARRAY = {"DNI", "Nombre", "Direccion", "Contraseña", 
+			"Correo", "Telefono", "Rol"};
 	private JTable table;
 	private JButton btnSalir;
 	
@@ -60,12 +62,12 @@ public class VentanaConsultaEmpleados extends JFrame {
 		centrarVentana();
 	}
 	
-	public void insertData(Cliente values) {
+	public void insertData(Empleado values) {
 		modelTable.addRow(new String[] {values.getDni(), values.getApenom(), values.getDireccion(),
-				"" + values.getNumCuenta(), values.getCorreo(), values.getTelefono()});
+				"" + values.getPass(), values.getCorreo(), values.getTelefono(), values.getRol()});
 	}
 	
-	public void addListener(ManejoClientesListener l) {
+	public void addListener(AdministradorListener l) {
 		this.btnNewButton.addActionListener(l);
 		this.btnSalir.addActionListener(l);
 	}
