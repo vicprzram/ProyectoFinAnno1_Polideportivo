@@ -28,7 +28,7 @@ public class PClases extends JPanel{
 	private DefaultTableModel dtm;
 	private JButton btnConsultar;
 	
-	private static final String[] HEADER_TABLA = {"HORA", "LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "SÁBADO", "DOMINGO"};
+	private static final String[] HEADER_TABLA = {"HORA", "LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO", "DOMINGO"};
 	private static final String[] HORAS = {
 			"9:00",
 			"10:00",
@@ -142,6 +142,7 @@ public class PClases extends JPanel{
 					for (Clase clase : listaClases) {
 						if(clase.getHora().equals(HORAS[j]) && clase.getFecha().toUpperCase().equals(HEADER_TABLA[i])) {
 							rowActual[i] = clase.toString();
+							break;
 						}else {
 							rowActual[i] = "";
 						}
@@ -151,6 +152,7 @@ public class PClases extends JPanel{
 				}
 				tblHorario.getColumnModel().getColumn(i).setCellRenderer(modelCentrar);
 			}
+			
 			dtm.addRow(rowActual);
 		}
 		btnEditar.setEnabled(true);

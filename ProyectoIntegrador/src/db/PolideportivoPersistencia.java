@@ -487,7 +487,7 @@ public class PolideportivoPersistencia {
 		return listaFechas;
 	}
 	
-	public ArrayList<Reserva> getRegistros(String filtroDia, String filtroHora, String filtroDeporte, String filtroUso){
+	public ArrayList<Reserva> getRegistros(String filtroDia, String filtroHora, String filtroDeporte){
 		
 		ArrayList<Reserva> listaRegistros = new ArrayList<>();
 		

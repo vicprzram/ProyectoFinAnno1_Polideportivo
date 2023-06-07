@@ -19,10 +19,9 @@ import java.awt.BorderLayout;
 
 public class AdministradorWindow extends JFrame{
 	private JMenuBar menuBar;
-	private JMenuItem mntmGestionEmple, mntmGestionInsta, mntmRegistroClase, mntmCerrar;
+	private JMenuItem mntmGestionEmple, mntmRegistroClase, mntmCerrar;
 	
 	public static final String ITEM_EMPLEADOS = "Gestion empleados";
-	public static final String ITEM_INSTALACIONES = "Gestion instalaciones";
 	public static final String ITEM_CLASE = "Gestion clases";
 	public static final String ITEM_SESION = "Cerrar sesion";
 
@@ -48,10 +47,6 @@ public class AdministradorWindow extends JFrame{
 		mntmGestionEmple.setHorizontalAlignment(SwingConstants.CENTER);
 		menuBar.add(mntmGestionEmple);
 		
-		mntmGestionInsta = new JMenuItem(ITEM_INSTALACIONES);
-		mntmGestionInsta.setHorizontalAlignment(SwingConstants.CENTER);
-		menuBar.add(mntmGestionInsta);
-		
 		mntmRegistroClase = new JMenuItem(ITEM_CLASE);
 		menuBar.add(mntmRegistroClase);
 		
@@ -75,7 +70,6 @@ public class AdministradorWindow extends JFrame{
 		this.mntmRegistroClase.addActionListener(l);
 		this.mntmCerrar.addActionListener(l);
 		this.mntmGestionEmple.addActionListener(l);
-		this.mntmGestionInsta.addActionListener(l);
 	
 	}
 

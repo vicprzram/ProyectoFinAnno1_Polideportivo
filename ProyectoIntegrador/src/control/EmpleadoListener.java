@@ -109,7 +109,7 @@ public class EmpleadoListener implements ActionListener {
 					new OutputMessages(1, "No exiten pistas disponibles");
 					
 				}else {
-					ArrayList<Reserva> registros = poliPersistencia.getRegistros(pReserva.getFecha(), pReserva.getHora(), pReserva.getDeporte(), "TODOS");
+					ArrayList<Reserva> registros = poliPersistencia.getRegistros(pReserva.getFecha(), pReserva.getHora(), pReserva.getDeporte());
 					if(pReserva.cargarReservasDisponibles(registros, instalaciones) != -1) {
 						pReserva.visibilidadTabla(true);
 					}else {
@@ -143,7 +143,7 @@ public class EmpleadoListener implements ActionListener {
 	}
 
 	private void consultarDisponibilidad() {
-		ArrayList<Reserva> registros = poliPersistencia.getRegistros(pConsulta.getFecha(), pConsulta.getHora(), pConsulta.getDeporte(), pConsulta.getUso());
+		ArrayList<Reserva> registros = poliPersistencia.getRegistros(pConsulta.getFecha(), pConsulta.getHora(), pConsulta.getDeporte());
 		if(registros.isEmpty()) {
 			new OutputMessages(1, "No se han encontrado registros");
 			pConsulta.visibilidadTabla(false);

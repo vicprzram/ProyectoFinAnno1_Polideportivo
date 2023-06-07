@@ -13,7 +13,6 @@ import model.Clase;
 import utilities.OutputMessages;
 
 import utilities.*;
-import model.Cliente;
 import model.Empleado;
 
 import view.administrador.AdministradorWindow;
@@ -23,7 +22,7 @@ import view.administrador.WindowClases;
 import view.principal.MainWindow;
 import view.administrador.ManejoEmpleadosPanel;
 import view.administrador.VentanaConsultaEmpleados;
-import view.empleado.PanelManejoUsuarios;
+
 
 
 public class AdministradorListener implements ActionListener, MouseListener {
@@ -66,12 +65,10 @@ public class AdministradorListener implements ActionListener, MouseListener {
 		if(e.getSource() instanceof JMenuItem) {
 			if(e.getActionCommand().equals(AdministradorWindow.ITEM_EMPLEADOS)) {
 				adminW.cargarPanel(manejoEmpleadoPanel);
-			}else if(e.getActionCommand().equals(AdministradorWindow.ITEM_INSTALACIONES)) {
-				//void
 			}else if(e.getActionCommand().equals(AdministradorWindow.ITEM_CLASE)) {
-				//void
 				adminW.cargarPanel(pClase);
 				pClase.cargarDeportes(poliP.getDeportes());
+				cargarTareas();
 			}else if(e.getActionCommand().equals(AdministradorWindow.ITEM_SESION)) {
 				if(OutputMessages.confirm("Se va a cerrar la sesión, ¿quiere continuar?") == 0) {
 					adminW.dispose();
@@ -81,8 +78,7 @@ public class AdministradorListener implements ActionListener, MouseListener {
 			}
 		}else if(e.getSource() instanceof JButton) {
 			if(e.getSource() == pClase.getBtnConsultar()) {
-				ArrayList<Clase> listaClases = poliP.getListaClases(pClase.getDeporte());
-				pClase.cargarClases(listaClases);
+				cargarTareas();
 			}else if(e.getSource() == pClase.getBtnEditar()) {
 				Clase clase = pClase.getSelectedClase();
 				if(clase != null) {
@@ -215,6 +211,11 @@ public class AdministradorListener implements ActionListener, MouseListener {
 				manejoEmpleadoPanel.deshabilitarModificar(true);
 			}
 		}
+	}
+
+	private void cargarTareas() {
+		ArrayList<Clase> listaClases = poliP.getListaClases(pClase.getDeporte());
+		pClase.cargarClases(listaClases);
 	}
 
 	@Override
