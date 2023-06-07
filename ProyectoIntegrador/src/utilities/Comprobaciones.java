@@ -52,7 +52,7 @@ public class Comprobaciones {
 		}
 	}
 	
-	public static boolean telefono(String telefono) {
+	/*public static boolean telefono(String telefono) {
 		Pattern pattern = Pattern.compile("^(\+34|0034|34)?[89]\d{8}$");
 		Matcher match = pattern.matcher(telefono);
 		if(match.find()) {
@@ -60,5 +60,5 @@ public class Comprobaciones {
 		}else {
 			return false;
 		}
-	}
+	}*/
 }
