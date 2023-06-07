@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import control.EmpleadoListener;
+import model.Clase;
 import model.Cliente;
 import model.Instalacion;
 import model.Reserva;
@@ -61,6 +62,8 @@ public class PReserva extends JPanel {
 	private JButton btnConsultar;
 	private JButton btnReserva;
 	private JButton btnLimpiar;
+	private ArrayList<String> listaDias = new ArrayList<>();
+	
 	public PReserva() {
 		init();
 		cargarFechas();
@@ -229,11 +232,28 @@ public class PReserva extends JPanel {
 	private void cargarFechas() {
 		LocalDate fechaDate = LocalDate.now();
 		DateTimeFormatter fechaFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		DateTimeFormatter diaSemana = DateTimeFormatter.ofPattern("E");
 		String fechaString = "";
 		ArrayList<String> listaFechas = new ArrayList<>();
 		listaFechas.add("TODAS");
 		for(int i = 0; i < 7; i++) {
 			fechaString = fechaFormat.format(fechaDate.plusDays(i));
+			if(diaSemana.format(fechaDate.plusDays(i)).contains("lun")) {
+				listaDias.add("LUNES") ;
+			}else if(diaSemana.format(fechaDate.plusDays(i)).contains("mar")) {
+				listaDias.add("MARTES");
+			}else if(diaSemana.format(fechaDate.plusDays(i)).contains("mie")) {
+				listaDias.add("MIÉRCOLES");
+			}else if(diaSemana.format(fechaDate.plusDays(i)).contains("jue")) {
+				listaDias.add("JUEVES");
+			}else if(diaSemana.format(fechaDate.plusDays(i)).contains("vie")) {
+				listaDias.add("VIERNES");
+			}else if(diaSemana.format(fechaDate.plusDays(i)).contains("sáb")) {
+				listaDias.add("SÁBADO");
+			}else if(diaSemana.format(fechaDate.plusDays(i)).contains("dom")) {
+				listaDias.add("DOMINGO");
+			}
+			
 			listaFechas.add(fechaString);
 		}
 		dcbmFecha.removeAllElements();
@@ -315,12 +335,12 @@ public class PReserva extends JPanel {
 		scrpTabla.setVisible(b);
 	}
 	
-	public int cargarReservasDisponibles(ArrayList<Reserva> reservas, ArrayList<Instalacion> instalaciones) {
+	public int cargarReservasDisponibles(ArrayList<Reserva> reservas, ArrayList<Instalacion> instalaciones, ArrayList<Clase> listaClases) {
 		int res = 0;
 		String fecha = getFecha();
 		String hora = getHora();
-		ArrayList<Reserva> reservasDisponibles = new ArrayList<>();
-				
+		ArrayList<Reserva> reservasDisponibles = new ArrayList<>();	
+		
 		if(fecha.equals("TODAS")) {
 			if(hora.equals("TODAS")) {
 				for (int i = 1; i < HORAS.length; i++) {
@@ -354,6 +374,11 @@ public class PReserva extends JPanel {
 		Reserva reTemp = null; 
 		for(Reserva reserva : reservas) {
 			reTemp = new Reserva(reserva.getInstalacion(), reserva.getDia(), reserva.getHora());
+			reservasDisponibles.remove(reTemp);
+		}
+		
+		for(Clase clase : listaClases) {
+			reTemp = new Reserva(clase.getInstalacion(), cmbFecha.getItemAt(listaDias.indexOf(clase.getFecha()) + 1).toString(), clase.getHora());
 			reservasDisponibles.remove(reTemp);
 		}
 		

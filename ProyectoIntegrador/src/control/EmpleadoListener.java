@@ -57,7 +57,6 @@ public class EmpleadoListener implements ActionListener {
 				empleWindow.cargarPanel(pConsulta);
 				pConsulta.cargarDeportes(poliPersistencia.getDeportes());
 				pConsulta.cargarFechas(poliPersistencia.getFechas());
-				consultarDisponibilidad();
 
 			}else if(e.getActionCommand().equals(EmpleadoWindow.ITEM_INICIO)) {
 				empleWindow.cargarPanel(panelInicioEmpleado);
@@ -86,8 +85,8 @@ public class EmpleadoListener implements ActionListener {
 		}else if(e.getSource() instanceof JButton) {
 			
 			if(e.getSource() == pConsulta.getBtnConsultar()) {
-				consultarDisponibilidad();
-				pConsulta.visibilidadTabla(true);
+				consultarDisponibilidad(pConsulta.getUso());
+				
 			}else if(e.getActionCommand().equals(PReserva.BTN_BUSCAR)) {
 				String dni = pReserva.getDNI();
 				if(dni.isEmpty()) {
@@ -110,7 +109,8 @@ public class EmpleadoListener implements ActionListener {
 					
 				}else {
 					ArrayList<Reserva> registros = poliPersistencia.getRegistros(pReserva.getFecha(), pReserva.getHora(), pReserva.getDeporte());
-					if(pReserva.cargarReservasDisponibles(registros, instalaciones) != -1) {
+					ArrayList<Clase> clases = poliPersistencia.getListaClases(pReserva.getDeporte(), pReserva.getHora());
+					if(pReserva.cargarReservasDisponibles(registros, instalaciones, clases) != -1) {
 						pReserva.visibilidadTabla(true);
 					}else {
 						pReserva.visibilidadTabla(false);
@@ -126,6 +126,7 @@ public class EmpleadoListener implements ActionListener {
 						if(res != -1) {
 							new OutputMessages(1, "Reserva realizada con éxito");
 							pReserva.setDefault();
+							consultarDisponibilidad(pConsulta.getUso());
 						}
 					}
 					
@@ -142,14 +143,39 @@ public class EmpleadoListener implements ActionListener {
 		
 	}
 
-	private void consultarDisponibilidad() {
-		ArrayList<Reserva> registros = poliPersistencia.getRegistros(pConsulta.getFecha(), pConsulta.getHora(), pConsulta.getDeporte());
-		if(registros.isEmpty()) {
-			new OutputMessages(1, "No se han encontrado registros");
-			pConsulta.visibilidadTabla(false);
+	private void consultarDisponibilidad(String filtroUso) {
+		if(filtroUso.equals(PConsulta.USO[0])) {
+			ArrayList<Reserva> registros = poliPersistencia.getRegistros(pConsulta.getFecha(), pConsulta.getHora(), pConsulta.getDeporte());
+			ArrayList<Clase> listaClases = poliPersistencia.getListaClases(pConsulta.getDeporte(), pConsulta.getHora());
+			if(registros.isEmpty() && listaClases.isEmpty()) {
+				pConsulta.visibilidadTabla(false);
+				new OutputMessages(1, "No se han encontrado registros");
+			}else {
+				pConsulta.recargarTabla(registros, listaClases);
+				pConsulta.visibilidadTabla(true);
+			}
+		}else if(filtroUso.equals(PConsulta.USO[1])) {
+			ArrayList<Reserva> registros = poliPersistencia.getRegistros(pConsulta.getFecha(), pConsulta.getHora(), pConsulta.getDeporte());
+			if(registros.isEmpty()) {
+				pConsulta.visibilidadTabla(false);
+				new OutputMessages(1, "No se han encontrado registros");
+			}else {
+				pConsulta.recargarTabla(registros, null);
+				pConsulta.visibilidadTabla(true);
+			}
 		}else {
-			pConsulta.recargarTabla(registros);
+			ArrayList<Clase> listaClases = poliPersistencia.getListaClases(pConsulta.getDeporte(), pConsulta.getHora());
+			if(listaClases.isEmpty()) {
+				pConsulta.visibilidadTabla(false);
+				new OutputMessages(1, "No se han encontrado registros");
+			}else {
+				pConsulta.recargarTabla(null, listaClases);
+				pConsulta.visibilidadTabla(true);
+			}
 		}
+		
+		
+		
 	}
 
 }

@@ -712,7 +712,7 @@ public class PolideportivoPersistencia {
 		return res;
 	}
 	
-	public ArrayList<Clase> getListaClases(String deporte){
+	public ArrayList<Clase> getListaClases(String deporte, String hora){
 		ArrayList<Clase> lista = new ArrayList<>();
 		
 		String query = "SELECT C."
@@ -720,16 +720,23 @@ public class PolideportivoPersistencia {
 				+ NOM_COL_CLA_HORA + ", E."
 				+ NOM_COL_EMP_APENOM + ", I."
 				+ NOM_COL_INS_ID + ", I."
-				+ NOM_COL_INS_TIPO
+				+ NOM_COL_INS_TIPO + ", D."
+				+ NOM_COL_DEP_NOMBRE
 				+ " FROM " + NOM_TB_CLA + " C, "
 				+ NOM_TB_DEPORTE + " D, "
 				+ NOM_TB_EMPLEADO + " E, "
 				+ NOM_TB_INSTALACION + " I, "
 				+ NOM_TB_INS_DEP + " IDEP"
-				+ " WHERE D." + NOM_COL_DEP_NOMBRE + " = ?"
-				+ " AND D." + NOM_COL_DEP_ID + " = IDEP." + NOM_COL_INS_DEP_IDD
+				+ " WHERE D." + NOM_COL_DEP_ID + " = IDEP." + NOM_COL_INS_DEP_IDD
 				+ " AND C." + NOM_COL_CLA_IDI + " = IDEP." + NOM_COL_INS_DEP_IDI
 				+ " AND E." + NOM_COL_EMP_DNI + " = C." + NOM_COL_CLA_DNIE;
+		
+		if(!deporte.equals("TODOS")) {
+			query += " AND D." + NOM_COL_DEP_NOMBRE + " = ?";
+		}
+		if(!hora.equals("TODAS")) {
+			query += " AND C." + NOM_COL_CLA_HORA + " = ?";
+		}
 		
 		Connection con = null;
 		PreparedStatement stat = null;
@@ -738,7 +745,14 @@ public class PolideportivoPersistencia {
 		try {
 			con = acceso.getConexion();
 			stat = con.prepareStatement(query);
-			stat.setString(1, deporte);
+			if(!deporte.equals("TODOS")) {
+				stat.setString(1, deporte);
+				if(!hora.equals("TODAS")) {
+					stat.setString(2, hora);
+				}
+			}else if(!hora.equals("TODAS")) {
+				stat.setString(1, hora);
+			}
 			rslt = stat.executeQuery();
 			
 			while(rslt.next()) {
@@ -749,9 +763,9 @@ public class PolideportivoPersistencia {
 						new Empleado(rslt.getString(NOM_COL_EMP_APENOM)), 
 						new Instalacion(
 								rslt.getInt(NOM_COL_INS_ID), 
-								deporte, 
+								rslt.getString(NOM_COL_DEP_NOMBRE), 
 								rslt.getString(NOM_COL_INS_TIPO)), 
-						deporte));
+						rslt.getString(NOM_COL_DEP_NOMBRE)));
 			}
 			
 		} catch (Exception e) {

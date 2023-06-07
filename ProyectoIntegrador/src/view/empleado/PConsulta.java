@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
 import control.EmpleadoListener;
+import model.Clase;
 import model.Reserva;
 
 import javax.swing.JTable;
@@ -24,11 +25,10 @@ public class PConsulta extends JPanel {
 	private JButton btnFiltro;
 	private JComboBox cmbUso;
 	private DefaultComboBoxModel<String> dcbmUso;
-	private static final String[] USO = {
+	public static final String[] USO = {
 			"TODOS",
 			"RESERVADO",
-			"CLASE",
-			"TORNEO"
+			"CLASE"
 	};
 	private JComboBox cmbHora;
 	private static final String[] HORAS = {
@@ -108,7 +108,7 @@ public class PConsulta extends JPanel {
 		add(lblUso);
 		
 		cmbUso = new JComboBox();
-		cmbUso.setBounds(493, 45, 90, 21);
+		cmbUso.setBounds(493, 45, 120, 21);
 		add(cmbUso);
 		
 		dcbmUso = new DefaultComboBoxModel<>(USO);
@@ -135,11 +135,19 @@ public class PConsulta extends JPanel {
 		
 	}
 
-	public void recargarTabla(ArrayList<Reserva> listaReservas) {
+	public void recargarTabla(ArrayList<Reserva> listaReservas, ArrayList<Clase> listaClases) {
 		dtm.getDataVector().clear();
-		for (Reserva reserva : listaReservas) {
-			dtm.addRow(reserva.getRowConsulta());
+		if(listaReservas != null) {
+			for (Reserva reserva : listaReservas) {
+				dtm.addRow(reserva.getRowConsulta());
+			}
 		}
+		if(listaClases != null) {
+			for(Clase clase: listaClases) {
+				dtm.addRow(clase.getRowConsulta());
+			}
+		}
+		
 	}
 	
 	public JButton getBtnConsultar() {

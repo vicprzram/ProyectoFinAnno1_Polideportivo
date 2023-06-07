@@ -211,7 +211,7 @@ public class AdministradorListener implements ActionListener, MouseListener {
 	}
 
 	private void cargarTareas() {
-		ArrayList<Clase> listaClases = poliP.getListaClases(pClase.getDeporte());
+		ArrayList<Clase> listaClases = poliP.getListaClases(pClase.getDeporte(), "TODAS");
 		pClase.cargarClases(listaClases);
 	}
 

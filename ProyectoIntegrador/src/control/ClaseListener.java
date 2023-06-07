@@ -46,7 +46,7 @@ public class ClaseListener implements ActionListener {
 	private void finalizarOperacion() {
 		new OutputMessages(1, "Operación realizada con éxito");
 		wClase.dispose();
-		ArrayList<Clase> listaClases = poliP.getListaClases(pClase.getDeporte());
+		ArrayList<Clase> listaClases = poliP.getListaClases(pClase.getDeporte(), "TODAS");
 		pClase.cargarClases(listaClases);
 	}
 

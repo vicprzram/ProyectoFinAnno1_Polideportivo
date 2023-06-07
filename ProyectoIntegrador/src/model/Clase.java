@@ -17,7 +17,17 @@ public class Clase {
 		this.instalacion = instalacion;
 		this.deporte = deporte;
 	}
-
+	
+	public String[] getRowConsulta() {
+		String[] data = new String[6];
+		data[0] = instalacion.getTipo() + " " + instalacion.getId();
+		data[1] = instalacion.getDeporte();
+		data[2] = "CLASE";
+		data[3] = "POLIDEPORTIVO";
+		data[4] = fecha;
+		data[5] = hora;
+		return data;
+	}
 
 	public int getId() {
 		return id;
