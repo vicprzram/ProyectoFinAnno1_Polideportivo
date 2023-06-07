@@ -16,7 +16,8 @@ import model.Empleado;
 import view.administrador.AdministradorWindow;
 
 import view.administrador.PClases;
-
+import view.administrador.WindowClases;
+import view.principal.MainWindow;
 import view.administrador.ManejoEmpleadosPanel;
 
 
@@ -29,16 +30,17 @@ public class AdministradorListener implements ActionListener{
 	private PClases pClase;
 	private ManejoEmpleadosPanel manejoEmpleadoPanel;
 	private PolideportivoPersistencia poliP;
+	private WindowClases wClase;
+	private MainWindow mWin;
 
-	
-	
-	
 	public AdministradorListener(AdministradorWindow adminW, ManejoEmpleadosPanel manejoEmpleadoPanel, 
-			PolideportivoPersistencia poliP, PClases pClase) {
+			PolideportivoPersistencia poliP, PClases pClase, WindowClases wClase, MainWindow mWin) {
 		this.adminW = adminW;
 		this.pClase = pClase;
 		this.manejoEmpleadoPanel = manejoEmpleadoPanel;
 		this.poliP = poliP;
+		this.wClase = wClase;
+		this.mWin = mWin;
 	}
 	
 	@Override
@@ -46,14 +48,18 @@ public class AdministradorListener implements ActionListener{
 		if(e.getSource() instanceof JMenuItem) {
 			if(e.getActionCommand().equals(AdministradorWindow.ITEM_EMPLEADOS)) {
 				adminW.cargarPanel(manejoEmpleadoPanel);
-				
-
 			}else if(e.getActionCommand().equals(AdministradorWindow.ITEM_INSTALACIONES)) {
 				//void
 			}else if(e.getActionCommand().equals(AdministradorWindow.ITEM_CLASE)) {
 				//void
 				adminW.cargarPanel(pClase);
 				pClase.cargarDeportes(poliP.getDeportes());
+			}else if(e.getActionCommand().equals(AdministradorWindow.ITEM_SESION)) {
+				if(OutputMessages.confirm("Se va a cerrar la sesión, ¿quiere continuar?") == 0) {
+					adminW.dispose();
+					mWin.setVisible(true);
+				}
+				
 			}
 		}else if(e.getSource() instanceof JButton) {
 			if(e.getSource() == pClase.getBtnConsultar()) {
@@ -62,7 +68,10 @@ public class AdministradorListener implements ActionListener{
 			}else if(e.getSource() == pClase.getBtnEditar()) {
 				Clase clase = pClase.getSelectedClase();
 				if(clase != null) {
-					
+					wClase.setVisible(true);
+					wClase.cargarInstalaciones(poliP.getInstalaciones(clase.getDeporte()));
+					wClase.cargarMonitores(poliP.getMonitores());
+					wClase.cargarDatos(clase);
 				}else {
 					new OutputMessages(0, "Debes seleccionar una celda");
 				}

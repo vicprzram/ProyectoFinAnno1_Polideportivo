@@ -13,6 +13,9 @@ public class Empleado extends Persona{
 	public Empleado(String apenom) {
 		super(null, apenom, null);
 	}
+	public Empleado(String apenom, String dni) {
+		super(dni, apenom, null);
+	}
 	
 	public Empleado(String dni, String apenom, String pass, String direccion, String rol, 
 			String correo, String telefono) {

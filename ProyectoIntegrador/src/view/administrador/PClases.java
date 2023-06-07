@@ -100,6 +100,7 @@ public class PClases extends JPanel{
 		btnEditar = new JButton("Editar");
 		btnEditar.setBounds(516, 50, 120, 21);
 		add(btnEditar);
+		btnEditar.setEnabled(false);
 		
 		
 	}
@@ -152,17 +153,20 @@ public class PClases extends JPanel{
 			}
 			dtm.addRow(rowActual);
 		}
+		btnEditar.setEnabled(true);
 	}
 	
 	public Clase getSelectedClase() {
 		Clase clase = null;
 		
 		if(tblHorario.getSelectedColumn() != -1 && tblHorario.getSelectedRow() != -1) {
-			String[] data = ((String) ((Vector<String>) dtm.getDataVector().elementAt(tblHorario.getSelectedRow())).elementAt(tblHorario.getSelectedColumn())).split(" ");
-			if(data.length != 1) {
-				clase = new Clase(0, HEADER_TABLA[tblHorario.getSelectedColumn()], HORAS[tblHorario.getSelectedRow()], null, new Instalacion(Integer.parseInt(data[1]), getDeporte(), data[0]), getDeporte());
+			String dataSt = ((String) ((Vector<String>) dtm.getDataVector().elementAt(tblHorario.getSelectedRow())).elementAt(tblHorario.getSelectedColumn()));
+			
+			if(dataSt == null || dataSt.isEmpty()) {
+				clase = new Clase(1, HEADER_TABLA[tblHorario.getSelectedColumn()], HORAS[tblHorario.getSelectedRow()], null, null, getDeporte());
 			}else {
-				clase = new Clase(1, null, null, null, null, null);
+				String[] data = dataSt.split(" ");
+				clase = new Clase(0, HEADER_TABLA[tblHorario.getSelectedColumn()], HORAS[tblHorario.getSelectedRow()], null, new Instalacion(Integer.parseInt(data[1]), getDeporte(), data[0]), getDeporte());
 			}
 			
 		}

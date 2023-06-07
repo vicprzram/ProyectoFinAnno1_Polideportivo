@@ -23,6 +23,8 @@ public class Instalacion {
 		return tipo;
 	}
 
-	
+	public String toString() {
+		return tipo + " " + id;
+	}
 	
 }

@@ -3,6 +3,7 @@ package view.empleado;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 import control.ManejoClientesListener;
@@ -30,8 +31,14 @@ public class VentanaConsultaCliente extends JFrame {
 	
 	public VentanaConsultaCliente() {
 		super("Consulta clientes");
+		init();
+		
+		centrarVentana();
+	}
+
+	private void init() {
 		setResizable(false);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
 		modelTable = new DefaultTableModel();
@@ -55,8 +62,6 @@ public class VentanaConsultaCliente extends JFrame {
 		btnSalir.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnSalir.setBounds(635, 20, 139, 38);
 		getContentPane().add(btnSalir);
-		
-		centrarVentana();
 	}
 	
 	public void insertData(Cliente values) {

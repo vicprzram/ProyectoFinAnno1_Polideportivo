@@ -628,4 +628,80 @@ public class PolideportivoPersistencia {
 		
 		return lista;
 	}
+
+	public ArrayList<Empleado> getMonitores(){
+		ArrayList<Empleado> listaMonitores = new ArrayList<>();
+		
+		String query = "SELECT " + NOM_COL_EMP_APENOM + ", " + NOM_COL_EMP_DNI + " FROM " + NOM_TB_EMPLEADO + " WHERE " + NOM_COL_EMP_ROL + " = ?";
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		ResultSet rslt = null;
+		
+		try {
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			stat.setString(1, "Monitor");
+			rslt = stat.executeQuery();
+			while(rslt.next()){
+				listaMonitores.add(new Empleado(rslt.getString(NOM_COL_EMP_APENOM), rslt.getString(NOM_COL_EMP_DNI)));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return listaMonitores;
+	}
+
+	public int addClase(Clase clase) {
+		int res = 0;
+		String query = "INSERT INTO " + NOM_TB_CLA + " VALUES (?,?,?,?)";
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		
+		try {
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			
+			stat.setString(1, clase.getFecha().toUpperCase());
+			stat.setString(2, clase.getHora());
+			stat.setString(3, clase.getProfesor().getDni());
+			stat.setInt(4, clase.getInstalacion().getId());
+			
+			res = stat.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			res = -1;
+		}finally {
+			cerrarConexiones(con, stat, null);
+		}
+		
+		return res;
+	}
+
+	public int modClase(Clase clase) {
+		int res = 0;
+		String query = "UPDATE " + NOM_COL_CLA_DIA + " SET " + NOM_COL_CLA_IDI + " = ?, "
+				+ NOM_COL_CLA_DNIE + " = ? WHERE " + NOM_COL_CLA_DIA + " = ? AND "
+				+ NOM_COL_CLA_HORA + " = ?";
+		Connection con = null;
+		PreparedStatement stat = null;
+		
+		try {
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			stat.setInt(1, clase.getInstalacion().getId());
+			stat.setString(2, clase.getProfesor().getDni());
+			stat.setString(3, clase.getFecha());
+			stat.setString(4, clase.getHora());
+			
+			res = stat.executeUpdate();
+		} catch (Exception e) {
+			res = -1;
+		}
+		return res;
+	}
+	
 }

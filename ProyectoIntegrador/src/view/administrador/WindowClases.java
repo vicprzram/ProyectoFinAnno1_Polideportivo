@@ -2,13 +2,25 @@ package view.administrador;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+
+import control.AdministradorListener;
+import control.ClaseListener;
+import model.Clase;
+import model.Empleado;
+import model.Instalacion;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import java.awt.Color;
 
 public class WindowClases extends JFrame {
 	
@@ -19,9 +31,12 @@ public class WindowClases extends JFrame {
 	private JTextField txtDia;
 	private JTextField txtHora;
 	private JComboBox cmbInstalacion;
+	private DefaultComboBoxModel<String> dcbmInstalacion;
 	private JComboBox cmbProfesor;
+	private DefaultComboBoxModel<String> dcbmProfesor;
 	private JButton btnGuardar;
 	private JButton btnCancelar;
+	private JLabel lblId;
 	
 	public WindowClases() {
 		init();
@@ -29,8 +44,9 @@ public class WindowClases extends JFrame {
 	}
 
 	private void init() {
-		// TODO Auto-generated method stub
-getContentPane().setLayout(null);
+		getContentPane().setLayout(null);
+		setResizable(false);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
 		JLabel lblTitulo = new JLabel("Datos clase");
 		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -45,6 +61,9 @@ getContentPane().setLayout(null);
 		cmbInstalacion = new JComboBox();
 		cmbInstalacion.setBounds(150, 95, 388, 20);
 		getContentPane().add(cmbInstalacion);
+		
+		dcbmInstalacion = new DefaultComboBoxModel<>();
+		cmbInstalacion.setModel(dcbmInstalacion);
 		
 		lblDeporte = new JLabel("Deporte");
 		lblDeporte.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -88,6 +107,9 @@ getContentPane().setLayout(null);
 		cmbProfesor.setBounds(150, 135, 388, 20);
 		getContentPane().add(cmbProfesor);
 		
+		dcbmProfesor =  new DefaultComboBoxModel<>();
+		cmbProfesor.setModel(dcbmProfesor);
+		
 		btnGuardar = new JButton("Guardar");
 		btnGuardar.setBounds(150, 165, 85, 21);
 		getContentPane().add(btnGuardar);
@@ -95,6 +117,12 @@ getContentPane().setLayout(null);
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(347, 165, 85, 21);
 		getContentPane().add(btnCancelar);
+		
+		lblId = new JLabel("");
+		lblId.setForeground(new Color(240, 240, 240));
+		lblId.setEnabled(false);
+		lblId.setBounds(10, 286, 45, 13);
+		getContentPane().add(lblId);
 	}
 	
 	private void centrarVentana() {
@@ -110,5 +138,56 @@ getContentPane().setLayout(null);
 	
 	public JButton getBtnCancelar() {
 		return btnCancelar;
+	}
+
+	public void cargarDatos(Clase clase) {
+		txtDeporte.setText(clase.getDeporte());
+		txtDia.setText(clase.getFecha());
+		txtHora.setText(clase.getHora());
+		lblId.setText(Integer.toString(clase.getId()));
+	}
+
+	public void cargarInstalaciones(ArrayList<Instalacion> instalaciones) {
+		ArrayList<String> lista = new ArrayList<>();
+		for (Instalacion instalacion : instalaciones) {
+			lista.add(instalacion.toString());
+		}
+		dcbmInstalacion.removeAllElements();
+		dcbmInstalacion.addAll(lista);
+		
+		if(!lista.isEmpty()) {
+			cmbInstalacion.setSelectedIndex(0);
+			btnGuardar.setEnabled(true);
+		}else {
+			btnGuardar.setEnabled(false);
+		}
+	}
+	
+	public void cargarMonitores(ArrayList<Empleado> listaMonitores) {
+		ArrayList<String> lista = new ArrayList<>();
+		for (Empleado empl : listaMonitores) {
+			lista.add(empl.getApenom() + "-" + empl.getDni());
+		}
+		dcbmProfesor.removeAllElements();
+		dcbmProfesor.addAll(lista);
+		if(!lista.isEmpty()) {
+			cmbProfesor.setSelectedIndex(0);
+			btnGuardar.setEnabled(true);
+		}else {
+			btnGuardar.setEnabled(false);
+		}
+	}
+	
+	public Clase getClase() {
+		String[] datosInstalacion = cmbInstalacion.getSelectedItem().toString().split(" ");
+		String[] datosEmple = cmbProfesor.getSelectedItem().toString().split("-");
+		Clase clase = new Clase(Integer.parseInt(lblId.getText()), txtDia.getText(), txtHora.getText(), new Empleado(datosEmple[0], datosEmple[1]), new Instalacion(Integer.parseInt(datosInstalacion[1]), txtDeporte.getText(), datosInstalacion[0]), txtDeporte.getText());
+		
+		return clase;
+	}
+	
+	public void setListener(ClaseListener l) {
+		btnCancelar.addActionListener(l);
+		btnGuardar.addActionListener(l);
 	}
 }
