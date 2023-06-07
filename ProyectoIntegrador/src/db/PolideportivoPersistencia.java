@@ -390,13 +390,13 @@ public class PolideportivoPersistencia {
 	}
 
 	
-	public boolean empleadoExists(Empleado empleado) {
+	public String empleadoExists(Empleado empleado) {
 		
 		String dni = empleado.getDni().toLowerCase();
 		String pass = empleado.getPass().toLowerCase();
 		
-		String query = "SELECT " + NOM_COL_EMP_DNI + ", " + NOM_COL_EMP_PASS + " FROM " + NOM_TB_EMPLEADO;
-		boolean retornar = false;
+		String query = "SELECT " + NOM_COL_EMP_DNI + ", " + NOM_COL_EMP_PASS + ", " + NOM_COL_EMP_ROL +  " FROM " + NOM_TB_EMPLEADO;
+		String retornar = null;
 		
 		Connection con = null;
 		PreparedStatement stat = null;
@@ -410,7 +410,7 @@ public class PolideportivoPersistencia {
 			
 			while(rslt.next()) {
 				if(rslt.getString(NOM_COL_EMP_DNI).toLowerCase().equals(dni) && rslt.getString(NOM_COL_EMP_PASS).toLowerCase().equals(pass)) {
-					retornar = true;
+					retornar = rslt.getString(NOM_COL_EMP_ROL);
 				}
 			}
 		} catch (Exception e) {

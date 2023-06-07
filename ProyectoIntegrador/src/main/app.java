@@ -1,6 +1,7 @@
 package main;
 
-import view.administrador.PClases;
+
+import view.administrador.*;
 import view.empleado.*;
 import view.principal.*;
 import control.*;
@@ -28,13 +29,20 @@ public class app {
 				PanelManejoUsuarios panelManejoUsuarios = new PanelManejoUsuarios();
 				VentanaConsultaCliente vCCliente = new VentanaConsultaCliente();
 				
+				//Pantalla administrador
+				AdministradorWindow administradorWindow = new AdministradorWindow();
+				
 				//Listeners
 				MainListener mainListener = new MainListener(mainWindow, panelInicioSesion, polideportivoPersistencia, 
-						empleadoWindow, panelInicioEmpleado);
+						empleadoWindow, panelInicioEmpleado, administradorWindow);
 				EmpleadoListener empleadoListener = new EmpleadoListener(mainWindow, empleadoWindow, panelConsulta, 
 						polideportivoPersistencia, panelInicioEmpleado, panelReserva, panelManejoUsuarios); 
 				ManejoClientesListener clientesListener = new ManejoClientesListener(panelManejoUsuarios, polideportivoPersistencia, vCCliente);
-
+				AdministradorListener adminListener = new AdministradorListener(administradorWindow);
+				
+				//Configuracion pantalla administrador
+				administradorWindow.setListener(adminListener);
+				
 				//Configuracion pantallas empleado
 				empleadoWindow.setListener(empleadoListener);
 				panelConsulta.setListener(empleadoListener);

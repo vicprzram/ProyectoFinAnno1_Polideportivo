@@ -8,6 +8,7 @@ import javax.swing.JMenuItem;
 //----------------------------------
 import db.PolideportivoPersistencia;
 import model.Empleado;
+import view.administrador.AdministradorWindow;
 import view.empleado.EmpleadoWindow;
 import view.empleado.PanelInicioEmpleado;
 import view.principal.MainWindow;
@@ -22,6 +23,7 @@ public class MainListener implements ActionListener {
 	private PolideportivoPersistencia polideportivoPersistencia;
 	private EmpleadoWindow empleWindow;
 	private PanelInicioEmpleado panelInicioEmpleado;
+	private AdministradorWindow adminW;
 	
 	private int counter;
 	
@@ -30,10 +32,11 @@ public class MainListener implements ActionListener {
 	private static final String NO_EXISTS = "No existe el usuario insertado, vuelva a intentar";
 	private static final String TOO_MANY_FAILURES = "Por seguridad de la aplicacion se cerrará, ha realizado 3 intentos";
 	private static final String FOUND = "Se ha encontrado el usuario";
+	private static final String ADMINISTRADOR = "⛔😈 Bienvenido administrador 😈⛔";
 	
 	public MainListener(MainWindow mainWindow, PanelInicioSesion panelInicioSesion, 
 			PolideportivoPersistencia polideportivoPersistencia, EmpleadoWindow empleWindow,
-			PanelInicioEmpleado panelInicioEmpleado) {
+			PanelInicioEmpleado panelInicioEmpleado, AdministradorWindow adminW) {
 		
 		counter = 0;
 		
@@ -42,6 +45,7 @@ public class MainListener implements ActionListener {
 		this.polideportivoPersistencia = polideportivoPersistencia;
 		this.empleWindow = empleWindow;
 		this.panelInicioEmpleado = panelInicioEmpleado;
+		this.adminW = adminW;
 	}
 	
 	@Override
@@ -65,9 +69,9 @@ public class MainListener implements ActionListener {
 				Empleado values = panelInicioSesion.getValues();
 				
 				if(!values.getDni().isEmpty() && !values.getPass().isEmpty()) {
-					boolean existe = this.polideportivoPersistencia.empleadoExists(values);
+					String existe = this.polideportivoPersistencia.empleadoExists(values);
 					
-					if(existe) {
+					if(existe.equals("Administrativo")) {
 						new OutputMessages(1, FOUND);
 						mainWindow.dispose();
 						empleWindow.setVisible(true);
@@ -75,6 +79,10 @@ public class MainListener implements ActionListener {
 						values = this.polideportivoPersistencia.getAllValuesEmpleado(values.getDni());
 						panelInicioEmpleado.cambiarTexto(values);
 						empleWindow.cargarPanel(panelInicioEmpleado);
+					}else if(existe.equals("Administrador")) {
+						new OutputMessages(1, ADMINISTRADOR);
+						this.adminW.setVisible(true);
+						mainWindow.dispose();
 					}else {
 						new OutputMessages(0, NO_EXISTS);
 						counter++;
