@@ -27,8 +27,8 @@ public class AdministradorWindow extends JFrame{
 	public static final String ITEM_SESION = "Cerrar sesion";
 
 	
-	private static final int ANCHO = 800;
-	private static final int ALTO = 600;
+	public static final int ANCHO = 800;
+	public static final int ALTO = 600;
 	
 	private JScrollPane scrpContenedor;
 	
