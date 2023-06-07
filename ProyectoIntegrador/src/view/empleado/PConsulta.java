@@ -140,7 +140,6 @@ public class PConsulta extends JPanel {
 		for (Reserva reserva : listaReservas) {
 			dtm.addRow(reserva.getRowConsulta());
 		}
-		visibilidadTabla(true);
 	}
 	
 	public JButton getBtnConsultar() {

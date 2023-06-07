@@ -13,6 +13,11 @@ public class Cliente extends Persona{
 		this.numCuenta = numCuenta;
 	}
 	
+	public Cliente(String dni, String apenom) {
+		super(dni, apenom, null, null, null);
+		this.numCuenta = 0;
+	}
+
 	public int getNumCuenta() {
 		return this.numCuenta;
 	}

@@ -59,7 +59,7 @@ public class PanelInicioEmpleado extends JPanel {
 		
 		chkContrasena = new JCheckBox(CHECK_CONTRASENA);
 		chkContrasena.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		chkContrasena.setBounds(338, 210, 153, 23);
+		chkContrasena.setBounds(338, 210, 200, 23);
 		
 		add(lblTitle);
 		add(lblDni);

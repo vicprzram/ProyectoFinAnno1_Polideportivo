@@ -24,7 +24,10 @@ public class Reserva {
 		this.dia = dia;
 		this.hora = hora;
 	}
-	
+
+	public Cliente getCliente() {
+		return cliente;
+	}
 
 	public Instalacion getInstalacion() {
 		return instalacion;
@@ -45,11 +48,11 @@ public class Reserva {
 	public String getHora() {
 		return hora;
 	}
-
-	public void setHora(String hora) {
-		this.hora = hora;
-	}
 	
+	public boolean isPago() {
+		return pago;
+	}
+
 	public boolean equals(Object comp) {
 		boolean res = false;
 		if(comp instanceof Reserva) {

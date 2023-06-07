@@ -15,6 +15,7 @@ import control.EmpleadoListener;
 import model.Cliente;
 import model.Instalacion;
 import model.Reserva;
+import utilities.OutputMessages;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 public class PReserva extends JPanel {
+	public static final String BTN_REALIZAR_RESERVA = "Realizar reserva";
 	public static final String BTN_BUSCAR = "Buscar";
 	private JTextField txtDNI;
 	private JLabel lblApeNom;
@@ -58,6 +60,8 @@ public class PReserva extends JPanel {
 	private DefaultTableModel dtm;
 	private static final String[] HEADER_TABLA = {"INSTALACIÓN", "FECHA", "HORA"};
 	private JButton btnConsultar;
+	private JButton btnReserva;
+	private JButton btnLimpiar;
 	public PReserva() {
 		init();
 		cargarFechas();
@@ -176,7 +180,7 @@ public class PReserva extends JPanel {
 		add(cmbHora);
 		
 		scrpTabla = new JScrollPane();
-		scrpTabla.setBounds(20, 283, 715, 216);
+		scrpTabla.setBounds(20, 283, 715, 200);
 		scrpTabla.setVisible(false);
 		add(scrpTabla);
 		
@@ -189,6 +193,16 @@ public class PReserva extends JPanel {
 		btnConsultar.setBounds(631, 253, 104, 21);
 		btnConsultar.setEnabled(false);
 		add(btnConsultar);
+		
+		btnReserva = new JButton(BTN_REALIZAR_RESERVA);
+		btnReserva.setEnabled(false);
+		btnReserva.setBounds(214, 493, 150, 20);
+		add(btnReserva);
+		
+		btnLimpiar = new JButton("Cancelar");
+		btnLimpiar.setEnabled(false);
+		btnLimpiar.setBounds(450, 493, 150, 20);
+		add(btnLimpiar);
 	}
 	
 	
@@ -234,10 +248,10 @@ public class PReserva extends JPanel {
 		cmbHora.setModel(dcbmHora);
 	}
 	public void setListener(EmpleadoListener empleadoListener) {
-		// TODO Auto-generated method stub
 		btnBuscar.addActionListener(empleadoListener);
 		btnConsultar.addActionListener(empleadoListener);
-		
+		btnReserva.addActionListener(empleadoListener);
+		btnLimpiar.addActionListener(empleadoListener);
 	}
 	
 	public String getDNI() {
@@ -252,10 +266,20 @@ public class PReserva extends JPanel {
 	}
 	
 	public void setDefault() {
+		txtDNI.setText("");
+		txtDNI.setEditable(true);
 		txtApeNom.setText("");
 		txtDireccion.setText("");
 		txtTelef.setText("");
 		txtCorreo.setText("");
+		btnBuscar.setEnabled(true);
+		btnConsultar.setEnabled(false);
+		btnReserva.setEnabled(false);
+		btnLimpiar.setEnabled(false);
+		cmbDeporte.setSelectedIndex(0);
+		cmbFecha.setSelectedIndex(0);
+		cmbHora.setSelectedIndex(0);
+		visibilidadTabla(false);
 	}
 	
 	public void activarComponentes() {
@@ -265,10 +289,16 @@ public class PReserva extends JPanel {
 		btnBuscar.setEnabled(false);
 		txtDNI.setEditable(false);
 		btnConsultar.setEnabled(true);
+		btnReserva.setEnabled(true);
+		btnLimpiar.setEnabled(true);
 	}
 
 	public JButton getBtnConsultar() {
 		return btnConsultar;
+	}
+	
+	public JButton getBtnLimpiar() {
+		return btnLimpiar;
 	}
 	
 	public String getDeporte() {
@@ -286,7 +316,8 @@ public class PReserva extends JPanel {
 		scrpTabla.setVisible(b);
 	}
 	
-	public void cargarReservasDisponibles(ArrayList<Reserva> reservas, ArrayList<Instalacion> instalaciones) {
+	public int cargarReservasDisponibles(ArrayList<Reserva> reservas, ArrayList<Instalacion> instalaciones) {
+		int res = 0;
 		String fecha = getFecha();
 		String hora = getHora();
 		ArrayList<Reserva> reservasDisponibles = new ArrayList<>();
@@ -328,8 +359,28 @@ public class PReserva extends JPanel {
 		}
 		
 		dtm.getDataVector().clear();
-		for(Reserva reTabla : reservasDisponibles) {
-			dtm.addRow(reTabla.getRowReserva());
+		if(reservasDisponibles.isEmpty()) {
+			res = -1;
+		}else {
+			res = 1;
+			for(Reserva reTabla : reservasDisponibles) {
+				dtm.addRow(reTabla.getRowReserva());
+			}
 		}
+		return res;
+	}
+	
+	public Reserva getSelectedReserva() {
+		Reserva reserva = null;
+		if(tblReservas.getSelectedRow() != -1) {
+			Cliente cliente = new Cliente(txtDNI.getText(), txtApeNom.getText());
+			String deporte = getDeporte();
+			Object[] data =  dtm.getDataVector().elementAt(tblReservas.getSelectedRow()).toArray();
+			String[] stDatosInstalacion = ((String) data[0]).split(" ");
+			
+			reserva = new Reserva(cliente, new Instalacion(Integer.parseInt(stDatosInstalacion[1]), deporte, stDatosInstalacion[0], null, null), 0, data[1].toString(), data[2].toString(), 0, true);
+			
+		}
+		return reserva;
 	}
 }

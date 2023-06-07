@@ -56,7 +56,7 @@ public class PanelInicioSesion extends JPanel {
 		
 		chkMostrarContrasena = new JCheckBox(CHECK_CONTRASENA);
 		chkMostrarContrasena.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		chkMostrarContrasena.setBounds(342, 203, 169, 23);
+		chkMostrarContrasena.setBounds(342, 203, 200, 23);
 		
 		btnIniciarSesion = new JButton(BUTTON_INICIAR_SESION);
 		btnIniciarSesion.setFont(new Font("Tahoma", Font.PLAIN, 13));
