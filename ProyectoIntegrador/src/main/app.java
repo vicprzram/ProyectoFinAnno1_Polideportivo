@@ -24,13 +24,14 @@ public class app {
 				PReserva panelReserva = new PReserva();
 				PanelInicioEmpleado panelInicioEmpleado = new PanelInicioEmpleado();
 				PanelManejoUsuarios panelManejoUsuarios = new PanelManejoUsuarios();
+				VentanaConsultaCliente vCCliente = new VentanaConsultaCliente();
 				
 				//Listeners
 				MainListener mainListener = new MainListener(mainWindow, panelInicioSesion, polideportivoPersistencia, 
 						empleadoWindow, panelInicioEmpleado);
 				EmpleadoListener empleadoListener = new EmpleadoListener(mainWindow, empleadoWindow, panelConsulta, 
 						polideportivoPersistencia, panelInicioEmpleado, panelReserva, panelManejoUsuarios); 
-				ManejoClientesListener clientesListener = new ManejoClientesListener(panelManejoUsuarios, polideportivoPersistencia);
+				ManejoClientesListener clientesListener = new ManejoClientesListener(panelManejoUsuarios, polideportivoPersistencia, vCCliente);
 
 				//Configuracion pantallas empleado
 				empleadoWindow.setListener(empleadoListener);
@@ -39,6 +40,7 @@ public class app {
 				panelRegistroUsuario.addListener(empleadoListener);
 				panelInicioEmpleado.addListener(empleadoListener);
 				panelManejoUsuarios.addListener(clientesListener);
+				vCCliente.addListener(clientesListener);
 				
 				//Configuracion pantalla principal
 				panelInicioSesion.addListener(mainListener);

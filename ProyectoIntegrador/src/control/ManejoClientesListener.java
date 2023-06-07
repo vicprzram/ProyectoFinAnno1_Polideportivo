@@ -2,6 +2,9 @@ package control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -10,20 +13,24 @@ import db.PolideportivoPersistencia;
 import model.Cliente;
 import utilities.OutputMessages;
 import view.empleado.PanelManejoUsuarios;
+import view.empleado.VentanaConsultaCliente;
 
-public class ManejoClientesListener implements ActionListener {
+public class ManejoClientesListener implements ActionListener, MouseListener {
 
 	private PanelManejoUsuarios panelManejoUsuarios;
 	private PolideportivoPersistencia polideportivoPersistencia;
+	private VentanaConsultaCliente vCCliente;
 	
 	private static final String EMPTY_FIELDS = "Los campos no pueden dejarse vacios, intente de nuevo";
 	private static final String BAD_INSERTION = "No insertaron los datos, intente de nuevo";
 	private static final String INSERTION_SUCCESSFULL = "Se insertaron correctamente los datos";
 	private static final String BAD_INTEGER = "Solo se admiten numeros en el campo numeroCuenta";
 	
-	public ManejoClientesListener(PanelManejoUsuarios panelManejoUsuarios, PolideportivoPersistencia polideportivoPersistencia) {
+	public ManejoClientesListener(PanelManejoUsuarios panelManejoUsuarios, PolideportivoPersistencia polideportivoPersistencia,
+			VentanaConsultaCliente vCCliente) {
 		this.panelManejoUsuarios = panelManejoUsuarios;
 		this.polideportivoPersistencia = polideportivoPersistencia;
+		this.vCCliente = vCCliente;
 	}
 	
 	@Override
@@ -49,7 +56,25 @@ public class ManejoClientesListener implements ActionListener {
 				}else {
 					new OutputMessages(0, BAD_INTEGER);
 				}
-			}else if(e.getSource().equals(panelManejoUsuarios.getLimpiarAnnadir())) {
+			}else if(e.getActionCommand().equals(VentanaConsultaCliente.BUTTON_RECARGAR)) {
+				vCCliente.removeData();
+				ArrayList<Cliente> values = polideportivoPersistencia.getAllClientes();
+				
+				vCCliente.setVisible(true);
+				
+				for(Cliente i : values) {
+					vCCliente.insertData(i);
+				}
+				
+				vCCliente.deshabilitar(false);
+			}else if(e.getActionCommand().equals(VentanaConsultaCliente.BUTTON_SALIR)) {
+				vCCliente.dispose();
+				
+			}
+			
+			
+			
+			else if(e.getSource().equals(panelManejoUsuarios.getLimpiarAnnadir())) {
 				panelManejoUsuarios.clearAllAnnadir();
 			}
 			
@@ -57,5 +82,23 @@ public class ManejoClientesListener implements ActionListener {
 			
 		}
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		vCCliente.setVisible(true);
+		vCCliente.deshabilitar(true);
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
 	
 }

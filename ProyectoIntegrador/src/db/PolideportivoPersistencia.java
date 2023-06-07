@@ -54,6 +54,44 @@ public class PolideportivoPersistencia {
 		acceso = new AccesoDB();
 	}
 	
+	public ArrayList<Cliente> getAllClientes(){
+		ArrayList<Cliente> arrayList = new ArrayList<Cliente>();
+		String query = "SELECT * FROM " + NOM_TB_CLIENTE;
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		ResultSet rslt = null;
+		
+		try {
+			
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			rslt = stat.executeQuery();
+			
+			Cliente cliente;
+			
+			while(rslt.next()) {
+				cliente = new Cliente(
+						rslt.getString(NOM_COL_CLI_DNI),
+						rslt.getString(NOM_COL_CLI_APENOM),
+						rslt.getString(NOM_COL_CLI_DIR),
+						rslt.getString(NOM_COL_CLI_CORREO),
+						rslt.getString(NOM_COL_CLI_TLF),
+						rslt.getInt(NOM_COL_CLI_NUM_CUENTA));
+				
+				arrayList.add(cliente);
+			}
+	
+		} catch (Exception e) {
+			new OutputMessages(0, ERROR);
+			e.printStackTrace();
+		}finally {
+			cerrarConexiones(con, stat, rslt);
+		}
+		
+		return arrayList;
+	}
+	
 	public boolean addCliente(Cliente values) {
 		String query = "INSERT INTO " + NOM_TB_CLIENTE + " VALUES (?,?,?,?,?,?)";
 	
@@ -251,7 +289,6 @@ public class PolideportivoPersistencia {
 	}
 
 	
-	//TODO: Este método mejor si le pasamos los datos con un objeto Empleado
 	public boolean empleadoExists(Empleado empleado) {
 		
 		String dni = empleado.getDni().toLowerCase();
@@ -303,7 +340,6 @@ public class PolideportivoPersistencia {
 	}
 
 	public Cliente getCliente(String dni) {
-		// TODO Auto-generated method stub
 		Cliente cliente = null;
 		String query = "SELECT * FROM " + NOM_TB_CLIENTE + " WHERE " + NOM_COL_CLI_DNI + " = ?";
 		

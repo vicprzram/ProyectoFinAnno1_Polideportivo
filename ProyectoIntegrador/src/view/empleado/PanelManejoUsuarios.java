@@ -286,6 +286,9 @@ public class PanelManejoUsuarios extends JPanel {
 		//Eliminar
 		this.btnEliminarCliente.addActionListener(l);
 		this.btnEliminarAll.addActionListener(l);
+		
+		//Consultar
+		this.lblConsultar.addMouseListener(l);
 	}
 	
 	public Cliente getValuesAnnadir() {
