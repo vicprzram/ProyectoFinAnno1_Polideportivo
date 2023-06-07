@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
+import control.AdministradorListener;
 import control.EmpleadoListener;
 
 import javax.swing.ScrollPaneConstants;
@@ -30,7 +31,6 @@ public class AdministradorWindow extends JFrame{
 	private static final int ALTO = 600;
 	
 	private JScrollPane scrpContenedor;
-	private JMenuItem mntmNewMenuItem;
 	
 	public AdministradorWindow() {
 		super("Administardos");
@@ -52,8 +52,8 @@ public class AdministradorWindow extends JFrame{
 		mntmGestionInsta.setHorizontalAlignment(SwingConstants.CENTER);
 		menuBar.add(mntmGestionInsta);
 		
-		mntmNewMenuItem = new JMenuItem(ITEM_CLASE);
-		menuBar.add(mntmNewMenuItem);
+		mntmRegistroClase = new JMenuItem(ITEM_CLASE);
+		menuBar.add(mntmRegistroClase);
 		
 		mntmCerrar = new JMenuItem(ITEM_SESION);
 		mntmCerrar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -71,7 +71,7 @@ public class AdministradorWindow extends JFrame{
 	public void cargarPanel(JPanel panel) {
 		scrpContenedor.setViewportView(panel);
 	}
-	public void setListener(EmpleadoListener l) {
+	public void setListener(AdministradorListener l) {
 		this.mntmRegistroClase.addActionListener(l);
 		this.mntmCerrar.addActionListener(l);
 		this.mntmGestionEmple.addActionListener(l);
