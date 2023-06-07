@@ -18,18 +18,19 @@ import java.awt.BorderLayout;
 
 public class AdministradorWindow extends JFrame{
 	private JMenuBar menuBar;
-	private JMenuItem mntmGestionEmple, mntmGestionInsta, mntmRegistro, mntmCerrar, mntmInicio;
+	private JMenuItem mntmGestionEmple, mntmGestionInsta, mntmRegistroClase, mntmCerrar;
 	
 	public static final String ITEM_EMPLEADOS = "Gestion empleados";
 	public static final String ITEM_INSTALACIONES = "Gestion instalaciones";
-	
+	public static final String ITEM_CLASE = "Gestion clases";
 	public static final String ITEM_SESION = "Cerrar sesion";
-	public static final String ITEM_INICIO = "Inicio";
+
 	
 	private static final int ANCHO = 800;
 	private static final int ALTO = 600;
 	
 	private JScrollPane scrpContenedor;
+	private JMenuItem mntmNewMenuItem;
 	
 	public AdministradorWindow() {
 		super("Administardos");
@@ -43,10 +44,6 @@ public class AdministradorWindow extends JFrame{
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
-		mntmInicio = new JMenuItem(ITEM_INICIO);
-		mntmInicio.setHorizontalAlignment(SwingConstants.CENTER);
-		menuBar.add(mntmInicio);
 		mntmGestionEmple = new JMenuItem(ITEM_EMPLEADOS);
 		mntmGestionEmple.setHorizontalAlignment(SwingConstants.CENTER);
 		menuBar.add(mntmGestionEmple);
@@ -54,6 +51,9 @@ public class AdministradorWindow extends JFrame{
 		mntmGestionInsta = new JMenuItem(ITEM_INSTALACIONES);
 		mntmGestionInsta.setHorizontalAlignment(SwingConstants.CENTER);
 		menuBar.add(mntmGestionInsta);
+		
+		mntmNewMenuItem = new JMenuItem(ITEM_CLASE);
+		menuBar.add(mntmNewMenuItem);
 		
 		mntmCerrar = new JMenuItem(ITEM_SESION);
 		mntmCerrar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -72,7 +72,7 @@ public class AdministradorWindow extends JFrame{
 		scrpContenedor.setViewportView(panel);
 	}
 	public void setListener(EmpleadoListener l) {
-		this.mntmInicio.addActionListener(l);
+		this.mntmRegistroClase.addActionListener(l);
 		this.mntmCerrar.addActionListener(l);
 		this.mntmGestionEmple.addActionListener(l);
 		this.mntmGestionInsta.addActionListener(l);
