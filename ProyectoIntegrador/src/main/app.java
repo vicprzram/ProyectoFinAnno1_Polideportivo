@@ -1,5 +1,6 @@
 package main;
 
+
 import view.administrador.*;
 import view.empleado.*;
 import view.principal.*;
@@ -23,6 +24,7 @@ public class app {
 				PanelRegistroUsuario panelRegistroUsuario = new PanelRegistroUsuario();
 				PConsulta panelConsulta = new PConsulta();
 				PReserva panelReserva = new PReserva();
+				PClases panelClases = new PClases();
 				PanelInicioEmpleado panelInicioEmpleado = new PanelInicioEmpleado();
 				PanelManejoUsuarios panelManejoUsuarios = new PanelManejoUsuarios();
 				VentanaConsultaCliente vCCliente = new VentanaConsultaCliente();

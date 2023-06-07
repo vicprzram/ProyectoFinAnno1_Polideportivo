@@ -15,7 +15,6 @@ import control.EmpleadoListener;
 import model.Cliente;
 import model.Instalacion;
 import model.Reserva;
-import utilities.OutputMessages;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
