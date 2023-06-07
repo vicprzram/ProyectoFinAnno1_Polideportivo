@@ -81,6 +81,7 @@ public class MainListener implements ActionListener {
 								break;
 						}
 					}else {
+						panelInicioSesion.clearValues();
 						if(existe.equals("Administrativo")) {
 							new OutputMessages(1, FOUND);
 							mainWindow.dispose();
@@ -98,6 +99,7 @@ public class MainListener implements ActionListener {
 				}else {
 					new OutputMessages(0, EMPTY_DATA);
 				}
+				
 			}
 		}else if(e.getSource() instanceof JCheckBox) {
 			if(e.getActionCommand().equals(PanelInicioSesion.CHECK_CONTRASENA)) {
