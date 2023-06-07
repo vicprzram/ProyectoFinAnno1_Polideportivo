@@ -65,8 +65,6 @@ public class MainListener implements ActionListener {
 				if(!values.getDni().isEmpty() && !values.getPass().isEmpty()) {
 					String existe = this.polideportivoPersistencia.empleadoExists(values);
 					
-					System.out.println(existe);
-					
 					if(existe == null || existe.equals("Monitor")) {
 						new OutputMessages(0, NO_EXISTS);
 						counter++;
