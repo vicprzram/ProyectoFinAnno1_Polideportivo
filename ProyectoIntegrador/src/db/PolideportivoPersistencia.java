@@ -54,7 +54,40 @@ public class PolideportivoPersistencia {
 		acceso = new AccesoDB();
 	}
 	
-	public Empleado getAllValues(String dni) {
+	public boolean addCliente(Cliente values) {
+		String query = "INSERT INTO " + NOM_TB_CLIENTE + " VALUES (?,?,?,?,?,?)";
+	
+		Connection con = null;
+		PreparedStatement stat = null;
+		int rslt = 0;
+		
+		try {
+			
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			stat.setString(1, values.getDni());
+			stat.setString(2, values.getApenom());
+			stat.setString(3, values.getDireccion());
+			stat.setInt(4, values.getNumCuenta());
+			stat.setString(5, values.getCorreo());
+			stat.setString(6, values.getTelefono());
+			rslt = stat.executeUpdate();
+	
+		} catch (Exception e) {
+			new OutputMessages(0, ERROR);
+			e.printStackTrace();
+		}finally {
+			cerrarConexiones(con, stat, null);
+		}
+		
+		if(rslt == 0) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
+	public Empleado getAllValuesEmpleado(String dni) {
 		String query = "SELECT * FROM " + NOM_TB_EMPLEADO + " WHERE " + NOM_COL_EMP_DNI + " = ?";
 		Empleado empleado = null;
 		
@@ -219,10 +252,10 @@ public class PolideportivoPersistencia {
 
 	
 	//TODO: Este método mejor si le pasamos los datos con un objeto Empleado
-	public boolean empleadoExists(String dni, String pass) {
+	public boolean empleadoExists(Empleado empleado) {
 		
-		dni = dni.toLowerCase();
-		pass = pass.toLowerCase();
+		String dni = empleado.getDni().toLowerCase();
+		String pass = empleado.getPass().toLowerCase();
 		
 		String query = "SELECT " + NOM_COL_EMP_DNI + ", " + NOM_COL_EMP_PASS + " FROM " + NOM_TB_EMPLEADO;
 		boolean retornar = false;

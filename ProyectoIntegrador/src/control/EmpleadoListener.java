@@ -13,8 +13,11 @@ import db.PolideportivoPersistencia;
 import view.empleado.EmpleadoWindow;
 import view.empleado.PConsulta;
 import view.empleado.PanelInicioEmpleado;
+
 import model.Cliente;
 import model.Instalacion;
+
+import view.empleado.PanelManejoUsuarios;
 import model.Reserva;
 import utilities.OutputMessages;
 
@@ -29,12 +32,14 @@ public class EmpleadoListener implements ActionListener {
 	private EmpleadoWindow empleWindow;
 	private PConsulta pConsulta;
 	private PReserva pReserva;
-	
 	private PolideportivoPersistencia poliPersistencia;
 	private PanelInicioEmpleado panelInicioEmpleado;
+	private PanelManejoUsuarios panelManejoUsuarios;
 	
 
-	public EmpleadoListener(MainWindow mainWindow, EmpleadoWindow empleWindow, PConsulta pConsulta, PolideportivoPersistencia poliPersistencia,PanelInicioEmpleado panelInicioEmpleado, PReserva pReserva) {
+	public EmpleadoListener(MainWindow mainWindow, EmpleadoWindow empleWindow, PConsulta pConsulta, 
+			PolideportivoPersistencia poliPersistencia,PanelInicioEmpleado panelInicioEmpleado, PReserva pReserva,
+			PanelManejoUsuarios panelManejoUsuarios) {
 		
 		this.mainWindow = mainWindow;
 		this.empleWindow = empleWindow;
@@ -42,6 +47,7 @@ public class EmpleadoListener implements ActionListener {
 		this.poliPersistencia = poliPersistencia;
 		this.panelInicioEmpleado = panelInicioEmpleado;
 		this.pReserva = pReserva;
+		this.panelManejoUsuarios = panelManejoUsuarios;
 	}
 
 	@Override
@@ -64,7 +70,10 @@ public class EmpleadoListener implements ActionListener {
 			}else if(e.getActionCommand().equals(EmpleadoWindow.ITEM_RESERVA)) {
 				empleWindow.cargarPanel(pReserva);
 				pReserva.cargarDeportes(poliPersistencia.getDeportes());
+			}else if(e.getActionCommand().equals(EmpleadoWindow.ITEM_MANEJO)) {
+				empleWindow.cargarPanel(panelManejoUsuarios);
 			}
+			
 		}else if(e.getSource() instanceof JCheckBox) {
 			if(e.getActionCommand().equals(PanelInicioEmpleado.CHECK_CONTRASENA)) {
 				if(panelInicioEmpleado.getSelection()) {
@@ -108,7 +117,6 @@ public class EmpleadoListener implements ActionListener {
 					pReserva.cargarReservasDisponibles(registros, instalaciones);
 					pReserva.visibilidadTabla(true);
 				}
-				
 			}
 			
 		}
