@@ -46,7 +46,7 @@ public class ManejoEmpleadosPanel extends JPanel {
 	public static final String BUTTON_MODIFICAR = "Modificar empleado";
 	public static final String BUTTON_BUSCAR = "Buscar empleado";
 	
-	private JLabel lblCorreo;
+	private JLabel lblCorreo, lblConsultar;
 	private JTextField tfCorreoModificar;
 	private JLabel lblCorreo_1;
 	private JTextField tfCorreoAnnadir;
@@ -73,7 +73,7 @@ public class ManejoEmpleadosPanel extends JPanel {
 		cargarModificar();
 		cargarEliminar();
 		
-		JLabel lblConsultar = new JLabel("<html><u>Consultar empleados</u></html>");
+		lblConsultar = new JLabel("<html><u>Consultar empleados</u></html>");
 		lblConsultar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblConsultar.setForeground(new Color(0, 46, 255));
 		lblConsultar.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -351,6 +351,7 @@ public class ManejoEmpleadosPanel extends JPanel {
 	public void addListener(AdministradorListener l) {
 		this.btnAadirEmpleado.addActionListener(l);
 		this.btnLimpiarAnnadir.addActionListener(l);
+		this.lblConsultar.addMouseListener(l);
 	}
 	
 	public void clearAnnadir() {

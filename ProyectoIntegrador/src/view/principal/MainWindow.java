@@ -16,11 +16,9 @@ import control.MainListener;
 public class MainWindow extends JFrame {
 	
 	private JMenuBar menuBar;
-	private JMenuItem mntmInicio, mntmRanking, mntmHorario, mntmSalir;
+	private JMenuItem mntmInicio, mntmSalir;
 	private JScrollPane srcPane;
 	
-	public static final String ITEM_RANKING = "Ranking";
-	public static final String ITEM_HORARIO = "Horario";
 	public static final String ITEM_SALIR = "Salir";
 	public static final String ITEM_INICIO = "Inicio";
 	
@@ -42,18 +40,10 @@ public class MainWindow extends JFrame {
 		mntmInicio = new JMenuItem(ITEM_INICIO);
 		mntmInicio.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		mntmRanking = new JMenuItem(ITEM_RANKING);
-		mntmRanking.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		mntmHorario = new JMenuItem(ITEM_HORARIO);
-		mntmHorario.setHorizontalAlignment(SwingConstants.CENTER);
-		
 		mntmSalir = new JMenuItem(ITEM_SALIR);
 		mntmSalir.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		menuBar.add(mntmInicio);
-		menuBar.add(mntmRanking);
-		menuBar.add(mntmHorario);
 		menuBar.add(mntmSalir);
 		
 		srcPane = new JScrollPane();
@@ -73,9 +63,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	public void addListener(MainListener l) {
-		this.mntmHorario.addActionListener(l);
 		this.mntmInicio.addActionListener(l);
-		this.mntmRanking.addActionListener(l);
 		this.mntmSalir.addActionListener(l);
 	}
 	

@@ -51,13 +51,7 @@ public class MainListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() instanceof JMenuItem) {
-			if(e.getActionCommand().equals(MainWindow.ITEM_INICIO)) {
-				//void
-			}else if(e.getActionCommand().equals(MainWindow.ITEM_HORARIO)) {
-				//void
-			}else if(e.getActionCommand().equals(MainWindow.ITEM_RANKING)) {
-				//void
-			}else if(e.getActionCommand().equals(MainWindow.ITEM_SALIR)) {
+			if(e.getActionCommand().equals(MainWindow.ITEM_SALIR)) {
 		
 				if(OutputMessages.confirm(EXIT_CONFIRM) == 0) {
 					System.exit(0);

@@ -2,6 +2,8 @@ package control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
@@ -13,7 +15,7 @@ import view.administrador.AdministradorWindow;
 import view.administrador.ManejoEmpleadosPanel;
 import view.empleado.PanelManejoUsuarios;
 
-public class AdministradorListener implements ActionListener {
+public class AdministradorListener implements ActionListener, MouseListener {
 
 	private AdministradorWindow adminW;
 	private ManejoEmpleadosPanel manejoEmpleadoPanel;
@@ -78,5 +80,20 @@ public class AdministradorListener implements ActionListener {
 			}
 		}
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
 	
 }
