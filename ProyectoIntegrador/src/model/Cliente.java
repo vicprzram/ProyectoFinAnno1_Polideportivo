@@ -13,7 +13,9 @@ public class Cliente extends Persona{
 		this.numCuenta = numCuenta;
 	}
 	
-	
+	public int getNumCuenta() {
+		return this.numCuenta;
+	}
 	
 	
 }

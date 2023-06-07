@@ -1,12 +1,7 @@
 package main;
 
-import view.empleado.EmpleadoWindow;
-import view.empleado.PConsulta;
-import view.empleado.PReserva;
-import view.empleado.PanelInicioEmpleado;
-import view.empleado.PanelRegistroUsuario;
-import view.principal.MainWindow;
-import view.principal.PanelInicioSesion;
+import view.empleado.*;
+import view.principal.*;
 import control.*;
 import db.PolideportivoPersistencia;
 
@@ -18,27 +13,34 @@ public class app {
 			public void run() {
 				PolideportivoPersistencia polideportivoPersistencia = new PolideportivoPersistencia();
 				
+				//Pantalla principal
 				MainWindow mainWindow = new MainWindow();
 				PanelInicioSesion panelInicioSesion = new PanelInicioSesion();
+				
+				//Pantalla empleado
 				EmpleadoWindow empleadoWindow = new EmpleadoWindow();
 				PanelRegistroUsuario panelRegistroUsuario = new PanelRegistroUsuario();
 				PConsulta panelConsulta = new PConsulta();
 				PReserva panelReserva = new PReserva();
-				PanelInicioEmpleado panelIncioEmpleado = new PanelInicioEmpleado();
+				PanelInicioEmpleado panelInicioEmpleado = new PanelInicioEmpleado();
+				PanelManejoUsuarios panelManejoUsuarios = new PanelManejoUsuarios();
 				
-				MainListener mainListener = new MainListener(mainWindow, panelInicioSesion, polideportivoPersistencia, empleadoWindow, panelIncioEmpleado);
-				EmpleadoListener empleadoListener = new EmpleadoListener(mainWindow, empleadoWindow, panelConsulta, polideportivoPersistencia, panelIncioEmpleado, panelReserva); 
+				//Listeners
+				MainListener mainListener = new MainListener(mainWindow, panelInicioSesion, polideportivoPersistencia, 
+						empleadoWindow, panelInicioEmpleado);
+				EmpleadoListener empleadoListener = new EmpleadoListener(mainWindow, empleadoWindow, panelConsulta, 
+						polideportivoPersistencia, panelInicioEmpleado, panelReserva, panelManejoUsuarios); 
+				ManejoClientesListener clientesListener = new ManejoClientesListener(panelManejoUsuarios, polideportivoPersistencia);
 
-				
+				//Configuracion pantallas empleado
 				empleadoWindow.setListener(empleadoListener);
 				panelConsulta.setListener(empleadoListener);
 				panelReserva.setListener(empleadoListener);
 				panelRegistroUsuario.addListener(empleadoListener);
-				panelIncioEmpleado.addListener(empleadoListener);
+				panelInicioEmpleado.addListener(empleadoListener);
+				panelManejoUsuarios.addListener(clientesListener);
 				
-				
-				
-				//Pantalla inicio sesion
+				//Configuracion pantalla principal
 				panelInicioSesion.addListener(mainListener);
 				mainWindow.addListener(mainListener);
 				mainWindow.setVisible(true);

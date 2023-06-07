@@ -69,14 +69,14 @@ public class MainListener implements ActionListener {
 				Empleado values = panelInicioSesion.getValues();
 				
 				if(!values.getDni().isEmpty() && !values.getPass().isEmpty()) {
-					boolean existe = this.polideportivoPersistencia.empleadoExists(values.getDni(), values.getPass());
+					boolean existe = this.polideportivoPersistencia.empleadoExists(values);
 					
 					if(existe) {
 						new OutputMessages(1, FOUND);
 						mainWindow.dispose();
 						empleWindow.setVisible(true);
 						
-						values = this.polideportivoPersistencia.getAllValues(values.getDni());
+						values = this.polideportivoPersistencia.getAllValuesEmpleado(values.getDni());
 						panelInicioEmpleado.cambiarTexto(values);
 						empleWindow.cargarPanel(panelInicioEmpleado);
 					}else {

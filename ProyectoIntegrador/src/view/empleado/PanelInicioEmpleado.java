@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import model.Empleado;
 import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JList;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 
