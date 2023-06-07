@@ -11,6 +11,13 @@ public class Empleado extends Persona{
 		this.rol = rol;
 	}
 	
+	public Empleado(String dni, String apenom, String pass, String direccion, String rol, 
+			String correo, String telefono) {
+		super(dni, apenom, direccion, correo, telefono);
+		this.pass = pass;
+		this.rol = rol;
+	}
+	
 	public String getRol() {
 		return this.rol;
 	}
