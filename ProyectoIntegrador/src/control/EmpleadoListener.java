@@ -118,7 +118,7 @@ public class EmpleadoListener implements ActionListener {
 					}
 					
 				}
-			}else if(e.getActionCommand().equals(pReserva.BTN_REALIZAR_RESERVA)) {
+			}else if(e.getActionCommand().equals(PReserva.BTN_REALIZAR_RESERVA)) {
 				Reserva reserva = pReserva.getSelectedReserva();
 				if(reserva != null) {
 					if(OutputMessages.confirm("¿Realizar reserva?") == 0) {

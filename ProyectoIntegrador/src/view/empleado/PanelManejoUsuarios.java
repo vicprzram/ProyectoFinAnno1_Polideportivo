@@ -27,6 +27,7 @@ public class PanelManejoUsuarios extends JPanel {
 	public static final String BUTTON_BUSCAR = "Buscar cliente";
 	public static final String BUTTON_MODIFICAR = "Modificar cliente";
 	public static final String BUTTON_ELIMINAR = "Eliminar cliente";
+	public static final String BUTTON_ELIMINAR_ALL = "Eliminar todos los clientes";
 	public static final String BUTTON_LIMPIAR = "Limpiar";
 	
 	public PanelManejoUsuarios() {
@@ -217,10 +218,10 @@ public class PanelManejoUsuarios extends JPanel {
 		tfCorreoModificar.setColumns(10);
 		tfCorreoModificar.setBounds(10, 341, 231, 20);
 		
-		btnModificarCliente = new JButton("Modificar cliente");
+		btnModificarCliente = new JButton(BUTTON_MODIFICAR);
 		btnModificarCliente.setBounds(10, 394, 231, 34);
 		
-		btnLimpiarModificar = new JButton("Limpiar");
+		btnLimpiarModificar = new JButton(BUTTON_LIMPIAR);
 		btnLimpiarModificar.setBounds(73, 439, 113, 34);
 		
 		panelModificar.add(lblModificar);
@@ -261,11 +262,12 @@ public class PanelManejoUsuarios extends JPanel {
 		tfDniEliminar = new JTextField();
 		tfDniEliminar.setColumns(10);
 		tfDniEliminar.setBounds(89, 46, 152, 20);
+
+		btnEliminarCliente = new JButton(BUTTON_ELIMINAR);
+		btnEliminarCliente.setBounds(10, 89, 231, 34);
+
 		
-		btnEliminarCliente = new JButton("Eliminar cliente");
-		btnEliminarCliente.setBounds(10, 80, 231, 34);
-		
-		btnEliminarAll = new JButton("Eliminar todos los clientes");
+		btnEliminarAll = new JButton(BUTTON_ELIMINAR_ALL);
 		btnEliminarAll.setBounds(10, 190, 231, 34);
 		
 		panelEliminar.add(lblEliminar);
@@ -291,6 +293,14 @@ public class PanelManejoUsuarios extends JPanel {
 		
 		//Consultar
 		this.lblConsultar.addMouseListener(l);
+	}
+	
+	public String getDniEliminar() {
+		return this.tfDniEliminar.getText();
+	}
+	
+	public void clearEliminar() {
+		this.tfDniEliminar.setText("");
 	}
 	
 	public Cliente getValues(boolean type) {
