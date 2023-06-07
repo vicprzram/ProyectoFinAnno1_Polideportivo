@@ -453,4 +453,12 @@ public class ManejoEmpleadosPanel extends JPanel {
 					this.tfTelefonoModificar.getText());
 		}
 	}
+	
+	public String getDniEliminar() {
+		return this.textField_12.getText();
+	}
+	
+	public void clearEliminar() {
+		this.textField_12.setText("");
+	}
 }
