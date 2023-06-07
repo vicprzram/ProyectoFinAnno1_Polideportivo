@@ -34,7 +34,6 @@ public class AdministradorWindow extends JFrame{
 	public AdministradorWindow() {
 		super("Administardos");
 		init();
-		
 	}
 	private void init() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
