@@ -10,6 +10,8 @@ public class Comprobaciones {
 	public static final String ERROR_DIRECCION = "DIRECCION erroneo, se requiere que empieze por C o AV";
 	public static final String ERROR_NOMBRE = "NOMBRE erroneo, se requiere nombre valido";
 	public static final String ERROR_TELEFONO = "TELEFONO erroneo, se requiere telefono valido";
+	public static final String ERROR_PASS = "CONTRASEÑA erronea, no se puede dejar en blanco";
+	public static final String ERROR_DNI_EXIST = "DNI existente, intente de nuevo";
 	
 	public static boolean dni(String dni) {
 		Pattern pattern = Pattern.compile("[0-9]{8}[A-Z a-z]");
@@ -32,7 +34,7 @@ public class Comprobaciones {
 	}
 	
 	public static boolean direccion(String direccion) {
-		Pattern pattern = Pattern.compile("^(C/|Av/)[a-zA-Z]+$");
+		Pattern pattern = Pattern.compile("^(C/|Av/|AV/)[a-zA-Z]+$");
 		Matcher match = pattern.matcher(direccion);
 		if(match.find()) {
 			return true;
@@ -52,13 +54,13 @@ public class Comprobaciones {
 		}
 	}
 	
-	/*public static boolean telefono(String telefono) {
-		Pattern pattern = Pattern.compile("^(\+34|0034|34)?[89]\d{8}$");
+	public static boolean telefono(String telefono) {
+		Pattern pattern = Pattern.compile("^(\\+\\d{1,3}( )?)?((\\(\\d{1,3}\\))|\\d{1,3})[- .]?\\d{3,4}[- .]?\\d{4}$");
 		Matcher match = pattern.matcher(telefono);
 		if(match.find()) {
 			return true;
 		}else {
 			return false;
 		}
-	}*/
+	}
 }

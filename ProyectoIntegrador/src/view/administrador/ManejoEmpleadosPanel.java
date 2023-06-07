@@ -350,5 +350,20 @@ public class ManejoEmpleadosPanel extends JPanel {
 	
 	public void addListener(AdministradorListener l) {
 		this.btnAadirEmpleado.addActionListener(l);
+		this.btnLimpiarAnnadir.addActionListener(l);
+	}
+	
+	public void clearAnnadir() {
+		this.tfDniAnnadir.setText("");
+		this.tfNombreCompletoAnnadir.setText("");
+		this.passwordField.setText("");
+		this.tfDireccionAnnadir.setText("");
+		this.comboBox.setSelectedIndex(0);
+		this.tfCorreoAnnadir.setText("");
+		this.tfTelefonoAnnadir.setText("");
+	}
+
+	public JButton getLimpiarAnnadir() {
+		return this.btnLimpiarAnnadir;
 	}
 }
