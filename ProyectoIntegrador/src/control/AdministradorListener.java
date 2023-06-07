@@ -13,6 +13,7 @@ import utilities.*;
 import model.Empleado;
 import view.administrador.AdministradorWindow;
 import view.administrador.ManejoEmpleadosPanel;
+import view.administrador.VentanaConsultaEmpleados;
 import view.empleado.PanelManejoUsuarios;
 
 public class AdministradorListener implements ActionListener, MouseListener {
@@ -20,16 +21,17 @@ public class AdministradorListener implements ActionListener, MouseListener {
 	private AdministradorWindow adminW;
 	private ManejoEmpleadosPanel manejoEmpleadoPanel;
 	private PolideportivoPersistencia poliP;
-	
+	private VentanaConsultaEmpleados vCE; 
 	
 	private static final String NO_INSERTION = "No se ha podido insertar, intente de nuevo";
 	private static final String INSERTION_SUCCESSFULL = "Se inserto correctamnete los datos";
 	
 	public AdministradorListener(AdministradorWindow adminW, ManejoEmpleadosPanel manejoEmpleadoPanel, 
-			PolideportivoPersistencia poliP) {
+			PolideportivoPersistencia poliP, VentanaConsultaEmpleados vCE) {
 		this.adminW = adminW;
 		this.manejoEmpleadoPanel = manejoEmpleadoPanel;
 		this.poliP = poliP;
+		this.vCE = vCE;
 	}
 	
 	@Override
@@ -82,7 +84,10 @@ public class AdministradorListener implements ActionListener, MouseListener {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {
+		vCE.setVisible(true);
+		vCE.deshabilitar(true);
+	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {}

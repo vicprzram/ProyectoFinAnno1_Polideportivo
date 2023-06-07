@@ -32,6 +32,7 @@ public class app {
 				//Pantalla administrador
 				AdministradorWindow administradorWindow = new AdministradorWindow();
 				ManejoEmpleadosPanel manejoEmpleadoPanel = new ManejoEmpleadosPanel();
+				VentanaConsultaEmpleados vCEmpleados = new VentanaConsultaEmpleados();
 				
 				//Listeners
 				MainListener mainListener = new MainListener(mainWindow, panelInicioSesion, polideportivoPersistencia, 
@@ -39,11 +40,12 @@ public class app {
 				EmpleadoListener empleadoListener = new EmpleadoListener(mainWindow, empleadoWindow, panelConsulta, 
 						polideportivoPersistencia, panelInicioEmpleado, panelReserva, panelManejoUsuarios); 
 				ManejoClientesListener clientesListener = new ManejoClientesListener(panelManejoUsuarios, polideportivoPersistencia, vCCliente);
-				AdministradorListener adminListener = new AdministradorListener(administradorWindow, manejoEmpleadoPanel, polideportivoPersistencia);
+				AdministradorListener adminListener = new AdministradorListener(administradorWindow, manejoEmpleadoPanel, polideportivoPersistencia, vCEmpleados);
 				
 				//Configuracion pantalla administrador
 				administradorWindow.setListener(adminListener);
 				manejoEmpleadoPanel.addListener(adminListener);
+				
 				
 				//Configuracion pantallas empleado
 				empleadoWindow.setListener(empleadoListener);
