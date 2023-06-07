@@ -38,10 +38,10 @@ public class MainWindow extends JFrame {
 		setJMenuBar(menuBar);
 		
 		mntmInicio = new JMenuItem(ITEM_INICIO);
-		mntmInicio.setHorizontalAlignment(SwingConstants.CENTER);
+		mntmInicio.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		mntmSalir = new JMenuItem(ITEM_SALIR);
-		mntmSalir.setHorizontalAlignment(SwingConstants.RIGHT);
+		mntmSalir.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		menuBar.add(mntmInicio);
 		menuBar.add(mntmSalir);
