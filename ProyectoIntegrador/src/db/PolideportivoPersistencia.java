@@ -57,6 +57,61 @@ public class PolideportivoPersistencia {
 		acceso = new AccesoDB();
 	}
 	
+	public boolean deleteAllCliente() {
+		String query = "DELETE FROM " + NOM_TB_CLIENTE;
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		int rslt = 0;
+		
+		try {
+			
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			rslt = stat.executeUpdate();
+	
+		} catch (Exception e) {
+			new OutputMessages(0, ERROR);
+			e.printStackTrace();
+		}finally {
+			cerrarConexiones(con, stat, null);
+		}
+		
+		if(rslt == 0) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
+	public boolean deleteCliente(String dni) {
+		String query = "DELETE FROM " + NOM_TB_CLIENTE + " WHERE " + NOM_COL_CLI_DNI + " =?";
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		int rslt = 0;
+		
+		try {
+			
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			stat.setString(1, dni);
+			rslt = stat.executeUpdate();
+	
+		} catch (Exception e) {
+			new OutputMessages(0, ERROR);
+			e.printStackTrace();
+		}finally {
+			cerrarConexiones(con, stat, null);
+		}
+		
+		if(rslt == 0) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
 	public boolean modifyCliente(Cliente values) {
 		String query = "UPDATE " + NOM_TB_CLIENTE + " SET " + NOM_COL_CLI_APENOM + " = ?, " +
 				NOM_COL_CLI_DIR + " =?, " + NOM_COL_CLI_NUM_CUENTA + " =?, " + NOM_COL_CLI_CORREO + " =?, " +

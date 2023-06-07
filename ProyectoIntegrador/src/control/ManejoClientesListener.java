@@ -26,6 +26,9 @@ public class ManejoClientesListener implements ActionListener, MouseListener {
 	private static final String BAD_INSERTION = "No insertaron los datos, intente de nuevo";
 	private static final String INSERTION_SUCCESSFULL = "Se insertaron correctamente los datos";
 	private static final String BAD_INTEGER = "Solo se admiten numeros en el campo numeroCuenta";
+	private static final String BAD_DELETE = "No se pudo eliminar, intente de nuevo";
+	private static final String DELETE_SUCCESSFULL = "Se elimino satisfatoriamente el cliente seleccionado";
+	private static final String ASK_DELETE = "¿Seguro que quiere eliminar lo seleccionado?";
 	
 	public ManejoClientesListener(PanelManejoUsuarios panelManejoUsuarios, PolideportivoPersistencia polideportivoPersistencia,
 			VentanaConsultaCliente vCCliente) {
@@ -88,18 +91,47 @@ public class ManejoClientesListener implements ActionListener, MouseListener {
 						panelManejoUsuarios.deshabilitarModificar(true);
 					}
 				}
+			}else if(e.getActionCommand().equals(PanelManejoUsuarios.BUTTON_ELIMINAR)) {
+				String dni = panelManejoUsuarios.getDniEliminar();
 				
+				if(!dni.isEmpty()) {
+					if(OutputMessages.confirm(ASK_DELETE) == 0) {
+						boolean eliminated = polideportivoPersistencia.deleteCliente(dni);
+						
+						if(!eliminated) {
+							new OutputMessages(0, BAD_DELETE);
+						}else {
+							new OutputMessages(1, DELETE_SUCCESSFULL);
+							panelManejoUsuarios.clearEliminar();
+						}
+					}
+				}
+			}else if(e.getActionCommand().equals(PanelManejoUsuarios.BUTTON_ELIMINAR_ALL)) {
+				if(OutputMessages.confirm(ASK_DELETE) == 0) {
+					boolean eliminated = polideportivoPersistencia.deleteAllCliente();
+					
+					if(!eliminated) {
+						new OutputMessages(0, BAD_DELETE);
+					}else {
+						new OutputMessages(1, DELETE_SUCCESSFULL);
+						panelManejoUsuarios.clearEliminar();
+					}
+				}
 			}else if(e.getActionCommand().equals(VentanaConsultaCliente.BUTTON_RECARGAR)) {
 				vCCliente.removeData();
 				ArrayList<Cliente> values = polideportivoPersistencia.getAllClientes();
 				
-				vCCliente.setVisible(true);
-				
-				for(Cliente i : values) {
-					vCCliente.insertData(i);
+				if(!values.isEmpty()) {
+					vCCliente.setVisible(true);
+					
+					for(Cliente i : values) {
+						vCCliente.insertData(i);
+					}
+					
+					vCCliente.deshabilitar(false);
+				}else {
+					vCCliente.deshabilitar(true);
 				}
-				
-				vCCliente.deshabilitar(false);
 			}else if(e.getActionCommand().equals(VentanaConsultaCliente.BUTTON_SALIR)) {
 				vCCliente.dispose();
 			}
