@@ -159,7 +159,7 @@ public class PolideportivoPersistencia {
 	public ArrayList<String> getFechas(){
 		ArrayList<String> listaFechas = new ArrayList<>();
 		listaFechas.add("TODAS");
-		String query = "SELECT DISTINCT " + NOM_COL_CI_DIA + " FROM " + NOM_TB_CI;
+		String query = "SELECT DISTINCT " + NOM_COL_CI_DIA + " FROM " + NOM_TB_CI + " ORDER BY " + NOM_COL_CI_DIA + " ASC";
 		
 		Connection con = null;
 		Statement stat = null;
