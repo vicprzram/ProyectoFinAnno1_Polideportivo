@@ -22,6 +22,10 @@ public class PolideportivoPersistencia {
 	
 	private static final String NOM_TB_CI = "CLIENTE_INSTALACION";
 	private static final String NOM_COL_CI_DIA = "DIA";
+	private static final String NOM_COL_CI_HORA = "HORA";
+	private static final String NOM_COL_CI_PAGO = "PAGO";
+	private static final String NOM_COL_CI_DNI = "DNI_CLIENTE";
+	private static final String NOM_COL_CI_IDI = "ID_INSTALACION";
 	
 	private static final String NOM_TB_EMPLEADO = "EMPLEADO";
 	private static final String NOM_COL_EMP_DNI = "DNI";
@@ -193,7 +197,7 @@ public class PolideportivoPersistencia {
 	public ArrayList<String> getFechas(){
 		ArrayList<String> listaFechas = new ArrayList<>();
 		listaFechas.add("TODAS");
-		String query = "SELECT " + NOM_COL_CI_DIA + " FROM " + NOM_TB_CI;
+		String query = "SELECT DISTINCT " + NOM_COL_CI_DIA + " FROM " + NOM_TB_CI + " ORDER BY " + NOM_COL_CI_DIA + " ASC";
 		
 		Connection con = null;
 		Statement stat = null;
@@ -246,7 +250,9 @@ public class PolideportivoPersistencia {
 		if(!filtroDeporte.equals("TODOS")) {
 			query += " AND D.NOMBRE = '" + filtroDeporte + "'";
 		}
-				
+		
+		query += " ORDER BY DIA ASC, HORA DESC";
+		
 		Connection con = null;
 		Statement stat = null;
 		ResultSet rslt = null;
@@ -411,5 +417,38 @@ public class PolideportivoPersistencia {
 		}
 		
 		return instaciones;
+	}
+
+	public int addReserva(Reserva reserva) {
+		int res = 0;
+		String query = "INSERT INTO " + NOM_TB_CI + " ( "
+				+ NOM_COL_CI_DIA + ", "
+				+ NOM_COL_CI_HORA + ", "
+				+ NOM_COL_CI_PAGO + ", "
+				+ NOM_COL_CI_DNI + ", "
+				+ NOM_COL_CI_IDI + " ) "
+				+ " VALUES (?, ?, ?, ?, ?)";
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		
+		try {
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			stat.setString(1, reserva.getDia());
+			stat.setString(2, reserva.getHora());
+			stat.setString(3, reserva.isPago()?"Sí":"No");
+			stat.setString(4, reserva.getCliente().getDni());
+			stat.setInt(5, reserva.getInstalacion().getId());
+			
+			res = stat.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			res = -1;
+		}finally {
+			cerrarConexiones(con, stat, null);
+		}
+		return res;
 	}
 }

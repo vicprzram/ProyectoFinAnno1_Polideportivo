@@ -57,6 +57,7 @@ public class EmpleadoListener implements ActionListener {
 				empleWindow.cargarPanel(pConsulta);
 				pConsulta.cargarDeportes(poliPersistencia.getDeportes());
 				pConsulta.cargarFechas(poliPersistencia.getFechas());
+				consultarDisponibilidad();
 
 			}else if(e.getActionCommand().equals(EmpleadoWindow.ITEM_INICIO)) {
 				empleWindow.cargarPanel(panelInicioEmpleado);
@@ -85,13 +86,8 @@ public class EmpleadoListener implements ActionListener {
 		}else if(e.getSource() instanceof JButton) {
 			
 			if(e.getSource() == pConsulta.getBtnConsultar()) {
-				ArrayList<Reserva> registros = poliPersistencia.getRegistros(pConsulta.getFecha(), pConsulta.getHora(), pConsulta.getDeporte(), pConsulta.getUso());
-				if(registros.isEmpty()) {
-					new OutputMessages(1, "No se han encontrado registros");
-					pConsulta.visibilidadTabla(false);
-				}else {
-					pConsulta.recargarTabla(registros);
-				}
+				consultarDisponibilidad();
+				pConsulta.visibilidadTabla(true);
 			}else if(e.getActionCommand().equals(PReserva.BTN_BUSCAR)) {
 				String dni = pReserva.getDNI();
 				if(dni.isEmpty()) {
@@ -114,13 +110,46 @@ public class EmpleadoListener implements ActionListener {
 					
 				}else {
 					ArrayList<Reserva> registros = poliPersistencia.getRegistros(pReserva.getFecha(), pReserva.getHora(), pReserva.getDeporte(), "TODOS");
-					pReserva.cargarReservasDisponibles(registros, instalaciones);
-					pReserva.visibilidadTabla(true);
+					if(pReserva.cargarReservasDisponibles(registros, instalaciones) != -1) {
+						pReserva.visibilidadTabla(true);
+					}else {
+						pReserva.visibilidadTabla(false);
+						new OutputMessages(1, "No existen instalaciones disponibles");
+					}
+					
+				}
+			}else if(e.getActionCommand().equals(pReserva.BTN_REALIZAR_RESERVA)) {
+				Reserva reserva = pReserva.getSelectedReserva();
+				if(reserva != null) {
+					if(OutputMessages.confirm("¿Realizar reserva?") == 0) {
+						int res = poliPersistencia.addReserva(reserva);
+						if(res != -1) {
+							new OutputMessages(1, "Reserva realizada con éxito");
+							pReserva.setDefault();
+						}
+					}
+					
+				}else {
+					new OutputMessages(0, "Se debe seleccionar una opción");
+				}
+			}else if(e.getSource() == pReserva.getBtnLimpiar()) {
+				if(OutputMessages.confirm("¿Quiere cancelar la operación?") == 0) {
+					pReserva.setDefault();
 				}
 			}
 			
 		}
 		
+	}
+
+	private void consultarDisponibilidad() {
+		ArrayList<Reserva> registros = poliPersistencia.getRegistros(pConsulta.getFecha(), pConsulta.getHora(), pConsulta.getDeporte(), pConsulta.getUso());
+		if(registros.isEmpty()) {
+			new OutputMessages(1, "No se han encontrado registros");
+			pConsulta.visibilidadTabla(false);
+		}else {
+			pConsulta.recargarTabla(registros);
+		}
 	}
 
 }
