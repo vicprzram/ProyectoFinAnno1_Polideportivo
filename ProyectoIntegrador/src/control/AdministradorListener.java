@@ -40,6 +40,10 @@ public class AdministradorListener implements ActionListener, MouseListener {
 	private static final String NO_INSERTION = "No se ha podido insertar, intente de nuevo";
 	private static final String INSERTION_SUCCESSFULL = "Se inserto correctamnete los datos";
 	private static final String BAD_INSERTION = "No insertaron los datos, intente de nuevo";
+	private static final String ASK_DELETE = "¿Seguro que quiere eliminar lo seleccionado?";
+	private static final String BAD_DELETE = "No se pudo eliminar, intente de nuevo";
+	private static final String DELETE_SUCCESSFULL = "Se elimino satisfatoriamente el cliente seleccionado";
+
 	
 	
 	
@@ -154,6 +158,32 @@ public class AdministradorListener implements ActionListener, MouseListener {
 						manejoEmpleadoPanel.clearAnnadir();
 						manejoEmpleadoPanel.clearModificar();
 						manejoEmpleadoPanel.deshabilitarModificar(true);
+					}
+				}
+			}else if(e.getActionCommand().equals(ManejoEmpleadosPanel.BUTTON_ELIMINAR)) {
+				String dni = manejoEmpleadoPanel.getDniEliminar();
+				
+				if(!dni.isEmpty()) {
+					if(OutputMessages.confirm(ASK_DELETE) == 0) {
+						boolean eliminated = poliP.deleteEmpleado(dni);
+						
+						if(!eliminated) {
+							new OutputMessages(0, BAD_DELETE);
+						}else {
+							new OutputMessages(1, DELETE_SUCCESSFULL);
+							manejoEmpleadoPanel.clearEliminar();
+						}
+					}
+				}
+			}else if(e.getActionCommand().equals(ManejoEmpleadosPanel.BUTTON_ELIMINAR_ALL)) {
+				if(OutputMessages.confirm(ASK_DELETE) == 0) {
+					boolean eliminated = poliP.deleteAllEmpleado();
+					
+					if(!eliminated) {
+						new OutputMessages(0, BAD_DELETE);
+					}else {
+						new OutputMessages(1, DELETE_SUCCESSFULL);
+						manejoEmpleadoPanel.clearEliminar();
 					}
 				}
 			}

@@ -66,6 +66,61 @@ public class PolideportivoPersistencia {
 		acceso = new AccesoDB();
 	}
 	
+	public boolean deleteAllEmpleado() {
+		String query = "DELETE FROM " + NOM_TB_EMPLEADO;
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		int rslt = 0;
+		
+		try {
+			
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			rslt = stat.executeUpdate();
+	
+		} catch (Exception e) {
+			new OutputMessages(0, ERROR);
+			e.printStackTrace();
+		}finally {
+			cerrarConexiones(con, stat, null);
+		}
+		
+		if(rslt == 0) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
+	public boolean deleteEmpleado(String dni) {
+		String query = "DELETE FROM " + NOM_TB_EMPLEADO + " WHERE " + NOM_COL_CLI_DNI + " =?";
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		int rslt = 0;
+		
+		try {
+			
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			stat.setString(1, dni);
+			rslt = stat.executeUpdate();
+	
+		} catch (Exception e) {
+			new OutputMessages(0, ERROR);
+			e.printStackTrace();
+		}finally {
+			cerrarConexiones(con, stat, null);
+		}
+		
+		if(rslt == 0) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
 	public boolean modifyEmpleado(Empleado values) {
 		String query = "UPDATE " + NOM_TB_EMPLEADO + " SET " + NOM_COL_EMP_APENOM + " = ?, " +
 				NOM_COL_EMP_DIRECCION + " =?, " + NOM_COL_EMP_PASS + " =?, " + NOM_COL_EMP_ROL + " =?, " +
