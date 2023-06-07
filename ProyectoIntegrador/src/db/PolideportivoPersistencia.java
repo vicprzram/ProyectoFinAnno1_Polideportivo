@@ -57,6 +57,41 @@ public class PolideportivoPersistencia {
 		acceso = new AccesoDB();
 	}
 	
+	public boolean modifyCliente(Cliente values) {
+		String query = "UPDATE " + NOM_TB_CLIENTE + " SET " + NOM_COL_CLI_APENOM + " = ?, " +
+				NOM_COL_CLI_DIR + " =?, " + NOM_COL_CLI_NUM_CUENTA + " =?, " + NOM_COL_CLI_CORREO + " =?, " +
+				NOM_COL_CLI_TLF + " =? WHERE " + NOM_COL_CLI_DNI + " =?";
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		int rslt = 0;
+		
+		try {
+			
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+			stat.setString(1, values.getApenom());
+			stat.setString(2, values.getDireccion());
+			stat.setInt(3, values.getNumCuenta());
+			stat.setString(4, values.getCorreo());
+			stat.setString(5, values.getTelefono());
+			stat.setString(6, values.getDni());
+			rslt = stat.executeUpdate();
+	
+		} catch (Exception e) {
+			new OutputMessages(0, ERROR);
+			e.printStackTrace();
+		}finally {
+			cerrarConexiones(con, stat, null);
+		}
+		
+		if(rslt == 0) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
 	public ArrayList<Cliente> getAllClientes(){
 		ArrayList<Cliente> arrayList = new ArrayList<Cliente>();
 		String query = "SELECT * FROM " + NOM_TB_CLIENTE;
