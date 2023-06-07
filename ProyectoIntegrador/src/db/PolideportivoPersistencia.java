@@ -389,7 +389,7 @@ public class PolideportivoPersistencia {
 		String dni = empleado.getDni().toLowerCase();
 		String pass = empleado.getPass().toLowerCase();
 		
-		String query = "SELECT " + NOM_COL_EMP_DNI + ", " + NOM_COL_EMP_PASS + " FROM " + NOM_TB_EMPLEADO;
+		String query = "SELECT " + NOM_COL_EMP_DNI + ", " + NOM_COL_EMP_PASS + ", " + NOM_COL_EMP_ROL +  " FROM " + NOM_TB_EMPLEADO;
 		String retornar = null;
 		
 		Connection con = null;
