@@ -22,9 +22,13 @@ public class ManejoClientesListener implements ActionListener, MouseListener {
 	private VentanaConsultaCliente vCCliente;
 	
 	private static final String EMPTY_FIELDS = "Los campos no pueden dejarse vacios, intente de nuevo";
+	private static final String EMPTY_DNI = "El campo dni no puede dejarse vacio, intente de nuevo";
 	private static final String BAD_INSERTION = "No insertaron los datos, intente de nuevo";
 	private static final String INSERTION_SUCCESSFULL = "Se insertaron correctamente los datos";
 	private static final String BAD_INTEGER = "Solo se admiten numeros en el campo numeroCuenta";
+	private static final String BAD_DELETE = "No se pudo eliminar, intente de nuevo";
+	private static final String DELETE_SUCCESSFULL = "Se elimino satisfatoriamente el cliente seleccionado";
+	private static final String ASK_DELETE = "¿Seguro que quiere eliminar lo seleccionado?";
 	
 	public ManejoClientesListener(PanelManejoUsuarios panelManejoUsuarios, PolideportivoPersistencia polideportivoPersistencia,
 			VentanaConsultaCliente vCCliente) {
@@ -37,7 +41,7 @@ public class ManejoClientesListener implements ActionListener, MouseListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() instanceof JButton) {
 			if(e.getActionCommand().equals(PanelManejoUsuarios.BUTTON_ANNADIR)) {
-				Cliente values = this.panelManejoUsuarios.getValuesAnnadir();
+				Cliente values = this.panelManejoUsuarios.getValues(true);
 				
 				if(values.getNumCuenta() != -1) {
 					if(values.getDni().isEmpty() || values.getApenom().isEmpty() || values.getDireccion().isEmpty() || 
@@ -56,30 +60,90 @@ public class ManejoClientesListener implements ActionListener, MouseListener {
 				}else {
 					new OutputMessages(0, BAD_INTEGER);
 				}
+			}else if(e.getActionCommand().equals(PanelManejoUsuarios.BUTTON_BUSCAR)) {
+				String dni = panelManejoUsuarios.getDniModificar();
+				Cliente values;
+				
+				if(dni.isEmpty()) {
+					new OutputMessages(1, EMPTY_DNI);
+
+				}else {
+					values = polideportivoPersistencia.getCliente(dni);
+					panelManejoUsuarios.deshabilitarModificar(false);
+					
+					panelManejoUsuarios.setTextModificar(values);
+				}
+			}else if(e.getActionCommand().equals(PanelManejoUsuarios.BUTTON_MODIFICAR)) {
+				Cliente values = panelManejoUsuarios.getValues(false);
+				
+				if(values.getDni().isEmpty() || values.getApenom().isEmpty() || values.getDireccion().isEmpty() || 
+						values.getCorreo().isEmpty() || values.getTelefono().isEmpty() || values.getNumCuenta() == 0) {
+					new OutputMessages(1, EMPTY_FIELDS);
+				}else {
+					boolean modified = polideportivoPersistencia.modifyCliente(values);
+					
+					if(!modified) {
+						new OutputMessages(0, BAD_INSERTION);
+					}else {
+						new OutputMessages(1, INSERTION_SUCCESSFULL);
+						panelManejoUsuarios.clearAllAnnadir();
+						panelManejoUsuarios.clearAllModificar();
+						panelManejoUsuarios.deshabilitarModificar(true);
+					}
+				}
+			}else if(e.getActionCommand().equals(PanelManejoUsuarios.BUTTON_ELIMINAR)) {
+				String dni = panelManejoUsuarios.getDniEliminar();
+				
+				if(!dni.isEmpty()) {
+					if(OutputMessages.confirm(ASK_DELETE) == 0) {
+						boolean eliminated = polideportivoPersistencia.deleteCliente(dni);
+						
+						if(!eliminated) {
+							new OutputMessages(0, BAD_DELETE);
+						}else {
+							new OutputMessages(1, DELETE_SUCCESSFULL);
+							panelManejoUsuarios.clearEliminar();
+						}
+					}
+				}
+			}else if(e.getActionCommand().equals(PanelManejoUsuarios.BUTTON_ELIMINAR_ALL)) {
+				if(OutputMessages.confirm(ASK_DELETE) == 0) {
+					boolean eliminated = polideportivoPersistencia.deleteAllCliente();
+					
+					if(!eliminated) {
+						new OutputMessages(0, BAD_DELETE);
+					}else {
+						new OutputMessages(1, DELETE_SUCCESSFULL);
+						panelManejoUsuarios.clearEliminar();
+					}
+				}
 			}else if(e.getActionCommand().equals(VentanaConsultaCliente.BUTTON_RECARGAR)) {
 				vCCliente.removeData();
 				ArrayList<Cliente> values = polideportivoPersistencia.getAllClientes();
 				
-				vCCliente.setVisible(true);
-				
-				for(Cliente i : values) {
-					vCCliente.insertData(i);
+				if(!values.isEmpty()) {
+					vCCliente.setVisible(true);
+					
+					for(Cliente i : values) {
+						vCCliente.insertData(i);
+					}
+					
+					vCCliente.deshabilitar(false);
+				}else {
+					vCCliente.deshabilitar(true);
 				}
-				
-				vCCliente.deshabilitar(false);
 			}else if(e.getActionCommand().equals(VentanaConsultaCliente.BUTTON_SALIR)) {
 				vCCliente.dispose();
-				
 			}
 			
 			
 			
 			else if(e.getSource().equals(panelManejoUsuarios.getLimpiarAnnadir())) {
 				panelManejoUsuarios.clearAllAnnadir();
+			}else if(e.getSource().equals(panelManejoUsuarios.getLimpiarModificar())) {
+				panelManejoUsuarios.clearAllModificar();
+				panelManejoUsuarios.deshabilitarModificar(true);
 			}
-			
-		}else if(e.getSource() instanceof JLabel) {
-			
 		}
 	}
 

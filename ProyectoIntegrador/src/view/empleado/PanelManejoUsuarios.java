@@ -16,7 +16,7 @@ import javax.swing.JButton;
 
 public class PanelManejoUsuarios extends JPanel {
 	private JTextField tfDniAnnadir, tfNombreCompletoAnnadir,tfDireccionAnnadir, tfCuentaAnnadir, tfCorreoAnnadir, tfTelefonoAnnadir,
-		tfDniModificar,tfCuentaModificar, tfTelefono, tfNombreCompletoModificar, tfDireccionModificar,tfCorreo,tfDniEliminar;
+		tfDniModificar,tfCuentaModificar, tfTelefonoModificar, tfNombreCompletoModificar, tfDireccionModificar,tfCorreoModificar,tfDniEliminar;
 	
 	private JPanel panelAnnadir, panelModificar, panelEliminar;
 	private JButton btnAnnadirCliente, btnLimpiarAnnadir, btnBuscarCliente, btnModificarCliente, btnLimpiarModificar, 
@@ -27,6 +27,7 @@ public class PanelManejoUsuarios extends JPanel {
 	public static final String BUTTON_BUSCAR = "Buscar cliente";
 	public static final String BUTTON_MODIFICAR = "Modificar cliente";
 	public static final String BUTTON_ELIMINAR = "Eliminar cliente";
+	public static final String BUTTON_ELIMINAR_ALL = "Eliminar todos los clientes";
 	public static final String BUTTON_LIMPIAR = "Limpiar";
 	
 	public PanelManejoUsuarios() {
@@ -58,6 +59,8 @@ public class PanelManejoUsuarios extends JPanel {
 		add(panelModificar);
 		add(panelEliminar);
 		add(lblConsultar);
+		
+		deshabilitarModificar(true);
 	}
 	
 	private void cargarAnnadir() {
@@ -184,9 +187,9 @@ public class PanelManejoUsuarios extends JPanel {
 		lblTelefono.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblTelefono.setBounds(10, 179, 87, 19);
 		
-		tfTelefono = new JTextField();
-		tfTelefono.setColumns(10);
-		tfTelefono.setBounds(101, 180, 140, 20);
+		tfTelefonoModificar = new JTextField();
+		tfTelefonoModificar.setColumns(10);
+		tfTelefonoModificar.setBounds(101, 180, 140, 20);
 		
 		JLabel lblNombreCompleto = new JLabel("Nombre completo:");
 		lblNombreCompleto.setHorizontalAlignment(SwingConstants.CENTER);
@@ -211,14 +214,14 @@ public class PanelManejoUsuarios extends JPanel {
 		lblCorreo.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblCorreo.setBounds(10, 318, 231, 19);
 		
-		tfCorreo = new JTextField();
-		tfCorreo.setColumns(10);
-		tfCorreo.setBounds(10, 341, 231, 20);
+		tfCorreoModificar = new JTextField();
+		tfCorreoModificar.setColumns(10);
+		tfCorreoModificar.setBounds(10, 341, 231, 20);
 		
-		btnModificarCliente = new JButton("Modificar cliente");
+		btnModificarCliente = new JButton(BUTTON_MODIFICAR);
 		btnModificarCliente.setBounds(10, 394, 231, 34);
 		
-		btnLimpiarModificar = new JButton("Limpiar");
+		btnLimpiarModificar = new JButton(BUTTON_LIMPIAR);
 		btnLimpiarModificar.setBounds(73, 439, 113, 34);
 		
 		panelModificar.add(lblModificar);
@@ -228,13 +231,13 @@ public class PanelManejoUsuarios extends JPanel {
 		panelModificar.add(lblCuenta);
 		panelModificar.add(tfCuentaModificar);
 		panelModificar.add(lblTelefono);
-		panelModificar.add(tfTelefono);
+		panelModificar.add(tfTelefonoModificar);
 		panelModificar.add(lblNombreCompleto);
 		panelModificar.add(tfNombreCompletoModificar);
 		panelModificar.add(lblDireccion);
 		panelModificar.add(tfDireccionModificar);
 		panelModificar.add(lblCorreo);
-		panelModificar.add(tfCorreo);
+		panelModificar.add(tfCorreoModificar);
 		panelModificar.add(btnModificarCliente);
 		panelModificar.add(btnLimpiarModificar);
 		
@@ -260,10 +263,10 @@ public class PanelManejoUsuarios extends JPanel {
 		tfDniEliminar.setColumns(10);
 		tfDniEliminar.setBounds(89, 57, 152, 20);
 		
-		btnEliminarCliente = new JButton("Eliminar cliente");
+		btnEliminarCliente = new JButton(BUTTON_ELIMINAR);
 		btnEliminarCliente.setBounds(10, 89, 231, 34);
 		
-		btnEliminarAll = new JButton("Eliminar todos los clientes");
+		btnEliminarAll = new JButton(BUTTON_ELIMINAR_ALL);
 		btnEliminarAll.setBounds(10, 190, 231, 34);
 		
 		panelEliminar.add(lblEliminar);
@@ -291,26 +294,54 @@ public class PanelManejoUsuarios extends JPanel {
 		this.lblConsultar.addMouseListener(l);
 	}
 	
-	public Cliente getValuesAnnadir() {
-		
+	public String getDniEliminar() {
+		return this.tfDniEliminar.getText();
+	}
+	
+	public void clearEliminar() {
+		this.tfDniEliminar.setText("");
+	}
+	
+	public Cliente getValues(boolean type) {
 		int nCuenta = 0;
 		
-		try {
-			if(!tfCuentaAnnadir.getText().isEmpty()) {
-				nCuenta = Integer.parseInt(this.tfCuentaAnnadir.getText());
+		if(type) {
+			
+			try {
+				if(!tfCuentaAnnadir.getText().isEmpty()) {
+					nCuenta = Integer.parseInt(this.tfCuentaAnnadir.getText());
+				}
+			}catch(NumberFormatException e) {
+				nCuenta = -1;
 			}
-		}catch(NumberFormatException e) {
-			nCuenta = -1;
+			
+			return new Cliente(
+					this.tfDniAnnadir.getText(),
+					this.tfNombreCompletoAnnadir.getText(),
+					this.tfDireccionAnnadir.getText(),
+					this.tfCorreoAnnadir.getText(),
+					this.tfTelefonoAnnadir.getText(),
+					nCuenta);
+		}else {
+			try {
+				if(!tfCuentaModificar.getText().isEmpty()) {
+					nCuenta = Integer.parseInt(this.tfCuentaModificar.getText());
+				}
+			}catch(NumberFormatException e) {
+				nCuenta = -1;
+			}
+			
+			return new Cliente(
+					this.tfDniModificar.getText(),
+					this.tfNombreCompletoModificar.getText(),
+					this.tfDireccionModificar.getText(),
+					this.tfCorreoModificar.getText(),
+					this.tfTelefonoModificar.getText(),
+					nCuenta);
 		}
-		
-		return new Cliente(
-				this.tfDniAnnadir.getText(),
-				this.tfNombreCompletoAnnadir.getText(),
-				this.tfDireccionAnnadir.getText(),
-				this.tfCorreoAnnadir.getText(),
-				this.tfTelefonoAnnadir.getText(),
-				nCuenta);
 	}
+	
+	
 	
 	public void clearAllAnnadir() {
 		this.tfDniAnnadir.setText("");
@@ -321,7 +352,56 @@ public class PanelManejoUsuarios extends JPanel {
 		this.tfCuentaAnnadir.setText("");
 	}
 	
+	public void clearAllModificar() {
+		this.tfDniModificar.setText("");
+		this.tfNombreCompletoModificar.setText("");
+		this.tfDireccionModificar.setText("");
+		this.tfCorreoModificar.setText("");
+		this.tfTelefonoModificar.setText("");
+		this.tfCuentaModificar.setText("");
+	}
+	
 	public JButton getLimpiarAnnadir() {
 		return this.btnLimpiarAnnadir;
+	}
+	
+	public JButton getLimpiarModificar() {
+		return this.btnLimpiarModificar;
+	}
+	
+	public String getDniModificar() {
+		return this.tfDniModificar.getText();
+	}
+	
+	public void setTextModificar(Cliente values) {
+		this.tfNombreCompletoModificar.setText(values.getApenom());
+		this.tfDireccionModificar.setText(values.getDireccion());
+		this.tfCorreoModificar.setText(values.getCorreo());
+		this.tfTelefonoModificar.setText(values.getTelefono());
+		this.tfCuentaModificar.setText("" + values.getNumCuenta());
+	}
+	
+	public void deshabilitarModificar(boolean value) {
+		if(value) {
+			this.tfNombreCompletoModificar.setEnabled(false);
+			this.tfDireccionModificar.setEnabled(false);
+			this.tfCorreoModificar.setEnabled(false);
+			this.tfTelefonoModificar.setEnabled(false);
+			this.tfCuentaModificar.setEnabled(false);
+			this.btnModificarCliente.setEnabled(false);
+			this.btnLimpiarModificar.setEnabled(false);
+			this.btnBuscarCliente.setEnabled(true);
+			this.tfDniModificar.setEnabled(true);
+		}else {
+			this.tfNombreCompletoModificar.setEnabled(true);
+			this.tfDireccionModificar.setEnabled(true);
+			this.tfCorreoModificar.setEnabled(true);
+			this.tfTelefonoModificar.setEnabled(true);
+			this.tfCuentaModificar.setEnabled(true);
+			this.btnModificarCliente.setEnabled(true);
+			this.btnLimpiarModificar.setEnabled(true);
+			this.btnBuscarCliente.setEnabled(false);
+			this.tfDniModificar.setEnabled(false);
+		}
 	}
 }
