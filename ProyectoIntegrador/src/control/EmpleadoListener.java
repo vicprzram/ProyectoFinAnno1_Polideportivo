@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JMenuItem;
 
@@ -12,7 +13,8 @@ import db.PolideportivoPersistencia;
 import view.empleado.EmpleadoWindow;
 import view.empleado.PConsulta;
 import view.empleado.PanelInicioEmpleado;
-
+import model.Cliente;
+import model.Instalacion;
 import model.Reserva;
 import utilities.OutputMessages;
 
@@ -71,15 +73,46 @@ public class EmpleadoListener implements ActionListener {
 					panelInicioEmpleado.ofuscarContrasena(true);
 				}
 			}
-		}else if(e.getSource() == pConsulta.getBtnConsultar()) {
-			ArrayList<Reserva> registros = poliPersistencia.getRegistros(pConsulta.getFecha(), pConsulta.getHora(), pConsulta.getDeporte(), pConsulta.getUso());
-			if(registros.isEmpty()) {
-				new OutputMessages(1, "No se han encontrado registros");
-				pConsulta.visibilidadTabla(false);
-			}else {
-				pConsulta.recargarTabla(registros);
+		}else if(e.getSource() instanceof JButton) {
+			
+			if(e.getSource() == pConsulta.getBtnConsultar()) {
+				ArrayList<Reserva> registros = poliPersistencia.getRegistros(pConsulta.getFecha(), pConsulta.getHora(), pConsulta.getDeporte(), pConsulta.getUso());
+				if(registros.isEmpty()) {
+					new OutputMessages(1, "No se han encontrado registros");
+					pConsulta.visibilidadTabla(false);
+				}else {
+					pConsulta.recargarTabla(registros);
+				}
+			}else if(e.getActionCommand().equals(PReserva.BTN_BUSCAR)) {
+				String dni = pReserva.getDNI();
+				if(dni.isEmpty()) {
+					new OutputMessages(0, "Se debe introducir un DNI");
+				}else {
+					Cliente cliente = poliPersistencia.getCliente(dni);
+					if(cliente != null) {
+						pReserva.cargarCliente(cliente);
+						pReserva.activarComponentes();
+					}else {
+						new OutputMessages(1, "El DNI introducido no corresponde a ningún cliente registrado");
+					}
+				}
+			}else if(e.getSource() == pReserva.getBtnConsultar()) {
+				
+				ArrayList<Instalacion> instalaciones = poliPersistencia.getInstalaciones(pReserva.getDeporte());
+				if(instalaciones.isEmpty()) {
+					pReserva.visibilidadTabla(false);
+					new OutputMessages(1, "No exiten pistas disponibles");
+					
+				}else {
+					ArrayList<Reserva> registros = poliPersistencia.getRegistros(pReserva.getFecha(), pReserva.getHora(), pReserva.getDeporte(), "TODOS");
+					pReserva.cargarReservasDisponibles(registros, instalaciones);
+					pReserva.visibilidadTabla(true);
+				}
+				
 			}
+			
 		}
+		
 	}
 
 }

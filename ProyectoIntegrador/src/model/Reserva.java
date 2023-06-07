@@ -19,6 +19,52 @@ public class Reserva {
 		this.pago = pago;
 	}
 	
+	public Reserva(Instalacion instalacion, String dia, String hora) {
+		this.instalacion = instalacion;
+		this.dia = dia;
+		this.hora = hora;
+	}
+	
+
+	public Instalacion getInstalacion() {
+		return instalacion;
+	}
+
+	public void setInstalacion(Instalacion instalacion) {
+		this.instalacion = instalacion;
+	}
+
+	public String getDia() {
+		return dia;
+	}
+
+	public void setDia(String dia) {
+		this.dia = dia;
+	}
+
+	public String getHora() {
+		return hora;
+	}
+
+	public void setHora(String hora) {
+		this.hora = hora;
+	}
+	
+	public boolean equals(Object comp) {
+		boolean res = false;
+		if(comp instanceof Reserva) {
+			Reserva rComp = (Reserva) comp;
+			if(rComp.getInstalacion().getId() == this.instalacion.getId()) {
+				if(rComp.getDia().equals(this.dia)) {
+					if(rComp.getHora().equals(this.hora)) {
+						res = true;
+					}
+				}
+			}	
+		}
+		return res;
+	}
+
 	public String[] getRowConsulta() {
 		String[] data = new String[6];
 		data[0] = instalacion.getTipo() + " " + instalacion.getId();
@@ -30,4 +76,12 @@ public class Reserva {
 		return data;
 	}
 	
+	public String[] getRowReserva() {
+		String[] data = new String[3];
+		data[0] = instalacion.getTipo() + " " + instalacion.getId();
+		data[1] = dia;
+		data[2] = hora;
+		return data;
+	}
+		
 }

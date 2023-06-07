@@ -17,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 
 public class PConsulta extends JPanel {
+	public static final String BTN_CONSULTAR = "Consultar";
 	private JTable table;
 	private DefaultTableModel dtm;
 	private static final String[] HEADER_TABLA =  {"INSTALACIÓN", "DEPORTE", "USO", "USUARIO", "DIA", "HORA"};
@@ -113,7 +114,7 @@ public class PConsulta extends JPanel {
 		dcbmUso = new DefaultComboBoxModel<>(USO);
 		cmbUso.setModel(dcbmUso);
 		
-		btnFiltro = new JButton("Consultar");
+		btnFiltro = new JButton(BTN_CONSULTAR);
 		btnFiltro.setBounds(10, 75, 90, 20);
 		add(btnFiltro);
 		

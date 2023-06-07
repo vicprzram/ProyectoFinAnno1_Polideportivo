@@ -11,6 +11,7 @@ import model.Empleado;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
+import javax.swing.SwingConstants;
 
 public class PanelInicioSesion extends JPanel {
 	private JTextField tfDni;
@@ -23,6 +24,7 @@ public class PanelInicioSesion extends JPanel {
 	public static final String CHECK_CONTRASENA = "Mostrar contraseña";
 	
 	private JPasswordField passwordField;
+
 	
 	public PanelInicioSesion() {
 		init();
@@ -32,32 +34,33 @@ public class PanelInicioSesion extends JPanel {
 		setLayout(null);
 		
 		JLabel lblTitle = new JLabel("Inicio de sesión");
+		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblTitle.setBounds(348, 28, 156, 19);
+		lblTitle.setBounds(326, 28, 200, 19);
 		
 		JLabel lblDni = new JLabel("Dni:");
 		lblDni.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblDni.setBounds(248, 93, 49, 19);
+		lblDni.setBounds(222, 96, 49, 19);
 		
 		tfDni = new JTextField();
-		tfDni.setBounds(348, 95, 202, 20);
+		tfDni.setBounds(326, 95, 200, 20);
 		
 		JLabel lblContrasena = new JLabel("Contraseña:");
 		lblContrasena.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblContrasena.setBounds(248, 145, 96, 20);
+		lblContrasena.setBounds(222, 148, 96, 20);
 		
 		passwordField = new JPasswordField();
 		passwordField.setEchoChar('*');
-		passwordField.setBounds(354, 148, 196, 20);
+		passwordField.setBounds(326, 148, 200, 20);
 		
 		
 		chkMostrarContrasena = new JCheckBox(CHECK_CONTRASENA);
 		chkMostrarContrasena.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		chkMostrarContrasena.setBounds(247, 203, 169, 23);
+		chkMostrarContrasena.setBounds(342, 203, 169, 23);
 		
 		btnIniciarSesion = new JButton(BUTTON_INICIAR_SESION);
 		btnIniciarSesion.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnIniciarSesion.setBounds(336, 282, 132, 31);
+		btnIniciarSesion.setBounds(360, 282, 132, 31);
 		
 		add(lblTitle);
 		add(lblDni);
@@ -68,6 +71,7 @@ public class PanelInicioSesion extends JPanel {
 		add(btnIniciarSesion);
 		
 		setSize(800, 600);
+		
 		
 	}
 	

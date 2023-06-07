@@ -60,10 +60,6 @@ public class MainListener implements ActionListener {
 				}
 			}
 		}else if(e.getSource() instanceof JButton) {
-			if(e.getActionCommand().equals("PRUEBA")) {
-				mainWindow.dispose();
-				empleWindow.setVisible(true);
-			}
 			if(e.getActionCommand().equals(PanelInicioSesion.BUTTON_INICIAR_SESION)) {
 
 				Empleado values = panelInicioSesion.getValues();
