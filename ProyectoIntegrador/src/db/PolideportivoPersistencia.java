@@ -559,10 +559,11 @@ public class PolideportivoPersistencia {
 	
 	public String empleadoExists(Empleado empleado) {
 		
-		String dni = empleado.getDni().toLowerCase();
-		String pass = empleado.getPass().toLowerCase();
+		String dni = empleado.getDni();
+		String pass = empleado.getPass();
 		
-		String query = "SELECT " + NOM_COL_EMP_DNI + ", " + NOM_COL_EMP_PASS + ", " + NOM_COL_EMP_ROL +  " FROM " + NOM_TB_EMPLEADO;
+		String query = "SELECT " + NOM_COL_EMP_DNI + ", " + NOM_COL_EMP_PASS + ", " + NOM_COL_EMP_ROL +  " FROM " + NOM_TB_EMPLEADO + 
+				" WHERE " + NOM_COL_EMP_DNI + " =? AND " + NOM_COL_EMP_PASS + " =?";
 		String retornar = null;
 		
 		Connection con = null;
@@ -573,10 +574,12 @@ public class PolideportivoPersistencia {
 			
 			con = acceso.getConexion();
 			stat = con.prepareStatement(query);
+			stat.setString(1, dni);
+			stat.setString(2, pass);
 			rslt = stat.executeQuery();
 			
 			while(rslt.next()) {
-				if(rslt.getString(NOM_COL_EMP_DNI).toLowerCase().equals(dni) && rslt.getString(NOM_COL_EMP_PASS).toLowerCase().equals(pass)) {
+				if(rslt.getString(NOM_COL_EMP_DNI).equals(dni) && rslt.getString(NOM_COL_EMP_PASS).equals(pass)) {
 					retornar = rslt.getString(NOM_COL_EMP_ROL);
 				}
 			}

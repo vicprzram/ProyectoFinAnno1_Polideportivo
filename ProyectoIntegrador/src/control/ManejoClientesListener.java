@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 
 import db.PolideportivoPersistencia;
 import model.Cliente;
+import utilities.Comprobaciones;
 import utilities.OutputMessages;
 import view.empleado.PanelManejoUsuarios;
 import view.empleado.VentanaConsultaCliente;
@@ -29,6 +30,7 @@ public class ManejoClientesListener implements ActionListener, MouseListener {
 	private static final String BAD_DELETE = "No se pudo eliminar, intente de nuevo";
 	private static final String DELETE_SUCCESSFULL = "Se elimino satisfatoriamente el cliente seleccionado";
 	private static final String ASK_DELETE = "¿Seguro que quiere eliminar lo seleccionado?";
+	private static final String ERROR_CUENTA = "Numero de cuenta erroneo, intente de nuevo";
 	
 	public ManejoClientesListener(PanelManejoUsuarios panelManejoUsuarios, PolideportivoPersistencia polideportivoPersistencia,
 			VentanaConsultaCliente vCCliente) {
@@ -44,9 +46,20 @@ public class ManejoClientesListener implements ActionListener, MouseListener {
 				Cliente values = this.panelManejoUsuarios.getValues(true);
 				
 				if(values.getNumCuenta() != -1) {
-					if(values.getDni().isEmpty() || values.getApenom().isEmpty() || values.getDireccion().isEmpty() || 
-							values.getCorreo().isEmpty() || values.getTelefono().isEmpty() || values.getNumCuenta() == 0) {
-						new OutputMessages(1, EMPTY_FIELDS);
+					if(!Comprobaciones.dni(values.getDni())){
+						new OutputMessages(0, Comprobaciones.ERROR_DNI);
+					}else if(!Comprobaciones.direccion(values.getDireccion())) {
+						new OutputMessages(0, Comprobaciones.ERROR_DIRECCION);
+					}else if(!Comprobaciones.nombre(values.getApenom())){
+						new OutputMessages(0, Comprobaciones.ERROR_NOMBRE);
+					}else if(!Comprobaciones.correo(values.getCorreo())){
+						new OutputMessages(0, Comprobaciones.ERROR_CORREO);
+					}else if(!Comprobaciones.telefono(values.getTelefono())){
+						new OutputMessages(0, Comprobaciones.ERROR_TELEFONO);
+					}else if(values.getNumCuenta() == 0) {
+						new OutputMessages(0, ERROR_CUENTA);	
+					}else if(polideportivoPersistencia.getCliente(values.getDni()) != null) {
+						new OutputMessages(0, Comprobaciones.ERROR_DNI_EXIST);
 					}else {
 						boolean insertado = polideportivoPersistencia.addCliente(values);
 						
@@ -76,9 +89,17 @@ public class ManejoClientesListener implements ActionListener, MouseListener {
 			}else if(e.getActionCommand().equals(PanelManejoUsuarios.BUTTON_MODIFICAR)) {
 				Cliente values = panelManejoUsuarios.getValues(false);
 				
-				if(values.getDni().isEmpty() || values.getApenom().isEmpty() || values.getDireccion().isEmpty() || 
-						values.getCorreo().isEmpty() || values.getTelefono().isEmpty() || values.getNumCuenta() == 0) {
-					new OutputMessages(1, EMPTY_FIELDS);
+
+				if(!Comprobaciones.direccion(values.getDireccion())) {
+					new OutputMessages(0, Comprobaciones.ERROR_DIRECCION);
+				}else if(!Comprobaciones.nombre(values.getApenom())){
+					new OutputMessages(0, Comprobaciones.ERROR_NOMBRE);
+				}else if(!Comprobaciones.correo(values.getCorreo())){
+					new OutputMessages(0, Comprobaciones.ERROR_CORREO);
+				}else if(!Comprobaciones.telefono(values.getTelefono())){
+					new OutputMessages(0, Comprobaciones.ERROR_TELEFONO);
+				}else if(values.getNumCuenta() == 0){
+					new OutputMessages(0, ERROR_CUENTA);	
 				}else {
 					boolean modified = polideportivoPersistencia.modifyCliente(values);
 					
@@ -105,6 +126,8 @@ public class ManejoClientesListener implements ActionListener, MouseListener {
 							panelManejoUsuarios.clearEliminar();
 						}
 					}
+				}else {
+					new OutputMessages(0, EMPTY_FIELDS);
 				}
 			}else if(e.getActionCommand().equals(PanelManejoUsuarios.BUTTON_ELIMINAR_ALL)) {
 				if(OutputMessages.confirm(ASK_DELETE) == 0) {
@@ -130,6 +153,7 @@ public class ManejoClientesListener implements ActionListener, MouseListener {
 					
 					vCCliente.deshabilitar(false);
 				}else {
+					new OutputMessages(1, "Ni hay datos, agrege para continuar");
 					vCCliente.deshabilitar(true);
 				}
 			}else if(e.getActionCommand().equals(VentanaConsultaCliente.BUTTON_SALIR)) {

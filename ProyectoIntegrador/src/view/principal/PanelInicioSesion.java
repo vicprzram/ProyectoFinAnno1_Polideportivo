@@ -97,4 +97,9 @@ public class PanelInicioSesion extends JPanel {
 	public Empleado getValues() {
 		return new Empleado(this.tfDni.getText(), null, this.passwordField.getText(), null, null);
 	}
+
+	public void clearValues() {
+		this.tfDni.setText("");
+		this.passwordField.setText("");
+	}
 }
