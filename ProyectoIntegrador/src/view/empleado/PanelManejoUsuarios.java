@@ -165,7 +165,7 @@ public class PanelManejoUsuarios extends JPanel {
 		
 		tfDniModificar = new JTextField();
 		tfDniModificar.setColumns(10);
-		tfDniModificar.setBounds(89, 48, 152, 20);
+		tfDniModificar.setBounds(89, 46, 152, 20);
 		
 		btnBuscarCliente = new JButton(BUTTON_BUSCAR);
 		btnBuscarCliente.setBounds(10, 80, 231, 34);
@@ -254,14 +254,14 @@ public class PanelManejoUsuarios extends JPanel {
 		JLabel lblDni = new JLabel("DNI:");
 		lblDni.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDni.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblDni.setBounds(10, 56, 69, 19);
+		lblDni.setBounds(10, 47, 69, 19);
 		
 		tfDniEliminar = new JTextField();
 		tfDniEliminar.setColumns(10);
-		tfDniEliminar.setBounds(89, 57, 152, 20);
+		tfDniEliminar.setBounds(89, 46, 152, 20);
 		
 		btnEliminarCliente = new JButton("Eliminar cliente");
-		btnEliminarCliente.setBounds(10, 89, 231, 34);
+		btnEliminarCliente.setBounds(10, 80, 231, 34);
 		
 		btnEliminarAll = new JButton("Eliminar todos los clientes");
 		btnEliminarAll.setBounds(10, 190, 231, 34);
