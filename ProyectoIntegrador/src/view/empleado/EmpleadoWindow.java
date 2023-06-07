@@ -15,8 +15,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.JMenu;
 
 public class EmpleadoWindow extends JFrame{
+	
 	private JMenuBar menuBar;
 	private JMenuItem mntmConsulta, mntmReserva, mntmRegistro, mntmCerrar, mntmInicio;
 	
@@ -25,6 +27,7 @@ public class EmpleadoWindow extends JFrame{
 	public static final String ITEM_MANEJO = "Manejo clientes";
 	public static final String ITEM_SESION = "Cerrar sesion";
 	public static final String ITEM_INICIO = "Inicio";
+	public static final String ITEM_GESTION_CLASES = "Gestión clases";
 	
 	private JScrollPane scrpContenedor;
 	
@@ -50,12 +53,12 @@ public class EmpleadoWindow extends JFrame{
 		mntmInicio.setHorizontalAlignment(SwingConstants.CENTER);
 		menuBar.add(mntmInicio);
 		mntmConsulta = new JMenuItem(ITEM_CONSULTA);
-		mntmConsulta.setHorizontalAlignment(SwingConstants.CENTER);
 		menuBar.add(mntmConsulta);
+		mntmConsulta.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		mntmReserva = new JMenuItem(ITEM_RESERVA);
-		mntmReserva.setHorizontalAlignment(SwingConstants.CENTER);
 		menuBar.add(mntmReserva);
+		mntmReserva.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		mntmRegistro = new JMenuItem(ITEM_MANEJO);
 		mntmRegistro.setHorizontalAlignment(SwingConstants.CENTER);

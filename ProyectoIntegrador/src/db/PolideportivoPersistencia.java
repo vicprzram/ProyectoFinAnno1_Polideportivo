@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import utilities.OutputMessages;
-
+import model.Clase;
 import model.Cliente;
 import model.Empleado;
 import model.Instalacion;
@@ -48,6 +48,12 @@ public class PolideportivoPersistencia {
 	private static final String NOM_TB_INS_DEP = "INSTALACION_DEPORTE";
 	private static final String NOM_COL_INS_DEP_IDI = "ID_INSTALACION";
 	private static final String NOM_COL_INS_DEP_IDD = "ID_DEPORTE";
+	
+	private static final String NOM_TB_CLA = "CLASE";
+	private static final String NOM_COL_CLA_DIA = "DIA";
+	private static final String NOM_COL_CLA_HORA = "HORA";
+	private static final String NOM_COL_CLA_DNIE = "DNI_EMPLE";
+	private static final String NOM_COL_CLA_IDD = "ID_DEPORTE";
 	
 	private static final String ERROR_CONEXIONES = "Ha habido un error en el manejo de la base de datos, compruebe conexiones";
 	private static final String ERROR = "Ha habido un error en el manejo de la base de datos, consulte al administrador";
@@ -539,5 +545,30 @@ public class PolideportivoPersistencia {
 			cerrarConexiones(con, stat, null);
 		}
 		return res;
+	}
+	
+	public ArrayList<Clase> getListaClases(String deporte){
+		ArrayList<Clase> lista = new ArrayList<>();
+		
+		String query = "SELECT C." + NOM_COL_CLA_DIA + ", C."
+				+ NOM_COL_CLA_HORA + ", C."
+				+ NOM_COL_CLA_DNIE + " FROM " 
+				+ NOM_TB_CLA + " C,"
+				+ NOM_TB_DEPORTE + " D"
+				+ " WHERE D." + NOM_COL_DEP_NOMBRE + " = ?"
+				+ " AND D." + NOM_COL_DEP_ID + " = C." + NOM_COL_CLA_IDD;
+		
+		Connection con = null;
+		PreparedStatement stat = null;
+		
+		try {
+			con = acceso.getConexion();
+			stat = con.prepareStatement(query);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return lista;
 	}
 }

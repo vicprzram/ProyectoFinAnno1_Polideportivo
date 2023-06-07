@@ -9,11 +9,11 @@ import javax.swing.JCheckBox;
 import javax.swing.JMenuItem;
 
 import db.PolideportivoPersistencia;
-
+import view.administrador.PClases;
 import view.empleado.EmpleadoWindow;
 import view.empleado.PConsulta;
 import view.empleado.PanelInicioEmpleado;
-
+import model.Clase;
 import model.Cliente;
 import model.Instalacion;
 
