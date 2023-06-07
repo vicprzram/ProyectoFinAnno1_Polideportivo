@@ -93,7 +93,7 @@ public class AdministradorListener implements ActionListener, MouseListener {
 			}else if(e.getActionCommand().equals(ManejoEmpleadosPanel.BUTTON_ANNADIR)) {
 				Empleado values = manejoEmpleadoPanel.getValuesAnnadir();
 				
-				System.out.println(poliP.empleadoExists(values));
+				
 				
 				if(!Comprobaciones.dni(values.getDni())){
 					new OutputMessages(0, Comprobaciones.ERROR_DNI);
@@ -110,7 +110,6 @@ public class AdministradorListener implements ActionListener, MouseListener {
 				}else if(poliP.empleadoExists(values) != null) {
 					new OutputMessages(0, Comprobaciones.ERROR_DNI_EXIST);
 				}else{
-					System.out.println(values.getDni());
 					boolean insertado = poliP.addEmpleado(values);
 					
 					if(!insertado) {
