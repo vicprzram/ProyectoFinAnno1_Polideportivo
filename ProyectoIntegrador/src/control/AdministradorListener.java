@@ -42,6 +42,7 @@ public class AdministradorListener implements ActionListener, MouseListener {
 	private static final String ASK_DELETE = "¿Seguro que quiere eliminar lo seleccionado?";
 	private static final String BAD_DELETE = "No se pudo eliminar, intente de nuevo";
 	private static final String DELETE_SUCCESSFULL = "Se elimino satisfatoriamente el cliente seleccionado";
+	private static final String EMPTY_FIELDS = "Los campos no pueden dejarse vacios, intente de nuevo";
 
 	
 	
@@ -171,6 +172,8 @@ public class AdministradorListener implements ActionListener, MouseListener {
 							manejoEmpleadoPanel.clearEliminar();
 						}
 					}
+				}else {
+					new OutputMessages(0, EMPTY_FIELDS);
 				}
 			}else if(e.getActionCommand().equals(ManejoEmpleadosPanel.BUTTON_ELIMINAR_ALL)) {
 				if(OutputMessages.confirm(ASK_DELETE) == 0) {
@@ -197,6 +200,7 @@ public class AdministradorListener implements ActionListener, MouseListener {
 					
 					vCE.deshabilitar(false);
 				}else {
+					new OutputMessages(1, "Ni hay datos, agrege para continuar");
 					vCE.deshabilitar(true);
 				}
 			}else if(e.getActionCommand().equals(VentanaConsultaEmpleados.BUTTON_SALIR)) {

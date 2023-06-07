@@ -126,6 +126,8 @@ public class ManejoClientesListener implements ActionListener, MouseListener {
 							panelManejoUsuarios.clearEliminar();
 						}
 					}
+				}else {
+					new OutputMessages(0, EMPTY_FIELDS);
 				}
 			}else if(e.getActionCommand().equals(PanelManejoUsuarios.BUTTON_ELIMINAR_ALL)) {
 				if(OutputMessages.confirm(ASK_DELETE) == 0) {
@@ -151,6 +153,7 @@ public class ManejoClientesListener implements ActionListener, MouseListener {
 					
 					vCCliente.deshabilitar(false);
 				}else {
+					new OutputMessages(1, "Ni hay datos, agrege para continuar");
 					vCCliente.deshabilitar(true);
 				}
 			}else if(e.getActionCommand().equals(VentanaConsultaCliente.BUTTON_SALIR)) {
