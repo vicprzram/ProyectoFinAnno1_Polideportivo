@@ -57,13 +57,16 @@ public class Reserva {
 		boolean res = false;
 		if(comp instanceof Reserva) {
 			Reserva rComp = (Reserva) comp;
-			if(rComp.getInstalacion().getId() == this.instalacion.getId()) {
-				if(rComp.getDia().equals(this.dia)) {
-					if(rComp.getHora().equals(this.hora)) {
-						res = true;
+			if(rComp.getInstalacion() != null && rComp.getDia() != null && rComp.getHora() != null) {
+				if(rComp.getInstalacion().getId() == this.instalacion.getId()) {
+					if(rComp.getDia().equals(this.dia)) {
+						if(rComp.getHora().equals(this.hora)) {
+							res = true;
+						}
 					}
 				}
-			}	
+			}
+				
 		}
 		return res;
 	}
