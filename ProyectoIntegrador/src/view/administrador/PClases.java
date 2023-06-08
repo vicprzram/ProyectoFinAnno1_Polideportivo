@@ -30,7 +30,7 @@ public class PClases extends JPanel{
 	
 	private static final String[] HEADER_TABLA = {"HORA", "LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO", "DOMINGO"};
 	private static final String[] HORAS = {
-			"9:00",
+			"09:00",
 			"10:00",
 			"11:00",
 			"12:00",

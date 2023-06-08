@@ -33,7 +33,7 @@ public class PConsulta extends JPanel {
 	private JComboBox cmbHora;
 	private static final String[] HORAS = {
 			"TODAS",
-			"9:00",
+			"09:00",
 			"10:00",
 			"11:00",
 			"12:00",

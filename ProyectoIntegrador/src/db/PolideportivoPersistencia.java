@@ -730,6 +730,7 @@ public class PolideportivoPersistencia {
 				+ NOM_TB_INSTALACION + " I, "
 				+ NOM_TB_INS_DEP + " IDEP"
 				+ " WHERE D." + NOM_COL_DEP_ID + " = IDEP." + NOM_COL_INS_DEP_IDD
+				+ " AND IDEP." + NOM_COL_INS_DEP_IDI + " = I." + NOM_COL_INS_ID
 				+ " AND C." + NOM_COL_CLA_IDI + " = IDEP." + NOM_COL_INS_DEP_IDI
 				+ " AND E." + NOM_COL_EMP_DNI + " = C." + NOM_COL_CLA_DNIE;
 		
