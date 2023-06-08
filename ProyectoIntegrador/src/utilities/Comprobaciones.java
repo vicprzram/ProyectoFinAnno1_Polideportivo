@@ -35,7 +35,7 @@ public class Comprobaciones {
 	}
 	
 	public static boolean direccion(String direccion) {
-		Pattern pattern = Pattern.compile("^(C/|Av/|AV/)[a-zA-Z]+$");
+		Pattern pattern = Pattern.compile("^(C/|Av/|AV/)\s?[a-zA-Z\s]+$");
 		Matcher match = pattern.matcher(direccion);
 		if(match.find()) {
 			return true;
